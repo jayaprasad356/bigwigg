@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.BusinessFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="270dp">
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/g16"/>
+
+
+            <TextView
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_txt"
+                android:gravity="center_horizontal"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:text="Anil Kapoor"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actor"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yeah, this “Jhakkas” man of Bollywood secured 6th position in this list. He did many remarkable movies such as Ram Lakhan, Mr. India, Nayak, Slumdog Millionaire, ‘Welcome’ along with applauded TV series ‘24’. Even at his 60+, he maintains himself so well that he looks like just 30+"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+
+</FrameLayout>
