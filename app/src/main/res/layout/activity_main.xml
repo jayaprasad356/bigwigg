@@ -95,6 +95,9 @@
             android:background="@android:color/transparent"
             app:menu="@menu/bottom_nav_menu"
             app:itemIconTint="@color/white"
+            app:itemIconSize="16dp"
+            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+            app:itemTextAppearanceInactive="@style/BottomNavigationView"
             app:itemTextColor="@color/white"
             android:layout_marginRight="16dp" />
 
