@@ -40,13 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         notificationFragment = new NotificationFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment, exploreFragment).commit();
 
-
-
-
-
-
-
-
     }
 
     @Override

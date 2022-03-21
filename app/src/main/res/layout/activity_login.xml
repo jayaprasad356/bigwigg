@@ -7,31 +7,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity">
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/appicon"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/big" />
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/appicon"
-                android:layout_width="250dp"
-                android:layout_height="160dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/big" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
             <TextView
                 android:id="@+id/logintext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/appicon"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:text="Login"
                 android:textColor="#000"
-                android:textSize="30dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:id="@+id/emaillinear"
                 android:layout_width="match_parent"
@@ -41,6 +44,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,22 +54,23 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:hint="Email ID"
+                    android:textColorHint="#DADADA"
                     app:boxBackgroundColor="#FFFFFF"
                     app:boxStrokeColor="#DADADA"
-                    android:textColorHint="#DADADA"
-                    app:hintTextColor="#DADADA"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginStart="20dp"
-                    android:hint="Email ID">
+                    app:hintTextColor="#DADADA">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:textSize="15dp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/passwordlinear"
                 android:layout_width="match_parent"
@@ -75,30 +80,33 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="25dp"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_outline_lock_24" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/care4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:endIconMode="password_toggle"
-                    app:endIconCheckable="true"
-                    android:hint="Password"
-                    android:layout_marginEnd="30dp"
+                    android:layout_below="@id/emaillinear"
                     android:layout_marginStart="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:hint="Password"
+                    android:textColorHint="#DADADA"
                     app:boxBackgroundColor="#FFFFFF"
                     app:boxStrokeColor="#DADADA"
-                    android:textColorHint="#DADADA"
-                    app:hintTextColor="#DADADA"
-                    android:layout_below="@id/emaillinear">
+                    app:endIconCheckable="true"
+                    app:endIconMode="password_toggle"
+                    app:hintTextColor="#DADADA">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textSize="15dp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,21 +137,23 @@
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/black"
-                android:padding="11dp"
+                android:padding="6dp"
                 android:text="Login"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="15dp" />
+
             <RelativeLayout
                 android:id="@+id/or_re"
-                android:layout_below="@+id/loginbtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/loginbtn">
+
                 <ImageView
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#C3C3C3"/>
+                    android:layout_marginTop="10dp"
+                    android:background="#C3C3C3" />
 
 
                 <TextView
@@ -152,8 +162,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:background="@color/white"
-                    android:textAlignment="center"
                     android:text="OR"
+                    android:textAlignment="center"
                     android:textColor="#C3C3C3"
                     android:textSize="15dp" />
 
@@ -169,12 +179,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="30dp"
                 android:backgroundTint="#605F5F"
-                android:padding="8dp"
+                android:padding="6dp"
                 android:paddingStart="40dp"
                 android:text="Login with Google"
                 android:textColor="#FFFFFF"
                 android:textSize="15dp"
                 app:icon="@drawable/ic_googleicon" />
+
             <Button
                 android:id="@+id/facebookbtn"
                 android:layout_width="match_parent"
@@ -184,20 +195,21 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
                 android:backgroundTint="#605F5F"
-                android:padding="8dp"
-                app:icon="@drawable/ic_facebookicon"
+                android:padding="6dp"
                 android:paddingStart="40dp"
                 android:text="Login with Facebook"
                 android:textColor="#FFFFFF"
-                android:textSize="15dp" />
-
-
-
-
+                android:textSize="15dp"
+                app:icon="@drawable/ic_facebookicon" />
 
 
         </RelativeLayout>
-    </ScrollView>
+
+
+
+
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

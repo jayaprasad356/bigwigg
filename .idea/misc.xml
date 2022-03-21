@@ -3,10 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_login.xml" value="0.14666666666666667" />
-        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/bg_txt.xml" value="0.1" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/bgcurve.xml" value="0.1" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/side_nav_bar.xml" value="0.1" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_login.xml" value="0.22" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_post.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_profile.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/activity_test.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/app_bar_main.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/content_main.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/content_org.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_business.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_explore.xml" value="0.1" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_post.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/nav_header_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/post_lyt.xml" value="0.22" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/activity_main_drawer.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/bottom_nav_menu.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/main.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/visha/AndroidStudioProjects/bigwigg/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/visha/AndroidStudioProjects/bigwigg/app/src/main/res/layout/fragment_business.xml" value="0.25" />
       </map>
