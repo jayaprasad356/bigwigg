@@ -41,7 +41,6 @@ public class TestActivity extends AppCompatActivity {
 
         initNavigation();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.logo);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayUseLogoEnabled(true);
     }

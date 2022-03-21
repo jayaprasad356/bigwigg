@@ -16,7 +16,7 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="240dp"
                 android:src="@drawable/dhoni"
                 android:scaleType="centerCrop"/>
             <RelativeLayout
@@ -28,49 +28,53 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="20dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_chat_bubble_outline_24"
+                        android:src="@drawable/ic_bi_chat_right"
                         android:layout_marginStart="10dp"
                         app:tint="@color/black" />
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_star_outline_24"
+                        android:src="@drawable/ic_ei_star"
                         android:layout_marginStart="10dp"
                         app:tint="@color/black"/>
+
                     <ImageView
-                        android:layout_width="30dp"
+                        android:layout_width="20dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_share_24"
                         android:layout_marginStart="10dp"
-                        app:tint="@color/black"/>
+                        android:src="@drawable/ic_send"
+                        app:tint="@color/black" />
 
                 </LinearLayout>
                 <ImageView
                     android:layout_margin="5dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_baseline_cloud_download_24"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_download"
                     app:tint="@color/black"/>
 
 
             </RelativeLayout>
             <TextView
-                android:layout_margin="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="85 Comments"
                 android:textColor="@color/black"
-                android:textStyle="bold"/>
+               />
             <TextView
-                android:layout_margin="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="View all 85 Comments"
                 android:textColor="@android:color/darker_gray"
-                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+
                 />
 
 
