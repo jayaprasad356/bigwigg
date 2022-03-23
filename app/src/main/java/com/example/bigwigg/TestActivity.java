@@ -29,9 +29,9 @@ public class TestActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
     private DrawerLayout drawer;
-    private NavigationView navigationView;
     private BottomNavigationView bottomNavView;
     private CoordinatorLayout contentView;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +52,24 @@ public class TestActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
     }
+    public void SetBottomNavUnchecked() {
+        bottomNavView.getMenu().findItem(R.id.placeholder).setChecked(true);
+    }
 
 
 
     private void initNavigation() {
 
         drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
         bottomNavView = findViewById(R.id.bottom_nav_view);
         contentView = findViewById(R.id.content_view);
+        navigationView = findViewById(R.id.nav_view);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_profile,
                 R.id.explore, R.id.business, R.id.favourite,
-                R.id.notification, R.id.nav_share, R.id.nav_send,
+                R.id.notification,  R.id.nav_send,
                 R.id.bottom_home, R.id.bottom_dashboard, R.id.bottom_notifications)
                 .setDrawerLayout(drawer)
                 .build();
@@ -74,19 +77,22 @@ public class TestActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 
         //NavigationUI.setupWithNavController(navigationView, navController);
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                Toast.makeText(TestActivity.this, "Hi", Toast.LENGTH_SHORT).show();
+//                int itemId = item.getItemId();
+//                if (itemId == R.id.nav_profile) {
+//                    Toast.makeText(TestActivity.this, "Hi", Toast.LENGTH_SHORT).show();
+//                }
+//                return true;
+//            }
+//        });
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.nav_profile) {
-                    Intent intent= new Intent(TestActivity.this,ProfileActivity.class);
-                    startActivity(intent);
-                }
-                return true;
-            }
-        });
+
+        NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupWithNavController(bottomNavView, navController);
+
 
 
         animateNavigationDrawer();

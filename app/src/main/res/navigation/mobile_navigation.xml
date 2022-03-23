@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/explore">
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.bigwigg.Fragment.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/explore"
@@ -25,11 +29,7 @@
         android:name="com.example.bigwigg.Fragment.FavouriteFragment"
         tools:layout="@layout/fragment_business" />
 
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.bigwigg.Fragment.BusinessFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_business" />
+
 
     <fragment
         android:id="@+id/nav_send"

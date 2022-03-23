@@ -14,11 +14,15 @@ import android.widget.RelativeLayout;
 
 import com.example.bigwigg.PostActivity;
 import com.example.bigwigg.R;
+import com.example.bigwigg.TestActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ExploreFragment extends Fragment {
     RelativeLayout r1,r2,r3;
     PostFragment postFragment;
     View fragment;
+    BottomNavigationView bottomNavigationView;
 
 
 
@@ -36,36 +40,50 @@ public class ExploreFragment extends Fragment {
        r1 = rootview.findViewById(R.id.r1);
        r2 = rootview.findViewById(R.id.r2);
        r3 = rootview.findViewById(R.id.r3);
+       bottomNavigationView = rootview.findViewById(R.id.bottom_nav_view);
        fragment = rootview.findViewById(R.id.nav_host_fragment);
         postFragment = new PostFragment();
 
        r1.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+
                Fragment fragmentA = new PostFragment();
                getFragmentManager().beginTransaction()
                        .replace(R.id.nav_host_fragment,fragmentA,"YOUR_TARGET_FRAGMENT_TAG")
                        .addToBackStack("YOUR_SOURCE_FRAGMENT_TAG").commit();
-               //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment, postFragment).commit();
+               ((TestActivity)getActivity()).SetBottomNavUnchecked();
+
 
            }
        });
         r2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PostActivity.class);
-                startActivity(intent);
+                Fragment fragmentA = new PostFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment,fragmentA,"YOUR_TARGET_FRAGMENT_TAG")
+                        .addToBackStack("YOUR_SOURCE_FRAGMENT_TAG").commit();
+                ((TestActivity)getActivity()).SetBottomNavUnchecked();
+
             }
         });
         r3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PostActivity.class);
-                startActivity(intent);
+                Fragment fragmentA = new PostFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment,fragmentA,"YOUR_TARGET_FRAGMENT_TAG")
+                        .addToBackStack("YOUR_SOURCE_FRAGMENT_TAG").commit();
+                ((TestActivity)getActivity()).SetBottomNavUnchecked();
+
             }
         });
+
 
        return rootview;
 
     }
+
+
 }

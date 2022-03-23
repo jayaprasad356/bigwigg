@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     }
 
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
