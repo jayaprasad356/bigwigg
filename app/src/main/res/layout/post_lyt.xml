@@ -10,35 +10,101 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bgcurve">
+
+        <RelativeLayout
+            android:id="@+id/r1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_star_3"
+                android:layout_margin="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="4"
+                    android:textColor="@color/white"
+                    android:textSize="10dp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/roundcameron" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="James Cameron"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" @james_cameron" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
         <LinearLayout
+            android:layout_below="@+id/r1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
-                android:src="@drawable/dhoni"
-                android:scaleType="centerCrop"/>
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dhoni" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
-                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_bi_chat_right"
                         android:layout_marginStart="10dp"
+                        android:src="@drawable/ic_bi_chat_right"
                         app:tint="@color/black" />
+
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_ei_star"
                         android:layout_marginStart="10dp"
-                        app:tint="@color/black"/>
+                        android:src="@drawable/ic_ei_star"
+                        app:tint="@color/black" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -48,37 +114,41 @@
                         app:tint="@color/black" />
 
                 </LinearLayout>
+
                 <ImageView
-                    android:layout_margin="5dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="5dp"
                     android:src="@drawable/ic_baseline_download"
-                    app:tint="@color/black"/>
+                    app:tint="@color/black" />
 
 
             </RelativeLayout>
+
             <TextView
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
                 android:text="85 Comments"
-                android:textColor="@color/black"
-               />
+                android:textColor="@color/black" />
+
             <TextView
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="10dp"
                 android:text="View all 85 Comments"
                 android:textColor="@android:color/darker_gray"
-                android:layout_marginBottom="10dp"
 
                 />
 
 
         </LinearLayout>
+
+
 
 
 

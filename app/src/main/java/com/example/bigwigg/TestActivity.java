@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,8 +18,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.bigwigg.Fragment.PostFragment;
 import com.example.bigwigg.Fragment.SearchActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -131,10 +135,13 @@ public class TestActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.search:
+            case R.id.video:
               //  Toast.makeText(this, "search clicked", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, SearchActivity.class);
-                startActivity(intent);
+                VideoFragment fragmentA = new VideoFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.nav_host_fragment,fragmentA,"YOUR_TARGET_FRAGMENT_TAG")
+                        .addToBackStack("YOUR_SOURCE_FRAGMENT_TAG").commit();
+                SetBottomNavUnchecked();
 
 
                 return true;

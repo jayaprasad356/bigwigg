@@ -8,6 +8,10 @@
         android:id="@+id/nav_profile"
         android:name="com.example.bigwigg.Fragment.ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.bigwigg.Fragment.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/explore"
