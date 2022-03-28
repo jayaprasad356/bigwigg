@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:background="@drawable/bgcurve">
 
         <RelativeLayout
@@ -17,32 +18,35 @@
             android:background="@drawable/effiel_tower">
 
             <ImageView
-                app:tint="@color/white"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/playicon"/>
+                android:src="@drawable/playicon"
+                app:tint="@color/white" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/roundcameron"/>
+                    android:src="@drawable/roundcameron" />
+
                 <LinearLayout
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:background="#003F51B5"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="James Camron" />
+                        android:text="James Camron"
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -55,7 +59,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,6 +66,17 @@
                 android:layout_alignParentBottom="true"
                 android:layout_margin="5dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="₹"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    app:tint="@color/white" />
 
                 <ImageView
                     android:layout_width="20dp"

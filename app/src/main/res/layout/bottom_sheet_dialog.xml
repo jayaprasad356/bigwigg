@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bgcurveborder"
+            android:id="@+id/profile"
+            android:text="Profile"/>
+        <TextView
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bgcurveborder"
+            android:text="Settings"/>
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bgcurveborder"
+            android:text="Log Out"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -6,8 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,15 +16,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewParent;
 import android.widget.Toast;
 
-import com.example.bigwigg.Fragment.PostFragment;
-import com.example.bigwigg.Fragment.SearchActivity;
+import com.example.bigwigg.Fragment.LogoutFragment;
+import com.example.bigwigg.Fragment.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 public class TestActivity extends AppCompatActivity {
     private static final float END_SCALE = 0.85f;
@@ -81,21 +77,37 @@ public class TestActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 
         //NavigationUI.setupWithNavController(navigationView, navController);
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                Toast.makeText(TestActivity.this, "Hi", Toast.LENGTH_SHORT).show();
-//                int itemId = item.getItemId();
-//                if (itemId == R.id.nav_profile) {
-//                    Toast.makeText(TestActivity.this, "Hi", Toast.LENGTH_SHORT).show();
-//                }
-//                return true;
-//            }
-//        });
+
+
 
 
         NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupWithNavController(bottomNavView, navController);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // You need this line to handle the navigation
+                boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
+                if (handled) {
+                    ViewParent parent = navigationView.getParent();
+                    if (parent instanceof DrawerLayout) {
+                        ((DrawerLayout) parent).closeDrawer(navigationView);
+                    }
+                }
+
+
+                int itemId = item.getItemId();
+                if (itemId == R.id.nav_logout) {
+                    Intent intent =  new Intent(TestActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                //return true;
+                return handled;
+            }
+        });
+
+
 
 
 

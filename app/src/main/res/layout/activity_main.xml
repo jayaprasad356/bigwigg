@@ -24,16 +24,14 @@
         >
 
 
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/search_bar"
-            android:src="@drawable/ic_search"
-            android:backgroundTint="@color/white"
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
+            android:backgroundTint="@color/white"
             android:padding="2dp"
-            />
+            android:src="@drawable/roundcameron" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -43,19 +41,19 @@
                 android:layout_centerInParent="true"
                 />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_menu"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/white"
-                android:id="@+id/menu_btn"
-                android:layout_alignParentRight="true"
-                android:padding="2dp"
-                android:layout_centerVertical="true"
+        <ImageButton
+            android:id="@+id/video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white"
+            android:padding="2dp"
+            android:src="@drawable/ic_baseline_video_library_24"
 
 
-                />
+            />
 
 
 

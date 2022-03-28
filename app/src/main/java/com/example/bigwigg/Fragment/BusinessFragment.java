@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
 
 
@@ -25,6 +26,7 @@ public class BusinessFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_business, container, false);
+        ((MainActivity)getActivity()).setBusinessChecked();
 
 
 

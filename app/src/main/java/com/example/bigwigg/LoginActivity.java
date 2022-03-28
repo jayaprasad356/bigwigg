@@ -19,9 +19,14 @@ public class LoginActivity extends AppCompatActivity {
         Loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,TestActivity.class);
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    public void googleicon(View view) {
+//        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//        startActivity(intent);
     }
 }

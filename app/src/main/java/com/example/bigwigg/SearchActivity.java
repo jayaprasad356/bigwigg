@@ -1,4 +1,4 @@
-package com.example.bigwigg.Fragment;
+package com.example.bigwigg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
