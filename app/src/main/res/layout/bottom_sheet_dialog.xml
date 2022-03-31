@@ -16,6 +16,16 @@
             android:padding="15dp"
             android:layout_margin="10dp"
             android:background="@drawable/bgcurveborder"
+            android:id="@+id/search"
+            android:text="Search"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bgcurveborder"
             android:id="@+id/profile"
             android:text="Profile"/>
         <TextView
@@ -28,16 +38,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/bgcurveborder"
             android:text="Settings"/>
-        <TextView
-            android:id="@+id/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:padding="15dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/bgcurveborder"
-            android:text="Log Out"/>
+
     </LinearLayout>
 
 </RelativeLayout>

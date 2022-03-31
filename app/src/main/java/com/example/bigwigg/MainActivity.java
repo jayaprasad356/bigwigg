@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         Profile = findViewById(R.id.profile);
         Video = findViewById(R.id.video);
+
         bottomNavigationView.setSelectedItemId(R.id.explore);
         bottomNavigationView.setOnItemSelectedListener(this);
 
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         TextView profile = bottomSheetDialog.findViewById(R.id.profile);
         TextView settings = bottomSheetDialog.findViewById(R.id.settings);
-        TextView logout = bottomSheetDialog.findViewById(R.id.logout);
+        TextView search = bottomSheetDialog.findViewById(R.id.search);
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,10 +113,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
             }
         });
-        logout.setOnClickListener(new View.OnClickListener() {
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =  new Intent(MainActivity.this,LoginActivity.class);
+                Intent intent =  new Intent(MainActivity.this,SearchActivity.class);
                 startActivity(intent);
                 finish();
                 bottomSheetDialog.dismiss();

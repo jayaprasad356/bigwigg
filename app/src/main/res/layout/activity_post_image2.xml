@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Post_imageActivity2">
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/img_profile"
+        android:layout_width="@dimen/toolbar_profile_width"
+        android:layout_height="@dimen/toolbar_profile_width"
+        android:layout_marginTop="@dimen/activity_padding"
+        android:layout_marginBottom="@dimen/activity_padding"
+        android:scaleType="centerInside"
+        android:background="@drawable/ic_bigwigg_logo"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="2dp" />
+
+
+</RelativeLayout>
