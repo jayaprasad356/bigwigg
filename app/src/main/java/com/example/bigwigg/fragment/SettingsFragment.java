@@ -1,4 +1,4 @@
-package com.example.bigwigg.Fragment;
+package com.example.bigwigg.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.bigwigg.LoginActivity;
-import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
-import com.example.bigwigg.SearchActivity;
+import com.example.bigwigg.SplashActivity;
+import com.example.bigwigg.helper.Session;
 
 
 public class SettingsFragment extends Fragment {
 
     ImageButton logout;
+    Session session;
 
 
     public SettingsFragment() {
@@ -32,14 +33,14 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_settings, container, false);
+        session = new Session(getActivity());
 
         logout=rootview.findViewById(R.id.logout_btn);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =  new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+
+                session.logoutUser(getActivity());
 
 
             }

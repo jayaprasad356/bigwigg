@@ -1,24 +1,16 @@
-package com.example.bigwigg.Fragment;
+package com.example.bigwigg.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.bigwigg.MainActivity;
-import com.example.bigwigg.PostActivity;
 import com.example.bigwigg.R;
-import com.example.bigwigg.TestActivity;
-import com.example.bigwigg.VideoFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ExploreFragment extends Fragment {

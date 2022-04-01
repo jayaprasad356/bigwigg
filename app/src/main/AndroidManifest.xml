@@ -20,11 +20,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ImagePickerActivity"></activity>
         <activity android:name=".Post_imageActivity2" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".SearchActivity" />
         <activity
@@ -39,6 +35,11 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity

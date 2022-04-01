@@ -48,7 +48,7 @@ dependencies {
 
 
     //dexter permissions
-    implementation "com.karumi:dexter:5.0.0"
+    implementation "com.karumi:dexter:6.2.3"
 
     // circular imageview
     implementation 'com.mikhaellopez:circularimageview:3.2.0'

@@ -1,4 +1,4 @@
-package com.example.bigwigg.Fragment;
+package com.example.bigwigg.fragment;
 
 import android.os.Bundle;
 

@@ -1,6 +1,5 @@
-package com.example.bigwigg.Fragment;
+package com.example.bigwigg.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,16 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bigwigg.LoginActivity;
 import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
-import com.example.bigwigg.TestActivity;
 
 
-public class LogoutFragment extends Fragment {
+public class BusinessFragment extends Fragment {
 
 
-    public LogoutFragment() {
+
+    public BusinessFragment() {
         // Required empty public constructor
     }
 
@@ -27,11 +25,13 @@ public class LogoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootview =  inflater.inflate(R.layout.fragment_logout, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_business, container, false);
+        ((MainActivity)getActivity()).setBusinessChecked();
 
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intent);
 
-        return rootview;
+
+        return  rootview;
+
+
     }
 }

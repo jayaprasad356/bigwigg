@@ -9,6 +9,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.example.bigwigg.helper.Session;
+
 public class SplashActivity extends AppCompatActivity {
     ImageView Logo;
     Handler handler;
@@ -26,13 +28,29 @@ public class SplashActivity extends AppCompatActivity {
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         Logo.startAnimation(myFadeInAnimation);
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Session session = new Session(SplashActivity.this);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (session.getBoolean("is_logged_in")){
+                    Intent intent=new Intent(SplashActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
 
-                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-                startActivity(intent);
-                finish();
+                }else{
+                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+
+
 
             }
         },3000);
