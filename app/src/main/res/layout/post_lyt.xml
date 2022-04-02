@@ -56,11 +56,6 @@
                         android:layout_height="wrap_content"
                         android:text="James Cameron"
                         android:textColor="@color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" @james_cameron" />
                 </LinearLayout>
 
 

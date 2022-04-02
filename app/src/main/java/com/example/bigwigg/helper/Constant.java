@@ -10,5 +10,10 @@ public class Constant {
     public static final String PROFILE = "profile";
     public static final String EMAIL = "email";
     public static final String NAME = "name";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String AccessKey = "accesskey";
+    public static final String AccessKeyVal = "90336";
+    //set your jwt secret key here...key must same in PHP and Android
+    public static final String JWT_KEY = "big_wigg";
 
 }
