@@ -1,15 +1,19 @@
 package com.example.bigwigg;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,12 +22,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.bigwigg.fragment.BusinessFragment;
 import com.example.bigwigg.fragment.ExploreFragment;
 import com.example.bigwigg.fragment.FavouriteFragment;
 import com.example.bigwigg.fragment.NotificationFragment;
 import com.example.bigwigg.fragment.ProfileFragment;
 import com.example.bigwigg.fragment.SettingsFragment;
+import com.example.bigwigg.helper.Constant;
+import com.example.bigwigg.helper.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +44,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
@@ -44,12 +53,15 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     BusinessFragment businessFragment;
     FavouriteFragment favouriteFragment;
     NotificationFragment notificationFragment;
-    ImageView Profile;
+    CircleImageView Profile;
     ImageButton Video;
     private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
     boolean doubleBackToExitPressedOnce = false;
     FloatingActionButton Post;
     public static final int REQUEST_IMAGE = 100;
+    Bitmap bitmap;
+    Activity activity;
+    Session session;
 
 
 
@@ -57,10 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activity = MainActivity.this;
+        session = new Session(activity);
+
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         Post = findViewById(R.id.post);
-        Profile = findViewById(R.id.profile);
+        Profile = findViewById(R.id.profile_image);
         Video = findViewById(R.id.video);
 
         bottomNavigationView.setSelectedItemId(R.id.explore);
@@ -72,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         favouriteFragment = new FavouriteFragment();
         notificationFragment = new NotificationFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment, exploreFragment,"EXPLORE").commit();
+        Glide.with(activity).load(Uri.parse(session.getData(Constant.PROFILE))).into(Profile);
 
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,9 +133,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
             }
         });
-
-
-
     }
     private void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -225,6 +238,15 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         bottomSheetDialog.show();
     }
+    private void showPostBottomSheetDialog() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.post_sheet);
+        ImageView postimg = bottomSheetDialog.findViewById(R.id.postimg);
+        postimg.setImageBitmap(bitmap);
+
+        bottomSheetDialog.show();
+    }
     public void SetBottomNavUnchecked() {
         bottomNavigationView.getMenu().findItem(R.id.placeholder).setChecked(true);
     }
@@ -308,4 +330,21 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE){
+            if (resultCode == Activity.RESULT_OK){
+                Uri uri = data.getParcelableExtra("path");
+                try{
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
+                    showPostBottomSheetDialog();
+
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

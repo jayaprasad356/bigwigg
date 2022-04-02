@@ -22,17 +22,12 @@
         android:layout_marginRight="20dp"
         android:id="@+id/header_title"
         >
-
-
-        <ImageView
-            android:id="@+id/profile"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:backgroundTint="@color/white"
-            android:padding="2dp"
-            android:src="@drawable/roundcameron" />
-
+            />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

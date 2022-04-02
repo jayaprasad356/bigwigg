@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     GoogleSignInClient mSignInClient;
     private static int RC_SIGN_IN = 100;
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         googlebtn = findViewById(R.id.googlebtn);
         firebaseAuth = FirebaseAuth.getInstance();
+        session = new Session(LoginActivity.this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.webclient))
@@ -76,7 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
                 .addOnSuccessListener(this, authResult -> {
 
-                    new Session(LoginActivity.this).setBoolean("is_logged_in", true);
+                    session.setBoolean("is_logged_in", true);
+                    session.setUserData(String.valueOf(acct.getPhotoUrl()),acct.getDisplayName(), acct.getEmail());
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 })

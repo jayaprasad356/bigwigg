@@ -13,14 +13,16 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
+                android:id="@+id/profileimg"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:src="@drawable/g16"/>
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/g16" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -52,6 +54,7 @@
 
         </RelativeLayout>
         <TextView
+            android:id="@+id/changeprofile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -81,9 +84,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Design.TextInputLayout"
-            android:hint="User Name">
+            android:hint="Location">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/username"
+                android:id="@+id/locaton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="14"
@@ -94,20 +97,7 @@
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.Design.TextInputLayout"
-            android:hint="Mobile Number">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="14"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:enabled="false"
             style="@style/Widget.Design.TextInputLayout"
             android:hint="Email ID">
             <com.google.android.material.textfield.TextInputEditText
@@ -117,20 +107,7 @@
                 android:maxLength="14"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.Design.TextInputLayout"
-            android:hint="Password">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="14"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:layout_width="wrap_content"
@@ -141,7 +118,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="50dp"/>
         
     </LinearLayout>
     
