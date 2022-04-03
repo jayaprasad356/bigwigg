@@ -49,7 +49,8 @@ public class Session {
         editor.putBoolean(id, val);
         editor.commit();
     }
-    public void setUserData(String profile, String name, String email) {
+    public void setUserData(String id,String profile, String name, String email) {
+        editor.putString(Constant.ID, id);
         editor.putString(Constant.NAME, name);
         editor.putString(Constant.EMAIL, email);
         editor.putString(Constant.PROFILE, profile);

@@ -3,9 +3,12 @@ package com.example.bigwigg.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,11 +16,14 @@ import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +33,7 @@ import com.example.bigwigg.LoginActivity;
 import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
 import com.example.bigwigg.SplashActivity;
+import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
 import com.karumi.dexter.Dexter;
@@ -35,16 +42,26 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SettingsFragment extends Fragment {
 
-    ImageButton logout;
+    ImageButton logout,update_btn;
     Session session;
-    TextView changeprofile;
+    TextView changeprofile,describtion,role;
     ImageView profileimg;
+
+    EditText email,fullname;
     public static final int REQUEST_IMAGE = 100;
+    String filePath = null;
 
 
     public SettingsFragment() {
@@ -61,8 +78,31 @@ public class SettingsFragment extends Fragment {
         session = new Session(getActivity());
 
         logout=rootview.findViewById(R.id.logout_btn);
+
         changeprofile=rootview.findViewById(R.id.changeprofile);
         profileimg=rootview.findViewById(R.id.profileimg);
+        update_btn=rootview.findViewById(R.id.update_btn);
+
+        role=rootview.findViewById(R.id.role);
+        describtion=rootview.findViewById(R.id.describtion);
+        fullname=rootview.findViewById(R.id.fullname);
+        fullname.setText(session.getData(Constant.NAME));
+
+
+        email=rootview.findViewById(R.id.email);
+        email.setText(session.getData(Constant.EMAIL));
+        describtion.setText(session.getData(Constant.DESCRIPION));
+        role.setText(session.getData(Constant.ROLE));
+
+        update_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                update_profile();
+
+            }
+        });
+
 
         profileimg.setImageURI(Uri.parse(session.getData(Constant.PROFILE)));
         Glide.with(getActivity()).load(Uri.parse(session.getData(Constant.PROFILE))).into(profileimg);
@@ -107,6 +147,9 @@ public class SettingsFragment extends Fragment {
 
         return rootview;
     }
+
+
+
     private void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.dialog_permission_title));
@@ -147,6 +190,10 @@ public class SettingsFragment extends Fragment {
                 try{
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),uri);
                     profileimg.setImageBitmap(bitmap);
+                    Bitmap lastBitmap = null;
+                    lastBitmap = bitmap;
+                    filePath = getStringImage(lastBitmap);
+                    uploadprofile();
 
 
 
@@ -155,6 +202,51 @@ public class SettingsFragment extends Fragment {
                 }
             }
         }
+    }
+
+    private void uploadprofile()
+    {
+        Map<String, String> params = new HashMap<>();
+        Map<String, String> fileParams = new HashMap<>();
+        params.put(Constant.USER_ID, "1");
+        params.put(Constant.TYPE, "upload_profile");
+        fileParams.put(Constant.PROFILE, filePath);
+        ApiConfig.RequestToVolley((result, response) -> {
+            Toast.makeText(getActivity(), ""+response, Toast.LENGTH_SHORT).show();
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        //session.setData(Constant.PROFILE);
+                        Toast.makeText(getActivity(), "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else {
+                        Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            else {
+                Toast.makeText(getActivity(), String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
+
+            }
+        }, getActivity(), Constant.UPDATE_PROFILE_URL, params,fileParams);
+
+
+    }
+
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+
     }
 
     private void launchGalleryIntent() {
@@ -183,4 +275,53 @@ public class SettingsFragment extends Fragment {
 
         startActivityForResult(intent, REQUEST_IMAGE);
     }
+
+
+
+    private void update_profile() {
+        Map<String, String> params = new HashMap<>();
+        //request
+        params.put(Constant.EMAIL,email.getText().toString());
+        params.put(Constant.NAME, fullname.getText().toString());
+        params.put(Constant.TYPE, "register");
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        params.put(Constant.ROLE, role.getText().toString());
+        params.put(Constant.DESCRIPION, describtion.getText().toString());
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
+
+                        session.setBoolean("is_logged_in", true);
+                        session.setUserData(jsonArray.getJSONObject(0).getString(Constant.ID),session.getData(Constant.PROFILE),jsonArray.getJSONObject(0).getString(Constant.NAME), jsonArray.getJSONObject(0).getString(Constant.EMAIL));
+                        session.setData(Constant.DESCRIPION,jsonArray.getJSONObject(0).getString(Constant.DESCRIPION));
+                        session.setData(Constant.ROLE,jsonArray.getJSONObject(0).getString(Constant.ROLE));
+                        Toast.makeText(getActivity(), "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), ""+jsonObject, Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+
+
+            }
+            else {
+                Toast.makeText(getActivity(), String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
+
+            }
+            //pass url
+        },getActivity(), Constant.UPDATE_PROFILE_URL, params,true);
+
+
+
+    }
+
 }

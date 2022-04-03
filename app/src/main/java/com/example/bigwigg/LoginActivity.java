@@ -3,12 +3,15 @@ package com.example.bigwigg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.bigwigg.helper.ApiConfig;
+import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -19,6 +22,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     Button googlebtn;
@@ -77,13 +87,57 @@ public class LoginActivity extends AppCompatActivity {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnSuccessListener(this, authResult -> {
+                  registerEmail(acct.getDisplayName(),acct.getEmail(),acct.getPhotoUrl());
 
-                    session.setBoolean("is_logged_in", true);
-                    session.setUserData(String.valueOf(acct.getPhotoUrl()),acct.getDisplayName(), acct.getEmail());
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
                 })
                 .addOnFailureListener(this, e -> Toast.makeText(LoginActivity.this, "Authentication failed.",
                         Toast.LENGTH_SHORT).show());
     }
+
+
+    private void registerEmail(String name, String email, Uri profile) {
+        Map<String, String> params = new HashMap<>();
+        //request
+        params.put(Constant.EMAIL,email);
+        params.put(Constant.NAME,name);
+        params.put(Constant.PROFILE,String.valueOf(profile));
+
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONObject object = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
+
+
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        session.setBoolean("is_logged_in", true);
+                        session.setUserData(jsonArray.getJSONObject(0).getString(Constant.ID),jsonArray.getJSONObject(0).getString(Constant.PROFILE),jsonArray.getJSONObject(0).getString(Constant.NAME), jsonArray.getJSONObject(0).getString(Constant.EMAIL));
+
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(this, "Failed"+jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            else {
+                Toast.makeText(this, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
+
+            }
+            //pass url
+        }, LoginActivity.this, Constant.EMAIL_REGISTER_URL, params,true);
+
+
+
+    }
+
 }

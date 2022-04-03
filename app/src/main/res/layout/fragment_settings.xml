@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,58 +10,75 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_rl"
 
-            <ImageView
+            >
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_clear_24"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dimen_5dp"
+                android:backgroundTint="@color/white"
+                />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_baseline_check_24"
+                android:background="@color/white"
+                android:id="@+id/update_btn"
+                android:paddingRight="@dimen/dimen_10dp"
+                android:paddingTop="@dimen/dimen_10dp"
+                android:layout_margin="@dimen/dimen_5dp"
+                android:layout_gravity="center"/>
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dimen_20dp"
+            >
+
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/profileimg"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/g16" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+
+
+            <TextView
+                android:id="@+id/changeprofile"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:layout_below="@+id/profileimg"
                 android:layout_margin="5dp"
-                >
-                <ImageButton
-                    android:id="@+id/logout_btn"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_logout_24"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Logout"
-                    android:textColor="@color/black"
-                    />
-
-
-            </LinearLayout>
+                android:text="Change Profile"
+                android:textColor="@color/blue"/>
 
 
 
 
         </RelativeLayout>
-        <TextView
-            android:id="@+id/changeprofile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20dp"
-            android:layout_margin="5dp"
-            android:text="Change Profile"
-            android:textColor="@color/black"/>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_margin="10dp"
@@ -84,9 +101,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Design.TextInputLayout"
-            android:hint="Location">
+            android:hint="Role">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/locaton"
+                android:id="@+id/role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="14"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Design.TextInputLayout"
+            android:hint="Discribtion">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/describtion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="14"
@@ -104,17 +135,39 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="14"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <Button
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update"
-            android:layout_margin="20dp"
-            android:layout_gravity="center"/>
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:gravity="right"
+
+            >
+            <ImageButton
+                android:id="@+id/logout_btn"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:backgroundTint="@color/white"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_logout_24"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textColor="@color/black"
+                />
+
+
+        </LinearLayout>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,4 +178,4 @@
     
 
 
-</ScrollView>
+</RelativeLayout>
