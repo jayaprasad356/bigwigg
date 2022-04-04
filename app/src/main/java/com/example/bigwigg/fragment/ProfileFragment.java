@@ -1,5 +1,6 @@
 package com.example.bigwigg.fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.bigwigg.R;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
@@ -40,6 +42,8 @@ public class ProfileFragment extends Fragment {
         Name.setText(session.getData(Constant.NAME));
         Role.setText(session.getData(Constant.ROLE));
         Description.setText(session.getData(Constant.DESCRIPION));
+
+        Glide.with(getActivity()).load(Uri.parse(session.getData(Constant.PROFILE))).into(Profile);
 
 
 
