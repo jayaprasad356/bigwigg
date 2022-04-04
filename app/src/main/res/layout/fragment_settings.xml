@@ -9,25 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:visibility="visible"
             android:layout_height="wrap_content"
             android:id="@+id/update_rl"
-
             >
-
-
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_clear_24"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/dimen_5dp"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/dimen_5dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginEnd="@dimen/dimen_5dp"
+                android:layout_marginBottom="@dimen/dimen_5dp"
                 android:backgroundTint="@color/white"
-                />
+                android:src="@drawable/ic_baseline_clear_24" />
 
             <ImageButton
                 android:layout_width="wrap_content"

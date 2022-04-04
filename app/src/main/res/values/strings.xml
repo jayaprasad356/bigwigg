@@ -34,7 +34,9 @@
     <string name="toast_image_intent_null">Image picker option is missing!</string>
     <string name="oops_no_internet_connection">Oops, No internet connection!</string>
     <string name="make_sure_wifi_or_cellular_data_is_turned_on_and_that_retry">Make sure wifi or cellular data is turned on and that retry!</string>
-
+    <string name="from_library">Choose from Library</string>
+    <string name="from_camera">Capture from Camera</string>
+    <string name="cancel">Cancel</string>
 
 
     <!-- font families -->

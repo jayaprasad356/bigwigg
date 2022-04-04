@@ -15,34 +15,33 @@
             android:orientation="vertical"
             >
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="270dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/img"
+                    android:id="@+id/profile"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/g16" />
-
-
                 <TextView
+                    android:id="@+id/name"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
                     android:background="@drawable/bg_txt"
-                    android:gravity="center_horizontal"
                     android:padding="10dp"
+                    android:layout_gravity="center"
                     android:text="Anil Kapoor"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
 
-            </RelativeLayout>
+            </LinearLayout>
             <TextView
+                android:id="@+id/role"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Actor"
@@ -62,6 +61,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Yeah, this “Jhakkas” man of Bollywood secured 6th position in this list. He did many remarkable movies such as Ram Lakhan, Mr. India, Nayak, Slumdog Millionaire, ‘Welcome’ along with applauded TV series ‘24’. Even at his 60+, he maintains himself so well that he looks like just 30+"

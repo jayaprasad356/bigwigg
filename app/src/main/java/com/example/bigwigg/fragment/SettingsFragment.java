@@ -1,6 +1,11 @@
 package com.example.bigwigg.fragment;
 
+import static android.app.Activity.RESULT_OK;
+
+import static com.example.bigwigg.ImagePickerActivity.REQUEST_IMAGE_CAPTURE;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,11 +17,14 @@ import android.opengl.Visibility;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 import com.example.bigwigg.ImagePickerActivity;
 import com.example.bigwigg.LoginActivity;
 import com.example.bigwigg.MainActivity;
@@ -47,6 +57,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +76,9 @@ public class SettingsFragment extends Fragment {
     EditText email,fullname;
     public static final int REQUEST_IMAGE = 100;
     String filePath = null;
+    public static final int SELECT_FILE = 110;
+    Uri imageUri;
+    String currentPhotoPath;
 
 
     public SettingsFragment() {
@@ -76,29 +93,31 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_settings, container, false);
         session = new Session(getActivity());
-
         logout=rootview.findViewById(R.id.logout_btn);
-
         changeprofile=rootview.findViewById(R.id.changeprofile);
         profileimg=rootview.findViewById(R.id.profileimg);
         update_btn=rootview.findViewById(R.id.update_btn);
-
         role=rootview.findViewById(R.id.role);
         describtion=rootview.findViewById(R.id.describtion);
         fullname=rootview.findViewById(R.id.fullname);
         fullname.setText(session.getData(Constant.NAME));
-
-
         email=rootview.findViewById(R.id.email);
         email.setText(session.getData(Constant.EMAIL));
         describtion.setText(session.getData(Constant.DESCRIPION));
         role.setText(session.getData(Constant.ROLE));
-
         update_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (fullname.getText().toString().equals("")){
+                    fullname.setError("Name is Empty");
+                    fullname.requestFocus();
+                }
+                else {
+                    update_profile();
 
-                update_profile();
+                }
+
+
 
             }
         });
@@ -106,6 +125,7 @@ public class SettingsFragment extends Fragment {
 
         profileimg.setImageURI(Uri.parse(session.getData(Constant.PROFILE)));
         Glide.with(getActivity()).load(Uri.parse(session.getData(Constant.PROFILE))).into(profileimg);
+
 
         changeprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +136,11 @@ public class SettingsFragment extends Fragment {
                             @Override
                             public void onPermissionsChecked(MultiplePermissionsReport report) {
                                 if (report.areAllPermissionsGranted()) {
-                                    showImagePickerOptions();
+                                    //showImagePickerOptions();
+                                    //selectDialog();
+                                    Intent intent = new Intent(Intent.ACTION_PICK);
+                                    intent.setType("image/*");
+                                    startActivityForResult(intent, SELECT_FILE);
                                 }
 
                                 if (report.isAnyPermissionPermanentlyDenied()) {
@@ -169,53 +193,144 @@ public class SettingsFragment extends Fragment {
         startActivityForResult(intent, 101);
     }
     private void showImagePickerOptions() {
-        ImagePickerActivity.showImagePickerOptions(getActivity(), new ImagePickerActivity.PickerOptionListener() {
-            @Override
-            public void onTakeCameraSelected() {
-                launchCameraIntent();
-            }
-
-            @Override
-            public void onChooseGallerySelected() {
-                launchGalleryIntent();
-            }
-        });
+//        ImagePickerActivity.showImagePickerOptions(getActivity(), new ImagePickerActivity.PickerOptionListener() {
+//            @Override
+//            public void onTakeCameraSelected() {
+//                launchCameraIntent();
+//            }
+//
+//            @Override
+//            public void onChooseGallerySelected() {
+//                launchGalleryIntent();
+//            }
+//        });
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE){
-            if (resultCode == Activity.RESULT_OK){
-                Uri uri = data.getParcelableExtra("path");
-                try{
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),uri);
-                    profileimg.setImageBitmap(bitmap);
-                    Bitmap lastBitmap = null;
-                    lastBitmap = bitmap;
-                    filePath = getStringImage(lastBitmap);
-                    uploadprofile();
-
-
-
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                imageUri = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".provider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
     }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "ECART_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    public void selectDialog() {
+        final CharSequence[] items = {getString(R.string.from_library), getString(R.string.from_camera), getString(R.string.cancel)};
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, (dialog, item) -> {
+            if (items[item].equals(getString(R.string.from_library))) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, SELECT_FILE);
+            } else if (items[item].equals(getString(R.string.from_camera))) {
+                dispatchTakePictureIntent();
+            } else if (items[item].equals(getString(R.string.cancel))) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == SELECT_FILE) {
+
+                imageUri = data.getData();
+                CropImage.activity(imageUri)
+                       .setGuidelines(CropImageView.Guidelines.ON)
+                        .setOutputCompressQuality(90)
+                        .setRequestedSize(300, 300)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setAspectRatio(1, 1)
+                        .start(getContext(), this);
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                CropImage.activity(imageUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setOutputCompressQuality(90)
+                        .setRequestedSize(300, 300)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setAspectRatio(1, 1)
+                        .start(getContext(), this);
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                assert result != null;
+                filePath = result.getUriFilePath(getActivity(), true);
+                UpdateProfile();
+            }
+        }
+    }
+
+    private void UpdateProfile()
+    {
+        Map<String, String> params = new HashMap<>();
+        Map<String, String> fileParams = new HashMap<>();
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        fileParams.put(Constant.PROFILE, filePath);
+        params.put(Constant.TYPE, Constant.UPLOAD_PROFILE);
+
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
+
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        Glide.with(getActivity()).load(jsonArray.getJSONObject(0).getString(Constant.PROFILE)).into(profileimg);
+                        Toast.makeText(getActivity(), jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+                        session.setData(Constant.PROFILE, jsonArray.getJSONObject(0).getString(Constant.PROFILE));
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, getActivity(), Constant.UPDATE_PROFILE_URL, params, fileParams);
+
+    }
+
 
     private void uploadprofile()
     {
         Map<String, String> params = new HashMap<>();
         Map<String, String> fileParams = new HashMap<>();
         params.put(Constant.USER_ID, "1");
-        params.put(Constant.TYPE, "upload_profile");
-        fileParams.put(Constant.PROFILE, filePath);
+        fileParams.put(Constant.PROFILE, "/data/user/0/com.gm.blackkite/cache/temp_file_20220403_224105.jpg");
+        params.put(Constant.TYPE, Constant.UPLOAD_PROFILE);
         ApiConfig.RequestToVolley((result, response) -> {
-            Toast.makeText(getActivity(), ""+response, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+                    Toast.makeText(getActivity(), "Hi"+jsonObject, Toast.LENGTH_SHORT).show();
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
                         //session.setData(Constant.PROFILE);
                         Toast.makeText(getActivity(), "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
@@ -226,6 +341,7 @@ public class SettingsFragment extends Fragment {
                     }
                 } catch (JSONException e){
                     e.printStackTrace();
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -235,7 +351,7 @@ public class SettingsFragment extends Fragment {
                 Toast.makeText(getActivity(), String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
 
             }
-        }, getActivity(), Constant.UPDATE_PROFILE_URL, params,fileParams);
+        }, getActivity(), "http://192.168.43.38/bigwigg/api/update_profile.php", params,fileParams);
 
 
     }
@@ -261,7 +377,7 @@ public class SettingsFragment extends Fragment {
     }
     private void launchCameraIntent() {
         Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_IMAGE_CAPTURE);
+        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, REQUEST_IMAGE_CAPTURE);
 
         // setting aspect ratio
         intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);

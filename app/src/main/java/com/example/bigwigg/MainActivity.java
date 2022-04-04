@@ -29,6 +29,7 @@ import com.example.bigwigg.fragment.FavouriteFragment;
 import com.example.bigwigg.fragment.NotificationFragment;
 import com.example.bigwigg.fragment.ProfileFragment;
 import com.example.bigwigg.fragment.SettingsFragment;
+import com.example.bigwigg.fragment.TestExploreFragment;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -80,8 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         bottomNavigationView.setSelectedItemId(R.id.explore);
         bottomNavigationView.setOnItemSelectedListener(this);
-
-
         exploreFragment = new ExploreFragment();
         businessFragment = new BusinessFragment();
         favouriteFragment = new FavouriteFragment();

@@ -7,6 +7,7 @@ public class Constant {
     public static final String BaseUrl = MainBaseUrl + "api/";
     public static final String EMAIL_REGISTER_URL = BaseUrl + "login_user.php";
     public static final String UPDATE_PROFILE_URL = BaseUrl + "update_profile.php";
+    public static final String USER_LIST_URL = BaseUrl + "userlists.php";
 
     public static final String WebSiteUrl = ""; //Admin panel url
     public static final String ID = "id";
@@ -18,6 +19,7 @@ public class Constant {
     public static final String DESCRIPION = "description";
     public static final String ROLE = "role";
     public static final String DATA = "data";
+    public static final String UPLOAD_PROFILE = "upload_profile";
     public static final String AUTHORIZATION = "Authorization";
     public static final String AccessKey = "accesskey";
     public static final String AccessKeyVal = "90336";

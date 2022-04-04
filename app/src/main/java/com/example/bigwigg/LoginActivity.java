@@ -107,7 +107,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONObject object = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
 
 

@@ -9,20 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
 import com.example.bigwigg.adapter.ExploreAdapter;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.model.Explore;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -33,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExploreFragment extends Fragment {
+public class TestExploreFragment extends Fragment {
     View root;
 
     public static Activity activity;
@@ -41,28 +37,15 @@ public class ExploreFragment extends Fragment {
     public static ExploreAdapter exploreAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-
-
-
-    public ExploreFragment() {
+    public TestExploreFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_explore, container, false);
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            //your codes here
-
-        }
+        root = inflater.inflate(R.layout.fragment_test_explore, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
         activity = getActivity();
         mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeLayout);
@@ -70,18 +53,11 @@ public class ExploreFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
         recyclerView.setLayoutManager(gridLayoutManager);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                exploreList();
-            }
-        });
         exploreList();
 
 
 
         return root;
-
     }
     private void exploreList()
     {
@@ -126,6 +102,4 @@ public class ExploreFragment extends Fragment {
             }
         }, activity, Constant.USER_LIST_URL, params, true);
     }
-
-
 }
