@@ -97,6 +97,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/comment_btn"
                         android:layout_width="20dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="10dp"

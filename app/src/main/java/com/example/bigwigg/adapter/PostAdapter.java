@@ -1,6 +1,7 @@
 package com.example.bigwigg.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.bigwigg.Comment_postActivity;
+import com.example.bigwigg.PostActivity;
 import com.example.bigwigg.R;
 import com.example.bigwigg.model.Explore;
 import com.example.bigwigg.model.Post;
@@ -54,6 +57,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.name.setText(post.getName());
         holder.caption.setText(post.getCaption());
 
+        holder.comment_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, Comment_postActivity.class);
+                activity.startActivity(intent);
+            }
+        });
 
     }
 
@@ -65,12 +75,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class ItemHolder extends RecyclerView.ViewHolder {
 
-        final ImageView postimage;
+        final ImageView postimage,comment_btn;
         final CircleImageView profile;
         final TextView name,caption;
+
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             postimage = itemView.findViewById(R.id.postimg);
+            comment_btn = itemView.findViewById(R.id.comment_btn);
             profile = itemView.findViewById(R.id.profile);
             name = itemView.findViewById(R.id.name);
             caption = itemView.findViewById(R.id.caption);

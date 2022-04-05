@@ -6,27 +6,27 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:name="com.example.bigwigg.helper.ApiConfig"
+        android:name=".helper.ApiConfig"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bigwigg"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ImagePickerActivity"></activity>
-        <activity android:name=".Post_imageActivity2" >
-
-        </activity>
+        <activity android:name=".Comment_postActivity"></activity>
+        <activity android:name=".ImagePickerActivity" />
+        <activity android:name=".Post_imageActivity2"></activity>
         <activity android:name=".SearchActivity" />
         <activity
             android:name=".ProfileActivity"
@@ -45,7 +45,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
@@ -55,8 +54,7 @@
             android:exported="true" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity android:name=".MainActivity" /> <!-- cache directory file provider paths -->
         <provider
             android:name="androidx.core.content.FileProvider"
