@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -13,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
+import com.example.bigwigg.adapter.ExploreAdapter;
 import com.example.bigwigg.adapter.PostAdapter;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
+import com.example.bigwigg.model.Explore;
 import com.example.bigwigg.model.Post;
 import com.google.gson.Gson;
 
@@ -30,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PostFragment extends Fragment {
+public class TestPostFragment extends Fragment {
     View root;
     public static Activity activity;
     public static RecyclerView recyclerView;
@@ -43,7 +47,7 @@ public class PostFragment extends Fragment {
 
 
 
-    public PostFragment() {
+    public TestPostFragment() {
         // Required empty public constructor
     }
 
@@ -53,7 +57,9 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_post, container, false);
+
+        root =  inflater.inflate(R.layout.fragment_test_post, container, false);
+
         recyclerView = root.findViewById(R.id.recyclerView);
         activity = getActivity();
         session = new Session(activity);
@@ -80,6 +86,7 @@ public class PostFragment extends Fragment {
 
         return root;
     }
+
 
     private void postList()
     {

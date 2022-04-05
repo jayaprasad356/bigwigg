@@ -13,6 +13,7 @@ import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.example.bigwigg.R;
 import com.example.bigwigg.adapter.ExploreAdapter;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
+import com.example.bigwigg.helper.Session;
 import com.example.bigwigg.model.Explore;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -54,15 +56,6 @@ public class ExploreFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_explore, container, false);
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            //your codes here
-
-        }
         recyclerView = root.findViewById(R.id.recyclerView);
         activity = getActivity();
         mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeLayout);
@@ -70,6 +63,7 @@ public class ExploreFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
         recyclerView.setLayoutManager(gridLayoutManager);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -78,11 +72,11 @@ public class ExploreFragment extends Fragment {
         });
         exploreList();
 
-
-
         return root;
 
     }
+
+
     private void exploreList()
     {
         Map<String, String> params = new HashMap<>();

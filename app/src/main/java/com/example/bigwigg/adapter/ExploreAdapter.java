@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
+import com.example.bigwigg.fragment.PostFragment;
+import com.example.bigwigg.fragment.TestPostFragment;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.model.Explore;
+import com.example.bigwigg.model.Post;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,64 +57,19 @@ public class ExploreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         Glide.with(activity).load(explore.getProfile()).into(holder.profile);
 
-//        try {
-//            URL url = new URL("https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg");
-//            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//            BitmapDrawable background = new BitmapDrawable(activity.getResources(), image);
-//            holder.profile.setBackground(background);
-//        } catch(IOException e) {
-//            System.out.println(e);
-//        }
-        //Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.g2);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.USER_ID, explore.getId());
+                PostFragment postFragment = new PostFragment();
+                postFragment.setArguments(bundle);
+                ((MainActivity)activity).SetBottomNavUnchecked();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).commit();
 
-
-//        new LoadBackground(explore.getProfile(),
-//                "androidfigure",holder.profile).execute();
-
-
-    }
-    private class LoadBackground extends AsyncTask<String, Void, Drawable> {
-
-        private String imageUrl , imageName;
-        RelativeLayout profile;
-
-        public LoadBackground(String url, String file_name, RelativeLayout profile) {
-            this.imageUrl = url;
-            this.imageName = file_name;
-            this.profile = profile;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Drawable doInBackground(String... urls) {
-
-            try {
-                InputStream is = (InputStream) this.fetch(this.imageUrl);
-                Drawable d = Drawable.createFromStream(is, this.imageName);
-                return d;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return null;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
             }
-        }
-        private Object fetch(String address) throws MalformedURLException,IOException {
-            URL url = new URL(address);
-            Object content = url.getContent();
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(Drawable result) {
-            super.onPostExecute(result);
-            //profile.setBackground(result);
-        }
+        });
     }
 
     @Override

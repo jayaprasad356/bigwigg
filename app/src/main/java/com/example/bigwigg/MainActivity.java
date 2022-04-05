@@ -1,5 +1,7 @@
 package com.example.bigwigg;
 
+import static com.example.bigwigg.ImagePickerActivity.REQUEST_IMAGE_CAPTURE;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +19,15 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 import com.example.bigwigg.fragment.BusinessFragment;
 import com.example.bigwigg.fragment.ExploreFragment;
 import com.example.bigwigg.fragment.FavouriteFragment;
@@ -30,6 +35,8 @@ import com.example.bigwigg.fragment.NotificationFragment;
 import com.example.bigwigg.fragment.ProfileFragment;
 import com.example.bigwigg.fragment.SettingsFragment;
 import com.example.bigwigg.fragment.TestExploreFragment;
+import com.example.bigwigg.fragment.TestPostFragment;
+import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,7 +50,13 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     Bitmap bitmap;
     Activity activity;
     Session session;
+    public static final int SELECT_FILE = 110;
+    Uri imageUri;
+    String filePath = null;
 
 
 
@@ -91,13 +107,17 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dexter.withActivity(MainActivity.this)
+                Dexter.withActivity(activity)
                         .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .withListener(new MultiplePermissionsListener() {
                             @Override
                             public void onPermissionsChecked(MultiplePermissionsReport report) {
                                 if (report.areAllPermissionsGranted()) {
-                                    showImagePickerOptions();
+                                    //showImagePickerOptions();
+                                    //selectDialog();
+                                    Intent intent = new Intent(Intent.ACTION_PICK);
+                                    intent.setType("image/*");
+                                    startActivityForResult(intent, SELECT_FILE);
                                 }
 
                                 if (report.isAnyPermissionPermanentlyDenied()) {
@@ -227,7 +247,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             public void onClick(View view) {
                 Intent intent =  new Intent(MainActivity.this,SearchActivity.class);
                 startActivity(intent);
-                finish();
                 bottomSheetDialog.dismiss();
 
             }
@@ -242,9 +261,21 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.post_sheet);
         ImageView postimg = bottomSheetDialog.findViewById(R.id.postimg);
-        postimg.setImageBitmap(bitmap);
+        Button postbtn = bottomSheetDialog.findViewById(R.id.postbtn);
+        TextView caption = bottomSheetDialog.findViewById(R.id.caption);
+        Glide.with(activity).load(filePath).into(postimg);
+
+        postbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+                UploadPost(caption.getText().toString().trim());
+
+            }
+        });
 
         bottomSheetDialog.show();
+
     }
     public void SetBottomNavUnchecked() {
         bottomNavigationView.getMenu().findItem(R.id.placeholder).setChecked(true);
@@ -261,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public void setNotificationChecked() {
         bottomNavigationView.getMenu().findItem(R.id.notification).setChecked(true);
     }
+
 
 
 
@@ -328,22 +360,64 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         }
     }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE){
-            if (resultCode == Activity.RESULT_OK){
-                Uri uri = data.getParcelableExtra("path");
-                try{
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
-                    showPostBottomSheetDialog();
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == SELECT_FILE) {
+
+                imageUri = data.getData();
+                CropImage.activity(imageUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setOutputCompressQuality(90)
+                        .setRequestedSize(300, 300)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setAspectRatio(1, 1)
+                        .start(activity);
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                CropImage.activity(imageUri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setOutputCompressQuality(90)
+                        .setRequestedSize(300, 300)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setAspectRatio(1, 1)
+                        .start(activity);
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                assert result != null;
+                filePath = result.getUriFilePath(activity, true);
+                showPostBottomSheetDialog();
 
 
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+
             }
         }
     }
+
+    private void UploadPost(String caption)
+    {
+        Map<String, String> params = new HashMap<>();
+        Map<String, String> fileParams = new HashMap<>();
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        fileParams.put(Constant.IMAGE, filePath);
+        params.put(Constant.CAPTION, caption);
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, activity, Constant.UPLOAD_POST_URL, params, fileParams);
+
+    }
+
 }
