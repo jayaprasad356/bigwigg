@@ -1,17 +1,26 @@
 package com.example.bigwigg.model;
 
 public class Post {
-    String user_id,name,profile,caption,image;
+    String id,user_id,name,profile,caption,image;
     public Post(){
 
     }
 
-    public Post(String user_id, String name, String profile, String caption, String image) {
+    public Post(String id, String user_id, String name, String profile, String caption, String image) {
+        this.id = id;
         this.user_id = user_id;
         this.name = name;
         this.profile = profile;
         this.caption = caption;
         this.image = image;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUser_id() {
