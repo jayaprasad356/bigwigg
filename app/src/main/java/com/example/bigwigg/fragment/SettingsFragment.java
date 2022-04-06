@@ -302,9 +302,11 @@ public class SettingsFragment extends Fragment {
                     JSONArray jsonArray = jsonObject.getJSONArray(Constant.DATA);
 
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
+
                         Glide.with(getActivity()).load(jsonArray.getJSONObject(0).getString(Constant.PROFILE)).into(profileimg);
                         Toast.makeText(getActivity(), jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
                         session.setData(Constant.PROFILE, jsonArray.getJSONObject(0).getString(Constant.PROFILE));
+                        ((MainActivity)getActivity()).setProfileImage();
 
                     }
 

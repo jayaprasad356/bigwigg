@@ -102,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         favouriteFragment = new FavouriteFragment();
         notificationFragment = new NotificationFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment, exploreFragment,"EXPLORE").commit();
-        Glide.with(activity).load(Uri.parse(session.getData(Constant.PROFILE))).into(Profile);
-
+        setProfileImage();
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,6 +152,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
     }
+
+    public void setProfileImage() {
+        Glide.with(activity).load(Uri.parse(session.getData(Constant.PROFILE))).into(Profile);
+
+    }
+
     private void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(getString(R.string.dialog_permission_title));

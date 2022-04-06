@@ -24,6 +24,7 @@ import com.example.bigwigg.PostActivity;
 import com.example.bigwigg.R;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
+import com.example.bigwigg.helper.Session;
 import com.example.bigwigg.model.Explore;
 import com.example.bigwigg.model.Post;
 
@@ -46,10 +47,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final Activity activity;
     final ArrayList<Post> posts;
     boolean rate_status = false;
+    Session session;
 
     public PostAdapter(Activity activity, ArrayList<Post> posts) {
         this.activity = activity;
         this.posts = posts;
+        session = new Session(activity);
     }
     @NonNull
     @Override
@@ -76,14 +79,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 activity.startActivity(intent);
             }
         });
-        getRateUs(holder.rate,post.getUser_id(),post.getId());
+        getRateUs(holder.rate,session.getData(Constant.ID),post.getId());
 
 
         holder.rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                RateToPost(holder.rate,post.getUser_id(),post.getId());
+                RateToPost(holder.rate,session.getData(Constant.ID),post.getId());
 
 
             }
@@ -143,7 +146,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         params.put(Constant.USER_ID,user_id);
         params.put(Constant.POST_ID,post_id);
         ApiConfig.RequestToVolley((result, response) -> {
-            Log.d("RATETOPOST",response);
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
