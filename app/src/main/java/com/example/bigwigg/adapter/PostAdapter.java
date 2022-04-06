@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +23,8 @@ import com.example.bigwigg.LoginActivity;
 import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.PostActivity;
 import com.example.bigwigg.R;
+import com.example.bigwigg.fragment.OtherProfileFragment;
+import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
@@ -71,6 +74,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Glide.with(activity).load(post.getProfile()).into(holder.profile);
         holder.name.setText(post.getName());
         holder.caption.setText(post.getCaption());
+
+
+        holder.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
+                ((MainActivity)activity).SetBottomNavUnchecked();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,otherProfileFragment,"OTHER_PROFILE" ).commit();
+
+            }
+        });
 
         holder.comment_btn.setOnClickListener(new View.OnClickListener() {
             @Override

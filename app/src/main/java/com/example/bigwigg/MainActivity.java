@@ -32,6 +32,7 @@ import com.example.bigwigg.fragment.BusinessFragment;
 import com.example.bigwigg.fragment.ExploreFragment;
 import com.example.bigwigg.fragment.FavouriteFragment;
 import com.example.bigwigg.fragment.NotificationFragment;
+import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.fragment.ProfileFragment;
 import com.example.bigwigg.fragment.SettingsFragment;
 import com.example.bigwigg.fragment.TestExploreFragment;
@@ -338,7 +339,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             BusinessFragment businessFragment = (BusinessFragment) getSupportFragmentManager().findFragmentByTag("BUSINESS");
             FavouriteFragment favouriteFragment = (FavouriteFragment) getSupportFragmentManager().findFragmentByTag("FAVOURITE");
             NotificationFragment notificationFragment = (NotificationFragment) getSupportFragmentManager().findFragmentByTag("NOTIFICATION");
-            if ((exploreFragment != null && exploreFragment.isVisible()) || (businessFragment != null && businessFragment.isVisible()) || (favouriteFragment != null && favouriteFragment.isVisible()) || (notificationFragment != null && notificationFragment.isVisible())) {
+            PostFragment postFragment = (PostFragment) getSupportFragmentManager().findFragmentByTag("POST");
+            if ((exploreFragment != null && exploreFragment.isVisible()) || (businessFragment != null && businessFragment.isVisible()) || (favouriteFragment != null && favouriteFragment.isVisible()) || (notificationFragment != null && notificationFragment.isVisible()) || (postFragment != null && postFragment.isVisible())) {
                 if (doubleBackToExitPressedOnce) {
                     Intent a = new Intent(Intent.ACTION_MAIN);
                     a.addCategory(Intent.CATEGORY_HOME);
