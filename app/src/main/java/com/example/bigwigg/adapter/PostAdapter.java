@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +80,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.USER_ID, post.getUser_id());
+                bundle.putString(Constant.NAME, post.getName());
+                bundle.putString(Constant.ROLE, post.getRole());
+                bundle.putString(Constant.DESCRIPION, post.getDescription());
+                bundle.putString(Constant.PROFILE, post.getProfile());
                 OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
+                otherProfileFragment.setArguments(bundle);
                 ((MainActivity)activity).SetBottomNavUnchecked();
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,otherProfileFragment,"OTHER_PROFILE" ).commit();
