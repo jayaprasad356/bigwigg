@@ -75,6 +75,23 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Glide.with(activity).load(post.getProfile()).into(holder.profile);
         holder.name.setText(post.getName());
         holder.caption.setText(post.getCaption());
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.USER_ID, post.getUser_id());
+                bundle.putString(Constant.NAME, post.getName());
+                bundle.putString(Constant.ROLE, post.getRole());
+                bundle.putString(Constant.DESCRIPION, post.getDescription());
+                bundle.putString(Constant.PROFILE, post.getProfile());
+                OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
+                otherProfileFragment.setArguments(bundle);
+                ((MainActivity)activity).SetBottomNavUnchecked();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,otherProfileFragment,"OTHER_PROFILE" ).commit();
+
+            }
+        });
 
 
         holder.profile.setOnClickListener(new View.OnClickListener() {

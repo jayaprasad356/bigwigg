@@ -113,7 +113,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
                         session.setBoolean("is_logged_in", true);
                         session.setUserData(jsonArray.getJSONObject(0).getString(Constant.ID),jsonArray.getJSONObject(0).getString(Constant.PROFILE),jsonArray.getJSONObject(0).getString(Constant.NAME), jsonArray.getJSONObject(0).getString(Constant.EMAIL));
-
+                        session.setData(Constant.DESCRIPION,jsonArray.getJSONObject(0).getString(Constant.DESCRIPION));
+                        session.setData(Constant.ROLE,jsonArray.getJSONObject(0).getString(Constant.ROLE));
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     }
