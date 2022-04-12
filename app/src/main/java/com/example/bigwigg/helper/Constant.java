@@ -12,15 +12,21 @@ public class Constant {
     public static final String UPLOAD_POST_URL = BaseUrl + "post.php";
     public static final String USER_LIST_URL = BaseUrl + "userlists.php";
     public static final String POST_LIST_URL = BaseUrl + "postlists.php";
+    public static final String SEARCH_LIST_URL = BaseUrl + "search.php";
+    public static final String FAVOURITE_POST_LIST_URL = BaseUrl + "favouritepostlists.php";
     public static final String RATING_URL = BaseUrl + "ratings.php";
     public static final String CHECK_POST_RATING_URL = BaseUrl + "checkpostratings.php";
+    public static final String CHECK_POST_FAVOURITE_URL = BaseUrl + "checkpostfavourites.php";
+    public static final String SEND_FAVOURITE_URL = BaseUrl + "favourite_posts.php";
     public static final String SEND_COMMENT_URL = BaseUrl + "addcomments.php";
     public static final String LIST_COMMENT_URL = BaseUrl + "listcomments.php";
+
 
     public static final String WebSiteUrl = ""; //Admin panel url
     public static final String ID = "id";
     public static final String PROFILE = "profile";
     public static final String USER_ID = "user_id";
+    public static final String SEARCH = "search";
     public static final String POST_ID = "post_id";
     public static final String IMAGE = "image";
     public static final String EMAIL = "email";

@@ -39,11 +39,6 @@ public class PostFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     Session session;
     String UserID;
-
-
-
-
-
     public PostFragment() {
         // Required empty public constructor
     }
@@ -109,6 +104,9 @@ public class PostFragment extends Fragment {
 
                         postAdapter = new PostAdapter(activity, posts);
                         recyclerView.setAdapter(postAdapter);
+
+//                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());
+//                        //recyclerView.getLayoutManager().scrollToPosition(4);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                     else {

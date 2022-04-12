@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -70,7 +71,6 @@ public class Comment_postActivity extends AppCompatActivity {
                     Toast.makeText(Comment_postActivity.this, "Enter Comment", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                     sendComment();
                 }
             }
@@ -92,6 +92,7 @@ public class Comment_postActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.POST_ID, PostID);
         ApiConfig.RequestToVolley((result, response) -> {
+            Log.d("COMMENT_RESPONSE",response);
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -117,12 +118,12 @@ public class Comment_postActivity extends AppCompatActivity {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                     else {
-                        Toast.makeText(activity, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(activity, String.valueOf(e), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(activity, String.valueOf(e), Toast.LENGTH_SHORT).show();
                 }
             }
         }, activity, Constant.LIST_COMMENT_URL, params, true);
