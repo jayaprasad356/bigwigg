@@ -79,6 +79,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -95,11 +96,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Fans"
-                            android:gravity="center"
-                            android:drawableTint="@color/black"
-                            android:textColor="@color/black"
                             android:layout_below="@+id/fans_txt"
+                            android:drawableTint="@color/black"
+                            android:gravity="center"
+                            android:text="Fans"
+                            android:textColor="@color/black"
 
                             />
                     </RelativeLayout>
@@ -122,18 +123,26 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Rating"
-                            android:gravity="center"
-                            android:textColor="@color/black"
                             android:layout_below="@+id/fansrat_txt"
+                            android:gravity="center"
+                            android:text="Rating"
+                            android:textColor="@color/black"
 
                             />
                     </RelativeLayout>
-
+                    <TextView
+                        android:id="@+id/follow"
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_txt"
+                        android:padding="10dp"
+                        android:layout_gravity="center"
+                        android:text="Follow"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
                 </LinearLayout>
-
-
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -141,7 +150,6 @@
                 android:weightSum="3"
                 android:layout_marginTop="20dp"
                 >
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -155,19 +163,20 @@
                         android:id="@+id/mycollection_txt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="My Collection"
                         android:gravity="center"
-                        android:textColor="@color/white"
-                        />
+                        android:text="My Collection"
+                        android:textColor="@color/white" />
+
                     <TextView
+                        android:id="@+id/post_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1403"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:padding="5dp"
                         android:layout_below="@+id/mycollection_txt"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="0"
                         android:textColor="@color/white"
+                        android:textStyle="bold"
 
                         />
 
@@ -187,16 +196,17 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center"
-                        android:text="Search"
+                        android:text="Following"
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/following_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/search_txt"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text=""
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textStyle="bold"
 
@@ -218,16 +228,17 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center"
-                        android:text="I Recommend"
+                        android:text="Followers"
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/followers_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/recomment_txt"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="500"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textStyle="bold"
 

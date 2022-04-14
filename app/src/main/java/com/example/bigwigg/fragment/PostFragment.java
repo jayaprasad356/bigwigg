@@ -72,9 +72,14 @@ public class PostFragment extends Fragment {
             }
         });
         postList();
+        recyclerviewsetposition();
 
 
         return root;
+    }
+
+    public void recyclerviewsetposition() {
+        recyclerView.getLayoutManager().scrollToPosition(5);
     }
 
     private void postList()

@@ -1,17 +1,18 @@
 package com.example.bigwigg.adapter;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,28 +22,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.bigwigg.Comment_postActivity;
-import com.example.bigwigg.LoginActivity;
 import com.example.bigwigg.MainActivity;
-import com.example.bigwigg.PostActivity;
 import com.example.bigwigg.R;
 import com.example.bigwigg.fragment.OtherProfileFragment;
-import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
-import com.example.bigwigg.model.Explore;
 import com.example.bigwigg.model.Post;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +43,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final Activity activity;
     final ArrayList<Post> posts;
     Session session;
+    int totalstars = 0;
 
     public PostAdapter(Activity activity, ArrayList<Post> posts) {
         this.activity = activity;
@@ -79,17 +70,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString(Constant.USER_ID, post.getUser_id());
-                bundle.putString(Constant.NAME, post.getName());
-                bundle.putString(Constant.ROLE, post.getRole());
-                bundle.putString(Constant.DESCRIPION, post.getDescription());
-                bundle.putString(Constant.PROFILE, post.getProfile());
-                OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
-                otherProfileFragment.setArguments(bundle);
-                ((MainActivity)activity).SetBottomNavUnchecked();
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,otherProfileFragment,"OTHER_PROFILE" ).commit();
+                sendToOtherProfileFragment(view,post.getUser_id(),post.getName(),post.getRole(),post.getDescription(),post.getProfile());
 
             }
         });
@@ -98,17 +79,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString(Constant.USER_ID, post.getUser_id());
-                bundle.putString(Constant.NAME, post.getName());
-                bundle.putString(Constant.ROLE, post.getRole());
-                bundle.putString(Constant.DESCRIPION, post.getDescription());
-                bundle.putString(Constant.PROFILE, post.getProfile());
-                OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
-                otherProfileFragment.setArguments(bundle);
-                ((MainActivity)activity).SetBottomNavUnchecked();
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,otherProfileFragment,"OTHER_PROFILE" ).commit();
+                sendToOtherProfileFragment(view,post.getUser_id(),post.getName(),post.getRole(),post.getDescription(),post.getProfile());
 
             }
         });
@@ -121,12 +92,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 activity.startActivity(intent);
             }
         });
-        getRateUs(holder.rate,session.getData(Constant.ID),post.getId());
-
-         getFavourites(holder.favourite,session.getData(Constant.ID),post.getId());
-
-         holder.tvViewcomments.setText(post.getComment_count()+" Comments");
-
+        getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),false);
+        getFavourites(holder.favourite,session.getData(Constant.ID),post.getId());
+        holder.tvViewcomments.setText(post.getComment_count()+" Comments");
         holder.favourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,42 +106,53 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Create an ACTION_SEND Intent*/
                 Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                /*This will be the actual content you wish you share.*/
                 String shareBody = "Here my Post "+post.getImage()+" \n Download BigWigg App Now";
-                /*The type of the content is text, obviously.*/
                 intent.setType("text/plain");
-                /*Applying information Subject and Body.*/
                 intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                /*Fire!*/
                 activity.startActivity(Intent.createChooser(intent, "Share via"));
             }
         });
 
-
         holder.rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.rate.getTag().equals("fill"))
-                {
-                    int ratecount = Integer.parseInt(holder.tvRatecount.getText().toString()) - 1;
-                    holder.tvRatecount.setText(""+ratecount);
+                getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),true);
 
-                }
-                else {
-                    int ratecount = Integer.parseInt(holder.tvRatecount.getText().toString()) + 1;
-                    holder.tvRatecount.setText(""+ratecount);
-
-                }
-
-
-
-                RateToPost(holder.rate,session.getData(Constant.ID),post.getId());
+//                if (holder.rate.getTag().equals("fill"))
+//                {
+//                    int ratecount = Integer.parseInt(holder.tvRatecount.getText().toString()) - 1;
+//                    holder.tvRatecount.setText(""+ratecount);
+//
+//                }
+//                else {
+//                    int ratecount = Integer.parseInt(holder.tvRatecount.getText().toString()) + 1;
+//                    holder.tvRatecount.setText(""+ratecount);
+//
+//                }
+//                RateToPost(holder.rate,session.getData(Constant.ID),post.getId());
 
 
             }
         });
+
+    }
+
+
+
+    private void sendToOtherProfileFragment(View view, String user_id, String name, String role, String description, String profile)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.USER_ID, user_id);
+        bundle.putString(Constant.NAME, name);
+        bundle.putString(Constant.ROLE, role);
+        bundle.putString(Constant.DESCRIPION, description);
+        bundle.putString(Constant.PROFILE, profile);
+        OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
+        otherProfileFragment.setArguments(bundle);
+        ((MainActivity)activity).SetBottomNavUnchecked();
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,otherProfileFragment,"OTHER_PROFILE" ).commit();
 
     }
 
@@ -206,9 +185,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 } catch (JSONException e){
                     e.printStackTrace();
                 }
-
-
-
             }
             else {
                 Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
@@ -227,16 +203,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         params.put(Constant.USER_ID,user_id);
         params.put(Constant.POST_ID,post_id);
         ApiConfig.RequestToVolley((result, response) -> {
-            Log.d("FAVOURITE_POST_RESPONSE",response);
-
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
                         if (jsonObject.getString(Constant.STATUS).equals(Constant.TRUE)){
                             favourite.setImageResource(R.drawable.ic_heart_fill);
-
-
                         }
                         else {
                             favourite.setImageResource(R.drawable.ic_heart);
@@ -266,10 +238,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    private void getRateUs(ImageView rate, String user_id, String post_id) {
+    private void getRateUs(ImageView rate, String user_id, String post_id, String image, boolean b) {
         Map<String, String> params = new HashMap<>();
         //request
-        params.put(Constant.USER_ID,user_id);
+        params.put(Constant.USER_ID,session.getData(Constant.ID));
         params.put(Constant.POST_ID,post_id);
         ApiConfig.RequestToVolley((result, response) -> {
 
@@ -277,6 +249,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        totalstars = Integer.parseInt(jsonObject.getString(Constant.TOTAL));
+                        if(b){
+                            //getRateUs(holder.rate,session.getData(Constant.ID),post.getId(),true);
+
+                            ratedialog(image,rate,session.getData(Constant.ID),user_id,post_id);
+                        }
                         if (jsonObject.getString(Constant.STATUS).equals(Constant.TRUE)){
                             rate.setTag("fill");
                             rate.setImageResource(R.drawable.ic_fill_star);
@@ -308,25 +286,52 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     }
+    private void ratedialog(String image, ImageView rate, String id, String user_id ,String post_id) {
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.star_layout);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView postimage = (ImageView) dialog.findViewById(R.id.postimage);
+        Glide.with(activity).load(image).into(postimage);
+        RatingBar star = (RatingBar) dialog.findViewById(R.id.star);
+        Button ratenow = (Button) dialog.findViewById(R.id.ratenow);
 
 
-    private void RateToPost(ImageView rate, String user_id, String post_id)
+
+        star.setRating(totalstars);
+
+        ratenow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                RateToPost(rate,id,post_id,String.valueOf(star.getRating()));
+            }
+        });
+
+
+
+        dialog.show();
+
+    }
+
+
+
+
+    private void RateToPost(ImageView rate, String user_id, String post_id,String totalrating)
     {
         Map<String, String> params = new HashMap<>();
-        //request
         params.put(Constant.USER_ID,user_id);
         params.put(Constant.POST_ID,post_id);
+        params.put(Constant.TOTAL,totalrating);
         ApiConfig.RequestToVolley((result, response) -> {
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-
-
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
                         if (jsonObject.getString(Constant.STATUS).equals(Constant.TRUE)){
                             rate.setImageResource(R.drawable.ic_fill_star);
                             rate.setTag("fill");
-
                         }
                         else {
                             rate.setImageResource(R.drawable.ic_ei_star);

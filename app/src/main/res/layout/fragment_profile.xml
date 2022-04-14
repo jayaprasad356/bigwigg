@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".fragment.OtherProfileFragment">
+    tools:context=".fragment.ProfileFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,16 +69,19 @@
                     android:text="Yeah, this “Jhakkas” man of Bollywood secured 6th position in this list. He did many remarkable movies such as Ram Lakhan, Mr. India, Nayak, Slumdog Millionaire, ‘Welcome’ along with applauded TV series ‘24’. Even at his 60+, he maintains himself so well that he looks like just 30+"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:layout_weight="0.5" />
 
                 <LinearLayout
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -130,6 +133,7 @@
                             />
                     </RelativeLayout>
 
+
                 </LinearLayout>
 
 
@@ -141,7 +145,6 @@
                 android:weightSum="3"
                 android:layout_marginTop="20dp"
                 >
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -155,19 +158,20 @@
                         android:id="@+id/mycollection_txt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="My Collection"
                         android:gravity="center"
-                        android:textColor="@color/white"
-                        />
+                        android:text="My Collection"
+                        android:textColor="@color/white" />
+
                     <TextView
+                        android:id="@+id/post_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1403"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:padding="5dp"
                         android:layout_below="@+id/mycollection_txt"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="0"
                         android:textColor="@color/white"
+                        android:textStyle="bold"
 
                         />
 
@@ -187,16 +191,17 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center"
-                        android:text="Search"
+                        android:text="Following"
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/following_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/search_txt"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text=""
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textStyle="bold"
 
@@ -218,16 +223,17 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center"
-                        android:text="I Recommend"
+                        android:text="Followers"
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/followers_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/recomment_txt"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="500"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textStyle="bold"
 
@@ -431,9 +437,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
-
-
-
 
 </androidx.core.widget.NestedScrollView>

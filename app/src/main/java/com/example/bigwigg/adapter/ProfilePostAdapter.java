@@ -16,6 +16,7 @@ import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
 import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.helper.Constant;
+import com.example.bigwigg.helper.Session;
 import com.example.bigwigg.model.Explore;
 import com.example.bigwigg.model.Post;
 
@@ -24,10 +25,12 @@ import java.util.ArrayList;
 public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final Activity activity;
     final ArrayList<Post> posts;
+    Session session;
 
     public ProfilePostAdapter(Activity activity, ArrayList<Post> posts) {
         this.activity = activity;
         this.posts = posts;
+        session = new Session(activity);
     }
     @NonNull
     @Override
@@ -43,6 +46,18 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final Post post = posts.get(position);
 
         Glide.with(activity).load(post.getImage()).into(holder.postimg);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.USER_ID, session.getData(Constant.ID));
+                PostFragment postFragment = new PostFragment();
+                postFragment.setArguments(bundle);
+                ((MainActivity)activity).SetBottomNavUnchecked();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).commit();
+            }
+        });
 
 
     }

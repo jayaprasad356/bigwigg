@@ -104,7 +104,6 @@
                 android:id="@+id/role"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="14"
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -113,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Design.TextInputLayout"
-            android:hint="Discribtion">
+            android:hint="Discription">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/describtion"
                 android:layout_width="match_parent"

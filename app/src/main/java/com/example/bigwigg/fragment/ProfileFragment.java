@@ -42,8 +42,10 @@ public class ProfileFragment extends Fragment {
     ImageView Profile;
     public static RecyclerView recyclerView;
     public static ProfilePostAdapter profilePostAdapter;
+    TextView follow,post_count,followers_count,following_count;
 
     Activity activity;
+    public static PostAdapter postAdapter;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,6 +60,10 @@ public class ProfileFragment extends Fragment {
         Description = root.findViewById(R.id.description);
         Profile = root.findViewById(R.id.profile);
         recyclerView = root.findViewById(R.id.recyclerView);
+        follow = root.findViewById(R.id.follow);
+        post_count = root.findViewById(R.id.post_count);
+        followers_count = root.findViewById(R.id.followers_count);
+        following_count = root.findViewById(R.id.following_count);
 
         activity = getActivity();
 
@@ -68,13 +74,88 @@ public class ProfileFragment extends Fragment {
 
         Glide.with(getActivity()).load(Uri.parse(session.getData(Constant.PROFILE))).into(Profile);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        postList();
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
+//        recyclerView.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        //postList();
+        mypostList();
+        getUserDetailsCount();
 
 
 
         return root;
+    }
+
+    private void mypostList()
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        JSONObject object = new JSONObject(response);
+                        JSONArray jsonArray = object.getJSONArray(Constant.DATA);
+                        Gson g = new Gson();
+                        ArrayList<Post> posts = new ArrayList<>();
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
+                            if (jsonObject1 != null) {
+                                Post group = g.fromJson(jsonObject1.toString(), Post.class);
+                                posts.add(group);
+                            } else {
+                                break;
+                            }
+                        }
+
+                        postAdapter = new PostAdapter(activity, posts);
+                        recyclerView.setAdapter(postAdapter);
+
+//                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());
+//                        //recyclerView.getLayoutManager().scrollToPosition(4);
+                    }
+                    else {
+                        Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, activity, Constant.POST_LIST_URL, params, true);
+    }
+
+    private void getUserDetailsCount()
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        post_count.setText(jsonObject.getString(Constant.POST_COUNT));
+                        followers_count.setText(jsonObject.getString(Constant.FOLLOWERS_COUNT));
+                        following_count.setText(jsonObject.getString(Constant.FOLLOWING_COUNT));
+
+                    }
+                    else {
+                        Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, activity, Constant.USER_DETAILS_COUNT_URL, params, true);
+
     }
     private void postList()
     {

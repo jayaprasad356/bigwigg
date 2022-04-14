@@ -35,19 +35,22 @@
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_explore.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_favourite.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_logout.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_my_profile_post.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_notification.xml" value="0.14407866609662248" />
-        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_other_profile.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_other_profile.xml" value="0.22" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_post.xml" value="0.14407866609662248" />
-        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_profile.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_settings.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_profile.xml" value="0.22" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_settings.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_test_explore.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_test_post.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/fragment_video.xml" value="0.22" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/nav_header_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/notify_layout.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/post_lyt.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/post_sheet.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/profile_post_lyt.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/snippet_comments_toolbar.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/star_layout.xml" value="0.14065840102607952" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/video_lyt.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/activity_main_drawer.xml" value="0.22" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/bottom_nav_menu.xml" value="0.14407866609662248" />
