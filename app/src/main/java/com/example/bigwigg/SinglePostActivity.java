@@ -1,27 +1,20 @@
-package com.example.bigwigg.fragment;
+package com.example.bigwigg;
 
-import android.app.Activity;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bigwigg.MainActivity;
-import com.example.bigwigg.R;
-import com.example.bigwigg.adapter.ExploreAdapter;
 import com.example.bigwigg.adapter.PostAdapter;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
-import com.example.bigwigg.model.Explore;
 import com.example.bigwigg.model.Post;
 import com.google.gson.Gson;
 
@@ -33,46 +26,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TestPostFragment extends Fragment {
-    View root;
+public class SinglePostActivity extends AppCompatActivity {
     public static Activity activity;
     public static RecyclerView recyclerView;
     public static PostAdapter postAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     Session session;
     String UserID;
-
-
-
-
-
-    public TestPostFragment() {
-        // Required empty public constructor
-    }
+    String PostID;
 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_single_post);
 
-        root =  inflater.inflate(R.layout.fragment_test_post, container, false);
-
-        recyclerView = root.findViewById(R.id.recyclerView);
-        activity = getActivity();
+        recyclerView = findViewById(R.id.recyclerView);
+        activity = SinglePostActivity.this;
         session = new Session(activity);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeLayout);
-
-        Bundle bundle = this.getArguments();
-
-        if(bundle != null){
-            UserID = bundle.getString(Constant.USER_ID);
-
-        }
-
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+        UserID = getIntent().getStringExtra(Constant.USER_ID);
+        PostID = getIntent().getStringExtra(Constant.POST_ID);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -84,10 +61,7 @@ public class TestPostFragment extends Fragment {
         postList();
 
 
-        return root;
     }
-
-
     private void postList()
     {
         Map<String, String> params = new HashMap<>();
@@ -107,7 +81,11 @@ public class TestPostFragment extends Fragment {
 
                             if (jsonObject1 != null) {
                                 Post group = g.fromJson(jsonObject1.toString(), Post.class);
-                                posts.add(group);
+                                if(group.getId().equals(PostID)){
+                                    posts.add(group);
+
+                                }
+
                             } else {
                                 break;
                             }
@@ -115,15 +93,18 @@ public class TestPostFragment extends Fragment {
 
                         postAdapter = new PostAdapter(activity, posts);
                         recyclerView.setAdapter(postAdapter);
+
+//                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());
+//                        //recyclerView.getLayoutManager().scrollToPosition(4);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                     else {
-                        Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, String.valueOf(e), Toast.LENGTH_SHORT).show();
                 }
             }
         }, activity, Constant.POST_LIST_URL, params, true);

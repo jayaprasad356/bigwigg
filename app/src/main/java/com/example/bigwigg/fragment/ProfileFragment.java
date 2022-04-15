@@ -74,12 +74,12 @@ public class ProfileFragment extends Fragment {
 
         Glide.with(getActivity()).load(Uri.parse(session.getData(Constant.PROFILE))).into(Profile);
 
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
-//        recyclerView.setLayoutManager(gridLayoutManager);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        //postList();
-        mypostList();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
+        recyclerView.setLayoutManager(gridLayoutManager);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+        postList();
+        //mypostList();
         getUserDetailsCount();
 
 

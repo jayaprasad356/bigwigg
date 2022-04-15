@@ -2,21 +2,22 @@ package com.example.bigwigg;
 
 import static com.example.bigwigg.ImagePickerActivity.REQUEST_IMAGE_CAPTURE;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.MediaStore;
 import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -35,11 +36,10 @@ import com.example.bigwigg.fragment.NotificationFragment;
 import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.fragment.ProfileFragment;
 import com.example.bigwigg.fragment.SettingsFragment;
-import com.example.bigwigg.fragment.TestExploreFragment;
-import com.example.bigwigg.fragment.TestPostFragment;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         notificationFragment = new NotificationFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment, exploreFragment,"EXPLORE").commit();
         setProfileImage();
+
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -262,6 +263,21 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         bottomSheetDialog.show();
     }
+    public void showBadge(String value) {
+        //removeBadge();
+        BottomNavigationItemView itemView = bottomNavigationView.findViewById(R.id.notification);
+        View badge = LayoutInflater.from(MainActivity.this).inflate(R.layout.layout_news_badge, bottomNavigationView, false);
+
+        TextView text = badge.findViewById(R.id.badge_text_view);
+        text.setText(value);
+        itemView.addView(badge);
+    }
+    public void removeBadge() {
+        BottomNavigationItemView itemView = bottomNavigationView.findViewById(R.id.notification);
+        if (itemView.getChildCount() == 3) {
+            itemView.removeViewAt(2);
+        }
+    }
     private void showPostBottomSheetDialog() {
 
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -340,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             FavouriteFragment favouriteFragment = (FavouriteFragment) getSupportFragmentManager().findFragmentByTag("FAVOURITE");
             NotificationFragment notificationFragment = (NotificationFragment) getSupportFragmentManager().findFragmentByTag("NOTIFICATION");
             PostFragment postFragment = (PostFragment) getSupportFragmentManager().findFragmentByTag("POST");
-            if ((exploreFragment != null && exploreFragment.isVisible()) || (businessFragment != null && businessFragment.isVisible()) || (favouriteFragment != null && favouriteFragment.isVisible()) || (notificationFragment != null && notificationFragment.isVisible()) || (postFragment != null && postFragment.isVisible())) {
+            if ((businessFragment != null && businessFragment.isVisible()) || (favouriteFragment != null && favouriteFragment.isVisible()) || (notificationFragment != null && notificationFragment.isVisible()) ) {
                 if (doubleBackToExitPressedOnce) {
                     Intent a = new Intent(Intent.ACTION_MAIN);
                     a.addCategory(Intent.CATEGORY_HOME);
@@ -425,6 +441,50 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         }, activity, Constant.UPLOAD_POST_URL, params, fileParams);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        notificationRead();
+    }
+
+    private void notificationRead()
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID,session.getData(Constant.ID));
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        session.setData(Constant.NOTIFICATIONS_COUNT,jsonObject.getString(Constant.NOTIFICATIONS_COUNT));
+                        if (session.getData(Constant.NOTIFICATIONS_COUNT).equals("0")){
+                            removeBadge();
+                        }
+                        else {
+                            showBadge(session.getData(Constant.NOTIFICATIONS_COUNT));
+
+                        }
+
+
+                    }
+                    else {
+                        //Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            else {
+
+            }
+            //pass url
+        }, activity, Constant.NOTIFICATIONS_READ_COUNT_URL, params,true);
     }
 
 }

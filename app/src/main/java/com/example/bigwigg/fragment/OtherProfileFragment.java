@@ -80,17 +80,20 @@ public class OtherProfileFragment extends Fragment {
 
 
         }
+        if (UserID_.equals(session.getData(Constant.ID))){
+            follow.setVisibility(View.GONE);
+        }
 
         Name.setText(Name_);
         Role.setText(Role_);
         Description.setText(Description_);
         Glide.with(getActivity()).load(Profile_).into(Profile);
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
-//        recyclerView.setLayoutManager(gridLayoutManager);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        //postList();
-        mypostList();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
+        recyclerView.setLayoutManager(gridLayoutManager);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+        postList();
+        //mypostList();
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +109,7 @@ public class OtherProfileFragment extends Fragment {
     private void mypostList()
     {
         Map<String, String> params = new HashMap<>();
-        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        params.put(Constant.USER_ID, UserID_);
         ApiConfig.RequestToVolley((result, response) -> {
             if (result) {
                 try {

@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class Constant {
     //public static final String MainBaseUrl = "http://bigwigg.greymatterworks.in/";
-    public static final String MainBaseUrl = "http://192.168.43.38/bigwigg/";
-    //public static final String MainBaseUrl = "https://bigwigg.app/";
+    //public static final String MainBaseUrl = "http://192.168.43.38/bigwigg/";
+    public static final String MainBaseUrl = "https://bigwigg.app/";
     public static final String BaseUrl = MainBaseUrl + "api/";
     public static final String EMAIL_REGISTER_URL = BaseUrl + "login_user.php";
     public static final String UPDATE_PROFILE_URL = BaseUrl + "update_profile.php";
@@ -23,6 +23,7 @@ public class Constant {
     public static final String FOLLOW_USER_URL = BaseUrl + "follow_user.php";
     public static final String USER_DETAILS_COUNT_URL = BaseUrl + "user_details_count.php";
     public static final String LIST_NOTIFICATIONS_URL = BaseUrl + "listnotifications.php";
+    public static final String NOTIFICATIONS_READ_COUNT_URL = BaseUrl + "notifications_read_count.php";
 
 
     public static final String WebSiteUrl = ""; //Admin panel url
@@ -51,6 +52,7 @@ public class Constant {
     public static final String POST_COUNT = "posts_count";
     public static final String FOLLOWERS_COUNT = "followers_count";
     public static final String FOLLOWING_COUNT = "following_count";
+    public static final String NOTIFICATIONS_COUNT = "notifications_count";
  public static final String MESSAGE = "message";
 
     public static final String STATUS = "status";

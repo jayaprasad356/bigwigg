@@ -1,6 +1,7 @@
 package com.example.bigwigg.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
+import com.example.bigwigg.SinglePostActivity;
 import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
@@ -49,13 +51,17 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString(Constant.USER_ID, session.getData(Constant.ID));
-                PostFragment postFragment = new PostFragment();
-                postFragment.setArguments(bundle);
-                ((MainActivity)activity).SetBottomNavUnchecked();
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).commit();
+                Intent intent = new Intent(activity, SinglePostActivity.class);
+                intent.putExtra(Constant.USER_ID,post.getUser_id());
+                intent.putExtra(Constant.POST_ID,post.getId());
+                activity.startActivity(intent);
+//                Bundle bundle = new Bundle();
+//                bundle.putString(Constant.USER_ID, session.getData(Constant.ID));
+//                PostFragment postFragment = new PostFragment();
+//                postFragment.setArguments(bundle);
+//                ((MainActivity)activity).SetBottomNavUnchecked();
+//                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).commit();
             }
         });
 

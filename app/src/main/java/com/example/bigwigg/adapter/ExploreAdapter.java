@@ -1,19 +1,11 @@
 package com.example.bigwigg.adapter;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,15 +15,9 @@ import com.bumptech.glide.Glide;
 import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
 import com.example.bigwigg.fragment.PostFragment;
-import com.example.bigwigg.fragment.TestPostFragment;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.model.Explore;
-import com.example.bigwigg.model.Post;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class ExploreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -66,7 +52,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 postFragment.setArguments(bundle);
                 ((MainActivity)activity).SetBottomNavUnchecked();
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).addToBackStack("my_fragment").commit();
 
             }
         });

@@ -90,6 +90,7 @@ public class NotificationFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        notificationRead();
                         JSONObject object = new JSONObject(response);
                         JSONArray jsonArray = object.getJSONArray(Constant.DATA);
                         Gson g = new Gson();
@@ -120,5 +121,35 @@ public class NotificationFragment extends Fragment {
                 }
             }
         }, activity, Constant.LIST_NOTIFICATIONS_URL, params, true);
+    }
+    private void notificationRead()
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID,session.getData(Constant.ID));
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        session.setData(Constant.NOTIFICATIONS_COUNT,jsonObject.getString(Constant.NOTIFICATIONS_COUNT));
+                        ((MainActivity)getActivity()).removeBadge();
+
+                    }
+                    else {
+                        //Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            else {
+
+            }
+            //pass url
+        }, activity, Constant.NOTIFICATIONS_READ_COUNT_URL, params,true);
     }
 }
