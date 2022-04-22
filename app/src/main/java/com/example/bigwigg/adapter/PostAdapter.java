@@ -1,7 +1,9 @@
 package com.example.bigwigg.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +46,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final Activity activity;
     final ArrayList<Post> posts;
     Session session;
+    ImageView delete;
     int totalstars = 0;
 
     public PostAdapter(Activity activity, ArrayList<Post> posts) {
@@ -136,8 +140,39 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
 
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openalertdialog();
+
+            }
+        });
     }
 
+    private void openalertdialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setMessage("Are you sure want to delete this post")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
 
 
     private void sendToOtherProfileFragment(View view, String user_id, String name, String role, String description, String profile)
@@ -367,7 +402,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class ItemHolder extends RecyclerView.ViewHolder {
 
-        final ImageView postimage,comment_btn,rate,favourite,share;
+        final ImageView postimage,comment_btn,rate,favourite,share,delete;
         final CircleImageView profile;
 
         final TextView name,caption,tvRatecount,tvViewcomments;
@@ -380,6 +415,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             name = itemView.findViewById(R.id.name);
             caption = itemView.findViewById(R.id.caption);
             share = itemView.findViewById(R.id.share);
+            delete = itemView.findViewById(R.id.delete);
             rate = itemView.findViewById(R.id.rate);
             favourite = itemView.findViewById(R.id.favourite);
             tvRatecount = itemView.findViewById(R.id.tvRatecount);
