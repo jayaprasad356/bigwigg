@@ -17,6 +17,7 @@ public class Constant {
     public static final String RATING_URL = BaseUrl + "ratings.php";
     public static final String CHECK_POST_RATING_URL = BaseUrl + "checkpostratings.php";
     public static final String CHECK_POST_FAVOURITE_URL = BaseUrl + "checkpostfavourites.php";
+    public static final String DELETE_POST_URL = BaseUrl + "delete_post.php";
     public static final String SEND_FAVOURITE_URL = BaseUrl + "favourite_posts.php";
     public static final String SEND_COMMENT_URL = BaseUrl + "addcomments.php";
     public static final String LIST_COMMENT_URL = BaseUrl + "listcomments.php";

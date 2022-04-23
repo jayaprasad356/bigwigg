@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -223,9 +224,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog);
 
-        TextView profile = bottomSheetDialog.findViewById(R.id.profile);
-        TextView settings = bottomSheetDialog.findViewById(R.id.settings);
-        TextView search = bottomSheetDialog.findViewById(R.id.search);
+        LinearLayout profile = bottomSheetDialog.findViewById(R.id.profile);
+        LinearLayout settings = bottomSheetDialog.findViewById(R.id.settings);
+        LinearLayout search = bottomSheetDialog.findViewById(R.id.search);
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override

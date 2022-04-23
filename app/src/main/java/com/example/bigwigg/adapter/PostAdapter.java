@@ -140,16 +140,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
 
+        if (post.getUser_id().equals(session.getData(Constant.ID))){
+            holder.delete.setVisibility(View.VISIBLE);
+        }
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openalertdialog();
+
+                openalertdialog(post.getId());
 
             }
         });
     }
 
-    private void openalertdialog() {
+    private void openalertdialog(String id) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -158,6 +163,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        deletePost(id);
 
                     }
                 })
@@ -171,6 +178,38 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+    }
+
+    private void deletePost(String id) {
+
+        Map<String, String> params = new HashMap<>();
+        //request
+        params.put(Constant.POST_ID,id);
+        ApiConfig.RequestToVolley((result, response) -> {
+            Log.d("FAVOURITE_RESPONSE",response);
+
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        Toast.makeText(activity, "Post Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        //Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
+
+            }
+            //pass url
+        }, activity, Constant.DELETE_POST_URL, params,true);
+
 
     }
 
