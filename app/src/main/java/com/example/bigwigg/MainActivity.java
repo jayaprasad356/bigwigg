@@ -36,6 +36,7 @@ import com.example.bigwigg.fragment.FavouriteFragment;
 import com.example.bigwigg.fragment.NotificationFragment;
 import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.fragment.ProfileFragment;
+import com.example.bigwigg.fragment.SearchFragment;
 import com.example.bigwigg.fragment.SettingsFragment;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
@@ -253,9 +254,14 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =  new Intent(MainActivity.this,SearchActivity.class);
-                startActivity(intent);
+                SearchFragment searchFragment = new SearchFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment, searchFragment).addToBackStack("search_fragment").commit();
+
+                SetBottomNavUnchecked();
                 bottomSheetDialog.dismiss();
+//                Intent intent =  new Intent(MainActivity.this,SearchActivity.class);
+//                startActivity(intent);
+//                bottomSheetDialog.dismiss();
 
             }
         });

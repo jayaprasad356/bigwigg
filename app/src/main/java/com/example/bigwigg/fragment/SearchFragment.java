@@ -1,28 +1,29 @@
-package com.example.bigwigg;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+package com.example.bigwigg.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bigwigg.R;
+import com.example.bigwigg.SearchActivity;
 import com.example.bigwigg.adapter.ExploreAdapter;
-import com.example.bigwigg.adapter.PostAdapter;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
 import com.example.bigwigg.model.Explore;
-import com.example.bigwigg.model.Post;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -33,25 +34,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SearchActivity extends AppCompatActivity {
+
+public class SearchFragment extends Fragment {
     public static Activity activity;
     public static RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     Session session;
     EditText etSearch;
+    View root;
     public static ExploreAdapter exploreAdapter;
 
+
+    public SearchFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        recyclerView = findViewById(R.id.recyclerView);
-        etSearch = findViewById(R.id.etSearch);
-        activity = SearchActivity.this;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        root =  inflater.inflate(R.layout.fragment_search, container, false);
+        recyclerView = root.findViewById(R.id.recyclerView);
+        etSearch = root.findViewById(R.id.etSearch);
+        activity = getActivity();
         session = new Session(activity);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeLayout);
 
         //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,3);
@@ -59,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                postList();
+                userList();
             }
         });
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -71,7 +79,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!etSearch.getText().toString().equals("")){
-                    postList();
+                    userList();
 
                 }
 
@@ -82,17 +90,15 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-
-
+        return root;
     }
-    private void postList()
+    private void userList()
     {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.SEARCH, etSearch.getText().toString().trim());
         ApiConfig.RequestToVolley((result, response) -> {
 
             if (result) {
-                Log.d("SEARCH_RESPONSE",response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
@@ -117,12 +123,12 @@ public class SearchActivity extends AppCompatActivity {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                     else {
-                        Toast.makeText(SearchActivity.this, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(SearchActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, String.valueOf(e), Toast.LENGTH_SHORT).show();
                 }
             }
         }, activity, Constant.SEARCH_LIST_URL, params, true);

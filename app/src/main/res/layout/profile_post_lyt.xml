@@ -21,17 +21,18 @@
             />
         <RelativeLayout
             android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dimen_25dp"
+            android:layout_height="@dimen/dimen_25dp"
             android:background="@drawable/ic_star_2"
             android:layout_alignParentRight="true"
             android:layout_margin="3dp">
 
             <TextView
+                android:id="@+id/tvRatecount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="4"
+                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="10dp" />
 

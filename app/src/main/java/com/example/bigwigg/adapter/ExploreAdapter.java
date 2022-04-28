@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bigwigg.MainActivity;
 import com.example.bigwigg.R;
+import com.example.bigwigg.fragment.OtherProfileFragment;
 import com.example.bigwigg.fragment.PostFragment;
 import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
@@ -49,17 +51,17 @@ public class ExploreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final Explore explore = explores.get(position);
 
         Glide.with(activity).load(explore.getProfile()).into(holder.profile);
+        holder.tvRatecount.setText(explore.getRating_count());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                checkpost(explore.getId(),view);
+                checkpost(explore.getId(),view,explore);
             }
         });
     }
 
-    private void checkpost(String id, View view) {
+    private void checkpost(String id, View view, Explore explore) {
 
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID, id);
@@ -69,7 +71,19 @@ public class ExploreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     JSONObject jsonObject = new JSONObject(response);
 
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
-                        if (jsonObject.getString(Constant.POST_COUNT).equals("0")  ){
+                        if (jsonObject.getInt(Constant.POST_COUNT) != 0 ){
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Constant.USER_ID, id);
+                            PostFragment postFragment = new PostFragment();
+                            postFragment.setArguments(bundle);
+                            ((MainActivity)activity).SetBottomNavUnchecked();
+                            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).addToBackStack("my_fragment").commit();
+
+                        }
+                        else{
+                            sendToOtherProfileFragment(view,explore.getId(),explore.getName(),explore.getRole(),explore.getDescription(),explore.getProfile());
+
 
                         }
 
@@ -86,13 +100,22 @@ public class ExploreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }, activity, Constant.USER_DETAILS_COUNT_URL, params, true);
 
 
+
+    }
+    private void sendToOtherProfileFragment(View view, String user_id, String name, String role, String description, String profile)
+    {
         Bundle bundle = new Bundle();
-        bundle.putString(Constant.USER_ID, id);
-        PostFragment postFragment = new PostFragment();
-        postFragment.setArguments(bundle);
+        bundle.putString(Constant.USER_ID, user_id);
+        bundle.putString(Constant.NAME, name);
+        bundle.putString(Constant.ROLE, role);
+        bundle.putString(Constant.DESCRIPION, description);
+        bundle.putString(Constant.PROFILE, profile);
+        OtherProfileFragment otherProfileFragment = new OtherProfileFragment();
+        otherProfileFragment.setArguments(bundle);
         ((MainActivity)activity).SetBottomNavUnchecked();
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).addToBackStack("my_fragment").commit();
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,otherProfileFragment,"OTHER_PROFILE" ).commit();
+
     }
 
     @Override
@@ -103,9 +126,11 @@ public class ExploreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ExploreItemHolder extends RecyclerView.ViewHolder {
 
         final ImageView profile;
+        final TextView tvRatecount;
         public ExploreItemHolder(@NonNull View itemView) {
             super(itemView);
             profile = itemView.findViewById(R.id.profile);
+            tvRatecount = itemView.findViewById(R.id.tvRatecount);
 
 
         }

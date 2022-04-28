@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final Post post = posts.get(position);
 
         Glide.with(activity).load(post.getImage()).into(holder.postimg);
+        holder.tvRatecount.setText(post.getRating_count());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,13 +57,6 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 intent.putExtra(Constant.USER_ID,post.getUser_id());
                 intent.putExtra(Constant.POST_ID,post.getId());
                 activity.startActivity(intent);
-//                Bundle bundle = new Bundle();
-//                bundle.putString(Constant.USER_ID, session.getData(Constant.ID));
-//                PostFragment postFragment = new PostFragment();
-//                postFragment.setArguments(bundle);
-//                ((MainActivity)activity).SetBottomNavUnchecked();
-//                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,postFragment,"POST" ).commit();
             }
         });
 
@@ -76,9 +71,11 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     static class ItemHolder extends RecyclerView.ViewHolder {
 
         final ImageView postimg;
+        final TextView tvRatecount;
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             postimg = itemView.findViewById(R.id.postimg);
+            tvRatecount = itemView.findViewById(R.id.tvRatecount);
         }
     }
 }

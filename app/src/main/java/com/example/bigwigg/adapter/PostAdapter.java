@@ -1,5 +1,6 @@
 package com.example.bigwigg.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.artjimlop.altex.AltexImageDownloader;
 import com.bumptech.glide.Glide;
 import com.example.bigwigg.Comment_postActivity;
 import com.example.bigwigg.MainActivity;
@@ -63,9 +65,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holderParent, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holderParent, @SuppressLint("RecyclerView") int position) {
         final ItemHolder holder = (ItemHolder) holderParent;
         final Post post = posts.get(position);
+
         Glide.with(activity).load(post.getImage()).into(holder.postimage);
         Glide.with(activity).load(post.getProfile()).into(holder.profile);
         holder.name.setText(post.getName());
@@ -94,6 +97,63 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Intent intent = new Intent(activity, Comment_postActivity.class);
                 intent.putExtra(Constant.POST_ID,post.getId());
                 activity.startActivity(intent);
+            }
+        });
+        holder.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(activity);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.post_menu_layout);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+                TextView delete = (TextView) dialog.findViewById(R.id.delete);
+                TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+                TextView share = (TextView) dialog.findViewById(R.id.share);
+                TextView download = (TextView) dialog.findViewById(R.id.download);
+
+                if (post.getUser_id().equals(session.getData(Constant.ID))){
+                    delete.setVisibility(View.VISIBLE);
+                }
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deletePost(post.getId(),position);
+                        dialog.dismiss();
+
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                        String shareBody = "Here my Post "+post.getImage()+" \n Download BigWigg App Now";
+                        intent.setType("text/plain");
+                        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                        activity.startActivity(Intent.createChooser(intent, "Share via"));
+                    }
+                });
+                download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AltexImageDownloader.writeToDisk(activity, post.getImage(), "IMAGES");
+                        dialog.dismiss();
+                        Toast.makeText(activity, "Downloading...", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+
+
+                dialog.show();
             }
         });
         getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),false);
@@ -140,48 +200,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
 
-        if (post.getUser_id().equals(session.getData(Constant.ID))){
-            holder.delete.setVisibility(View.VISIBLE);
-        }
-
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                openalertdialog(post.getId());
-
-            }
-        });
-    }
-
-    private void openalertdialog(String id) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-        builder.setMessage("Are you sure want to delete this post")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        deletePost(id);
-
-                    }
-                })
-
-        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
 
     }
 
-    private void deletePost(String id) {
+
+
+    private void deletePost(String id, int position) {
 
         Map<String, String> params = new HashMap<>();
         //request
@@ -193,7 +217,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
-                        Toast.makeText(activity, "Post Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
                     }
                     else {
                         //Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
@@ -441,7 +465,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class ItemHolder extends RecyclerView.ViewHolder {
 
-        final ImageView postimage,comment_btn,rate,favourite,share,delete;
+        final ImageView postimage,comment_btn,rate,favourite,share,menu;
         final CircleImageView profile;
 
         final TextView name,caption,tvRatecount,tvViewcomments;
@@ -454,11 +478,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             name = itemView.findViewById(R.id.name);
             caption = itemView.findViewById(R.id.caption);
             share = itemView.findViewById(R.id.share);
-            delete = itemView.findViewById(R.id.delete);
             rate = itemView.findViewById(R.id.rate);
             favourite = itemView.findViewById(R.id.favourite);
             tvRatecount = itemView.findViewById(R.id.tvRatecount);
             tvViewcomments = itemView.findViewById(R.id.tvViewcomments);
+            menu = itemView.findViewById(R.id.menu);
 
 
         }

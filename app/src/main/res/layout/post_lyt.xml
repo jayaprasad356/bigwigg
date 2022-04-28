@@ -124,15 +124,15 @@
                         android:layout_marginStart="10dp"
                         android:src="@drawable/ic_send"
                         app:tint="@color/black" />
-
                     <ImageView
-                        android:id="@+id/delete"
-                        android:visibility="gone"
+                        android:id="@+id/menu"
                         android:layout_width="20dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/ic_delete"
+                        android:src="@drawable/menu_dots"
                         app:tint="@color/black" />
+
+
 
                 </LinearLayout>
 
