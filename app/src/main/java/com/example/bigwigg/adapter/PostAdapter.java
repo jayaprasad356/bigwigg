@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import com.example.bigwigg.helper.ApiConfig;
 import com.example.bigwigg.helper.Constant;
 import com.example.bigwigg.helper.Session;
 import com.example.bigwigg.model.Post;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -102,15 +104,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(activity);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.post_menu_layout);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-                TextView delete = (TextView) dialog.findViewById(R.id.delete);
-                TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
-                TextView share = (TextView) dialog.findViewById(R.id.share);
-                TextView download = (TextView) dialog.findViewById(R.id.download);
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+                bottomSheetDialog.setContentView(R.layout.post_menu_layout);
+
+                LinearLayout delete = (LinearLayout) bottomSheetDialog.findViewById(R.id.delete);
+                ImageView cancel = (ImageView) bottomSheetDialog.findViewById(R.id.cancel);
+                LinearLayout share = (LinearLayout) bottomSheetDialog.findViewById(R.id.share);
+                LinearLayout download = (LinearLayout) bottomSheetDialog.findViewById(R.id.download);
 
                 if (post.getUser_id().equals(session.getData(Constant.ID))){
                     delete.setVisibility(View.VISIBLE);
@@ -119,20 +120,20 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     @Override
                     public void onClick(View view) {
                         deletePost(post.getId(),position);
-                        dialog.dismiss();
+                        bottomSheetDialog.dismiss();
 
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialog.dismiss();
+                        bottomSheetDialog.dismiss();
                     }
                 });
                 share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialog.dismiss();
+                        bottomSheetDialog.dismiss();
                         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                         String shareBody = "Here my Post "+post.getImage()+" \n Download BigWigg App Now";
                         intent.setType("text/plain");
@@ -144,7 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     @Override
                     public void onClick(View view) {
                         AltexImageDownloader.writeToDisk(activity, post.getImage(), "IMAGES");
-                        dialog.dismiss();
+                        bottomSheetDialog.dismiss();
                         Toast.makeText(activity, "Downloading...", Toast.LENGTH_SHORT).show();
 
                     }
@@ -153,7 +154,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 
-                dialog.show();
+                bottomSheetDialog.show();
             }
         });
         getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),false);
@@ -167,16 +168,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             }
         });
-        holder.share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                String shareBody = "Here my Post "+post.getImage()+" \n Download BigWigg App Now";
-                intent.setType("text/plain");
-                intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                activity.startActivity(Intent.createChooser(intent, "Share via"));
-            }
-        });
+
 
         holder.rate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -465,7 +457,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class ItemHolder extends RecyclerView.ViewHolder {
 
-        final ImageView postimage,comment_btn,rate,favourite,share,menu;
+        final ImageView postimage,comment_btn,rate,favourite,menu;
         final CircleImageView profile;
 
         final TextView name,caption,tvRatecount,tvViewcomments;
@@ -477,7 +469,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             profile = itemView.findViewById(R.id.profile);
             name = itemView.findViewById(R.id.name);
             caption = itemView.findViewById(R.id.caption);
-            share = itemView.findViewById(R.id.share);
             rate = itemView.findViewById(R.id.rate);
             favourite = itemView.findViewById(R.id.favourite);
             tvRatecount = itemView.findViewById(R.id.tvRatecount);
