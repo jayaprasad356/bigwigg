@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "299336447075",
-    "project_id": "drive2mart",
-    "storage_bucket": "drive2mart.appspot.com"
+    "project_number": "820249109279",
+    "project_id": "bigwigg-e83ef",
+    "storage_bucket": "bigwigg-e83ef.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:299336447075:android:c860bd603f15bf0423f456",
+        "mobilesdk_app_id": "1:820249109279:android:19a5e7853e38563bec462a",
         "android_client_info": {
           "package_name": "com.example.bigwigg"
         }
       },
       "oauth_client": [
         {
-          "client_id": "299336447075-d27566nomu4jag5o75sj3adv096vml7r.apps.googleusercontent.com",
+          "client_id": "820249109279-ksqajbc4u42t8i13o7jnvihdt4e9mu2e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAL_Q2EPINO8IEAejFeugVztVv1RAj_HHY"
+          "current_key": "AIzaSyCHia50peX063Gbj6YuTIma6ZwsDhVJqzY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "299336447075-d27566nomu4jag5o75sj3adv096vml7r.apps.googleusercontent.com",
+              "client_id": "820249109279-ksqajbc4u42t8i13o7jnvihdt4e9mu2e.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -36,35 +36,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:299336447075:android:1d3dbf9451a7e35423f456",
+        "mobilesdk_app_id": "1:820249109279:android:d51cf2d98df6ec95ec462a",
         "android_client_info": {
-          "package_name": "d2m.drive2mart.shop"
+          "package_name": "com.gm.bigwigg"
         }
       },
       "oauth_client": [
         {
-          "client_id": "299336447075-338rvb9q4qogvak8282gnctcn42uqvet.apps.googleusercontent.com",
+          "client_id": "820249109279-l533h87v9tv8gsi8sql8ud3nhv0akja9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "d2m.drive2mart.shop",
-            "certificate_hash": "c1c200f29014c5bb03b51df11213ec2a22f461d0"
+            "package_name": "com.gm.bigwigg",
+            "certificate_hash": "8881fdd25c090af0389a1c16daa2b5a47b80e897"
           }
         },
         {
-          "client_id": "299336447075-d27566nomu4jag5o75sj3adv096vml7r.apps.googleusercontent.com",
+          "client_id": "820249109279-ksqajbc4u42t8i13o7jnvihdt4e9mu2e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAL_Q2EPINO8IEAejFeugVztVv1RAj_HHY"
+          "current_key": "AIzaSyCHia50peX063Gbj6YuTIma6ZwsDhVJqzY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "299336447075-d27566nomu4jag5o75sj3adv096vml7r.apps.googleusercontent.com",
+              "client_id": "820249109279-ksqajbc4u42t8i13o7jnvihdt4e9mu2e.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

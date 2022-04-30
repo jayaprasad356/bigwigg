@@ -6,55 +6,55 @@
     app:startDestination="@+id/explore">
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.bigwigg.fragment.ProfileFragment"
+        android:name="com.gm.bigwigg.fragment.ProfileFragment"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.bigwigg.fragment.SettingsFragment"
+        android:name="com.gm.bigwigg.fragment.SettingsFragment"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/explore"
-        android:name="com.example.bigwigg.fragment.ExploreFragment"
+        android:name="com.gm.bigwigg.fragment.ExploreFragment"
         tools:layout="@layout/fragment_explore" />
 
     <fragment
         android:id="@+id/business"
-        android:name="com.example.bigwigg.fragment.FavouriteFragment"
+        android:name="com.gm.bigwigg.fragment.FavouriteFragment"
         tools:layout="@layout/fragment_business" />
 
     <fragment
         android:id="@+id/favourite"
-        android:name="com.example.bigwigg.fragment.FavouriteFragment"
+        android:name="com.gm.bigwigg.fragment.FavouriteFragment"
         tools:layout="@layout/fragment_business" />
 
     <fragment
         android:id="@+id/notification"
-        android:name="com.example.bigwigg.fragment.FavouriteFragment"
+        android:name="com.gm.bigwigg.fragment.FavouriteFragment"
         tools:layout="@layout/fragment_business" />
 
 
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="com.example.bigwigg.fragment.BusinessFragment"
+        android:name="com.gm.bigwigg.fragment.BusinessFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_business" />
 
     <fragment
         android:id="@+id/bottom_home"
-        android:name="com.example.bigwigg.fragment.BusinessFragment"
+        android:name="com.gm.bigwigg.fragment.BusinessFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_business" />
 
     <fragment
         android:id="@+id/bottom_dashboard"
-        android:name="com.example.bigwigg.fragment.BusinessFragment"
+        android:name="com.gm.bigwigg.fragment.BusinessFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_business" />
 
     <fragment
         android:id="@+id/bottom_notifications"
-        android:name="com.example.bigwigg.fragment.BusinessFragment"
+        android:name="com.gm.bigwigg.fragment.BusinessFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_business" />
 </navigation>
