@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@drawable/bgcurve">
-
         <RelativeLayout
             android:id="@+id/r1"
             android:layout_width="match_parent"
@@ -73,14 +72,29 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/r1"
             android:orientation="vertical">
-
-
-            <ImageView
-                android:id="@+id/postimg"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="290dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/dhoni" />
+                android:layout_height="290dp">
+
+                <ImageView
+                    android:id="@+id/postimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="290dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dhoni" />
+                <ImageView
+                    android:id="@+id/play"
+                    android:visibility="gone"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/playicon"
+                    app:tint="@color/white" />
+            </RelativeLayout>
+
+
+
+
 
             <TextView
                 android:id="@+id/caption"

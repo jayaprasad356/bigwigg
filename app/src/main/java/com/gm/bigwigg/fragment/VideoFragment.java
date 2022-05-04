@@ -1,15 +1,21 @@
-package com.gm.bigwigg;
+package com.gm.bigwigg.fragment;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.gm.bigwigg.R;
 import com.gm.bigwigg.adapter.PostAdapter;
+import com.gm.bigwigg.adapter.VideoAdapter;
 import com.gm.bigwigg.helper.ApiConfig;
 import com.gm.bigwigg.helper.Constant;
 import com.gm.bigwigg.helper.Session;
@@ -24,30 +30,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SinglePostActivity extends AppCompatActivity {
-    public static Activity activity;
+public class VideoFragment extends Fragment {
+    View root;
     public static RecyclerView recyclerView;
-    public static PostAdapter postAdapter;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    Activity activity;
     Session session;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    PostAdapter postAdapter;
     String UserID;
-    String PostID;
 
+    public VideoFragment() {
+        // Required empty public constructor
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_post);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        activity = SinglePostActivity.this;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        root = inflater.inflate(R.layout.fragment_video, container, false);
+        recyclerView = root.findViewById(R.id.recyclerView);
+        activity = getActivity();
         session = new Session(activity);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-        UserID = getIntent().getStringExtra(Constant.USER_ID);
-        PostID = getIntent().getStringExtra(Constant.POST_ID);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeLayout);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null){
+            UserID = bundle.getString(Constant.USER_ID);
+
+        }
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -56,8 +71,9 @@ public class SinglePostActivity extends AppCompatActivity {
         });
         postList();
 
-
+        return root;
     }
+
     private void postList()
     {
         Map<String, String> params = new HashMap<>();
@@ -77,7 +93,7 @@ public class SinglePostActivity extends AppCompatActivity {
 
                             if (jsonObject1 != null) {
                                 Post group = g.fromJson(jsonObject1.toString(), Post.class);
-                                if(group.getId().equals(PostID)){
+                                if (group.getVideo() != null){
                                     posts.add(group);
 
                                 }
@@ -87,22 +103,20 @@ public class SinglePostActivity extends AppCompatActivity {
                             }
                         }
 
-                        postAdapter = new PostAdapter(activity, posts,"image");
+                        postAdapter = new PostAdapter(activity, posts,"video");
                         recyclerView.setAdapter(postAdapter);
-
-//                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());
-//                        //recyclerView.getLayoutManager().scrollToPosition(4);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                     else {
-                        Toast.makeText(activity, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(activity, String.valueOf(e), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
                 }
             }
-        }, activity, Constant.POST_LIST_URL, params, true);
+        }, activity, Constant.VIDEO_LISTS_URL, params, true);
+
     }
 }

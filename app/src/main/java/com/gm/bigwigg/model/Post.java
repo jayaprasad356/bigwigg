@@ -1,12 +1,12 @@
 package com.gm.bigwigg.model;
 
 public class Post {
-    String id,user_id,name,profile,caption,image,role,description,rating_count,comment_count;
+    String id,user_id,name,profile,caption,image,role,description,rating_count,comment_count,video;
     public Post(){
 
     }
 
-    public Post(String id, String user_id, String name, String profile, String caption, String image, String role, String description, String rating_count, String comment_count) {
+    public Post(String id, String user_id, String name, String profile, String caption, String image, String role, String description, String rating_count, String comment_count, String video) {
         this.id = id;
         this.user_id = user_id;
         this.name = name;
@@ -17,6 +17,7 @@ public class Post {
         this.description = description;
         this.rating_count = rating_count;
         this.comment_count = comment_count;
+        this.video = video;
     }
 
     public String getId() {
@@ -97,5 +98,13 @@ public class Post {
 
     public void setComment_count(String comment_count) {
         this.comment_count = comment_count;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }

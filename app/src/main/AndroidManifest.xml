@@ -26,18 +26,17 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".PlayVideoActivity"
+            android:exported="false" />
+        <activity
             android:name=".VideoPostActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".TestActivity2"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".TestActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".SinglePostActivity"
             android:exported="false" />
@@ -53,9 +52,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name="com.canhub.cropper.CropImageActivity"

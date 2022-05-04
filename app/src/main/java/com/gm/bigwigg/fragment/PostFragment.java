@@ -103,11 +103,8 @@ public class PostFragment extends Fragment {
                             }
                         }
 
-                        postAdapter = new PostAdapter(activity, posts);
+                        postAdapter = new PostAdapter(activity, posts,"image");
                         recyclerView.setAdapter(postAdapter);
-
-//                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());
-//                        //recyclerView.getLayoutManager().scrollToPosition(4);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                     else {

@@ -3,6 +3,7 @@ package com.gm.bigwigg.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.gm.bigwigg.MainActivity;
 import com.gm.bigwigg.R;
 import com.gm.bigwigg.adapter.PostAdapter;
 import com.gm.bigwigg.adapter.ProfilePostAdapter;
@@ -41,8 +44,9 @@ public class OtherProfileFragment extends Fragment {
     public static RecyclerView recyclerView;
     Activity activity;
     public static ProfilePostAdapter profilePostAdapter;
-    TextView follow,post_count,followers_count,following_count;
+    TextView follow,post_count,followers_count,following_count,videoes_count;
     public static PostAdapter postAdapter;
+    RelativeLayout videoes_rl;
 
 
 
@@ -64,6 +68,8 @@ public class OtherProfileFragment extends Fragment {
         post_count = root.findViewById(R.id.post_count);
         followers_count = root.findViewById(R.id.followers_count);
         following_count = root.findViewById(R.id.following_count);
+        videoes_count = root.findViewById(R.id.videoes_count);
+        videoes_rl = root.findViewById(R.id.videoes_rl);
         activity = getActivity();
 
         session = new Session(getActivity());
@@ -100,6 +106,20 @@ public class OtherProfileFragment extends Fragment {
         });
         getUserDetailsCount();
 
+        videoes_rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.USER_ID, UserID_);
+                VideoFragment videoFragment = new VideoFragment();
+                videoFragment.setArguments(bundle);
+                ((MainActivity)activity).SetBottomNavUnchecked();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,videoFragment,"VIDEO" ).addToBackStack("my_fragment").commit();
+
+            }
+        });
+
 
 
         return root;
@@ -129,7 +149,7 @@ public class OtherProfileFragment extends Fragment {
                             }
                         }
 
-                        postAdapter = new PostAdapter(activity, posts);
+                        postAdapter = new PostAdapter(activity, posts,"image");
                         recyclerView.setAdapter(postAdapter);
 
 //                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());
@@ -160,6 +180,7 @@ public class OtherProfileFragment extends Fragment {
                         post_count.setText(jsonObject.getString(Constant.POST_COUNT));
                         followers_count.setText(jsonObject.getString(Constant.FOLLOWERS_COUNT));
                         following_count.setText(jsonObject.getString(Constant.FOLLOWING_COUNT));
+                        videoes_count.setText(jsonObject.getString(Constant.VIDEOES_COUNT));
 
                     }
                     else {

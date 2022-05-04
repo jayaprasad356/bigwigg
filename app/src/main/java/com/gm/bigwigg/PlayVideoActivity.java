@@ -2,6 +2,7 @@ package com.gm.bigwigg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,31 +20,35 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
-public class TestActivity extends AppCompatActivity {
-    // creating a variable for exoplayerview.
-    SimpleExoPlayerView exoPlayerView;
-
-    // creating a variable for exoplayer
+public class PlayVideoActivity extends AppCompatActivity {
+    String videoUrl;
+    SimpleExoPlayerView videoView;
+    Activity activity;
     SimpleExoPlayer exoPlayer;
-
-    // url of video which we are loading.
-    String videoURL = "https://media.geeksforgeeks.org/wp-content/uploads/20201217163353/Screenrecorder-2020-12-17-16-32-03-350.mp4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-        exoPlayerView = findViewById(R.id.idExoPlayerVIew);
+        setContentView(R.layout.activity_play_video);
+
+        activity = PlayVideoActivity.this;
+
+        videoUrl = getIntent().getStringExtra("videoUrl");
+        videoView = findViewById(R.id.videoView);
+
+
+
         try {
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
-            Uri videouri = Uri.parse(videoURL);
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(activity, trackSelector);
+            Uri videouri = Uri.parse(videoUrl);
             DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
             MediaSource mediaSource = new ExtractorMediaSource(videouri, dataSourceFactory, extractorsFactory, null, null);
-            exoPlayerView.setPlayer(exoPlayer);
+            videoView.setPlayer(exoPlayer);
             exoPlayer.prepare(mediaSource);
             exoPlayer.setPlayWhenReady(true);
 
@@ -51,6 +56,21 @@ public class TestActivity extends AppCompatActivity {
             // below line is used for
             // handling our errors.
             Log.e("TAG", "Error : " + e.toString());
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT >= 24) {
+            releasePlayer();
+        }
+    }
+    private void releasePlayer() {
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
         }
     }
 }

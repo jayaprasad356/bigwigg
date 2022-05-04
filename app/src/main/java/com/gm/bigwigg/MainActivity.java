@@ -36,6 +36,7 @@ import com.gm.bigwigg.fragment.PostFragment;
 import com.gm.bigwigg.fragment.ProfileFragment;
 import com.gm.bigwigg.fragment.SearchFragment;
 import com.gm.bigwigg.fragment.SettingsFragment;
+import com.gm.bigwigg.fragment.VideoFragment;
 import com.gm.bigwigg.helper.ApiConfig;
 import com.gm.bigwigg.helper.Constant;
 import com.gm.bigwigg.helper.Session;
@@ -143,9 +144,14 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         Video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VideoFragment videoFragment = new VideoFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment, videoFragment,TAG_FRAGMENT).addToBackStack("my_fragment").commit();
 
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.USER_ID, "all");
+                VideoFragment videoFragment = new VideoFragment();
+                videoFragment.setArguments(bundle);
+                ((MainActivity)activity).SetBottomNavUnchecked();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,videoFragment,"VIDEO" ).addToBackStack("my_fragment").commit();
                 SetBottomNavUnchecked();
 
 
@@ -273,6 +279,14 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         LinearLayout video = bottomSheetDialog.findViewById(R.id.video);
         LinearLayout image = bottomSheetDialog.findViewById(R.id.image);
+        ImageView cancel = bottomSheetDialog.findViewById(R.id.cancel);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
 
         video.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -428,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 imageUri = data.getData();
                 CropImage.activity(imageUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setOutputCompressQuality(90)
+                        .setOutputCompressQuality(50)
                         .setRequestedSize(300, 300)
                         .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
                         .setAspectRatio(1, 1)
@@ -436,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 CropImage.activity(imageUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setOutputCompressQuality(90)
+                        .setOutputCompressQuality(50)
                         .setRequestedSize(300, 300)
                         .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
                         .setAspectRatio(1, 1)

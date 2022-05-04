@@ -144,9 +144,10 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
-                android:layout_width="290dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="3"
+                android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp">
 
@@ -171,6 +172,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/mycollection_txt"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/videoes_rl"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/bg1_txt"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/myvideoes_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="My Videoes"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/videoes_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/myvideoes_txt"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="0"

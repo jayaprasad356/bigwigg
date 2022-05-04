@@ -74,19 +74,17 @@
                     android:layout_weight="0.5" />
 
                 <LinearLayout
-                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/fans_txt"
+                            android:id="@+id/followers_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -98,11 +96,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Fans"
-                            android:gravity="center"
+                            android:layout_below="@+id/followers_count"
                             android:drawableTint="@color/black"
+                            android:gravity="center"
+                            android:text="Fans"
                             android:textColor="@color/black"
-                            android:layout_below="@+id/fans_txt"
 
                             />
                     </RelativeLayout>
@@ -111,48 +109,60 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         >
+
                         <TextView
                             android:id="@+id/fansrat_txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="4.9"
                             android:textColor="@color/black"
                             android:textSize="18dp"
-                            android:textStyle="bold"
-                            android:gravity="center"
-                            />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Rating"
-                            android:gravity="center"
-                            android:textColor="@color/black"
                             android:layout_below="@+id/fansrat_txt"
+                            android:gravity="center"
+                            android:text="Rating"
+                            android:textColor="@color/black"
 
                             />
                     </RelativeLayout>
-
-
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/follow"
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_txt"
+                        android:padding="10dp"
+                        android:layout_gravity="center"
+                        android:text="Follow"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
                 </LinearLayout>
-
-
 
             </LinearLayout>
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="3"
-                android:layout_marginTop="20dp"
-                >
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp">
+
+
+
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:background="@drawable/bg1_txt"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
-                    android:gravity="center"
-                    >
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/mycollection_txt"
@@ -171,19 +181,46 @@
                         android:padding="5dp"
                         android:text="0"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-
-                        />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/videoes_rl"
+                    android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:background="@drawable/bg1_txt"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
-                    android:gravity="center"
-                    >
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/myvideoes_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="My Videoes"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/videoes_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/myvideoes_txt"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/bg1_txt"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/search_txt"
@@ -203,49 +240,9 @@
                         android:padding="5dp"
                         android:text="0"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-
-                        />
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="@drawable/bg1_txt"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:gravity="center"
-                    >
-
-                    <TextView
-                        android:id="@+id/recomment_txt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="Followers"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/followers_count"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/recomment_txt"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-
-                        />
-
-                </RelativeLayout>
-
-
-
-
-
-
 
             </LinearLayout>
             <LinearLayout

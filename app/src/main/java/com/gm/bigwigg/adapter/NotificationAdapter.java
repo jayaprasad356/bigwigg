@@ -28,17 +28,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View view = LayoutInflater.from(activity).inflate(R.layout.notify_layout, parent, false);
         return new ItemHolder(view);
     }
-
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holderParent, int position) {
         final ItemHolder holder = (ItemHolder) holderParent;
         final Notification notification = notifications.get(position);
-
         holder.title.setText(notification.getTitle());
         holder.time.setText(notification.getDate_created());
-
-
     }
 
     @Override
@@ -47,15 +42,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     static class ItemHolder extends RecyclerView.ViewHolder {
-
-
         final TextView title,time;
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             time = itemView.findViewById(R.id.time);
-
-
         }
     }
 }

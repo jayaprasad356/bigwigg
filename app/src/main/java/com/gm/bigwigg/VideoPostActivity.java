@@ -55,10 +55,8 @@ import java.util.Map;
 
 public class VideoPostActivity extends AppCompatActivity {
 
-    ImageView uploadThumbnail;
     Activity activity;
     public static final int SELECT_FILE = 110;
-    Uri imageUri;
     String filePath = null;
     Button uploadVideo;
     Uri videouri;
@@ -78,39 +76,10 @@ public class VideoPostActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(activity);
 
-        uploadThumbnail = findViewById(R.id.uploadThumbnail);
         uploadVideo = findViewById(R.id.uploadVideo);
         uploadName = findViewById(R.id.uploadName);
         postbtn = findViewById(R.id.postbtn);
         caption = findViewById(R.id.caption);
-        uploadThumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Dexter.withActivity(activity)
-                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .withListener(new MultiplePermissionsListener() {
-                            @Override
-                            public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                if (report.areAllPermissionsGranted()) {
-                                    //showImagePickerOptions();
-                                    //selectDialog();
-                                    Intent intent = new Intent(Intent.ACTION_PICK);
-                                    intent.setType("image/*");
-                                    startActivityForResult(intent, SELECT_FILE);
-                                }
-
-                                if (report.isAnyPermissionPermanentlyDenied()) {
-                                    showSettingsDialog();
-                                }
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
-            }
-        });
         uploadVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +103,7 @@ public class VideoPostActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(r.getType(videouri));
     }
     private void upload() {
-        if (videouri != null && imageUri != null) {
+        if (videouri != null) {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
             // save the selected video in Firebase storage
@@ -146,37 +115,7 @@ public class VideoPostActivity extends AppCompatActivity {
                     while (!uriTask.isSuccessful()) ;
                     // get the link of video
                     String downloadUri = uriTask.getResult().toString();
-                    final StorageReference reference = FirebaseStorage.getInstance().getReference("Images/" + System.currentTimeMillis() + "." + getfiletype(imageUri));
-
-                    reference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isSuccessful()) ;
-                            // get the link of video
-                            String downloadUri2 = uriTask.getResult().toString();
-                            sendDatattoDatabase(downloadUri,downloadUri2);
-
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Error, Image not uploaded
-                            progressDialog.dismiss();
-                            Toast.makeText(activity, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            // show the progress bar
-//                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-//                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                        }
-                    });
-
+                    sendDatattoDatabase(downloadUri);
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -202,11 +141,10 @@ public class VideoPostActivity extends AppCompatActivity {
         }
     }
 
-    private void sendDatattoDatabase(String video, String image)
+    private void sendDatattoDatabase(String video)
     {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID,session.getData(Constant.ID));
-        params.put(Constant.IMAGE,image);
         params.put(Constant.VIDEO,video);
         params.put(Constant.CAPTION,caption.getText().toString().trim());
         ApiConfig.RequestToVolley((result, response) -> {
@@ -271,37 +209,6 @@ public class VideoPostActivity extends AppCompatActivity {
             if (requestCode == 5 && data != null && data.getData() != null) {
                 videouri = data.getData();
                 uploadName.setText("Video Uploaded");
-            }
-
-            if (requestCode == SELECT_FILE) {
-
-                imageUri = data.getData();
-                CropImage.activity(imageUri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setOutputCompressQuality(90)
-                        .setRequestedSize(300, 400)
-                        .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
-                        .setAspectRatio(1, 2)
-                        .start(activity);
-            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                assert result != null;
-                filePath = result.getUriFilePath(activity, true);
-                uploadThumbnail.setImageURI(data.getData());
-                imageUri = Uri.fromFile(new File(filePath));
-
-                File imgFile = new  File(filePath);
-
-                if(imgFile.exists()){
-
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
-                    uploadThumbnail.setImageBitmap(myBitmap);
-
-                }
-
-
-
             }
         }
     }

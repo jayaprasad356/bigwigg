@@ -106,7 +106,7 @@ public class FavouriteFragment extends Fragment {
                             }
                         }
 
-                        postAdapter = new PostAdapter(activity, posts);
+                        postAdapter = new PostAdapter(activity, posts,"image");
                         recyclerView.setAdapter(postAdapter);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }

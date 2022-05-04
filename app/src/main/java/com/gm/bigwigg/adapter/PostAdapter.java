@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -26,6 +27,7 @@ import com.artjimlop.altex.AltexImageDownloader;
 import com.bumptech.glide.Glide;
 import com.gm.bigwigg.Comment_postActivity;
 import com.gm.bigwigg.MainActivity;
+import com.gm.bigwigg.PlayVideoActivity;
 import com.gm.bigwigg.R;
 import com.gm.bigwigg.fragment.OtherProfileFragment;
 import com.gm.bigwigg.helper.ApiConfig;
@@ -48,17 +50,27 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final ArrayList<Post> posts;
     Session session;
     ImageView delete;
+    String type;
     int totalstars = 0;
 
-    public PostAdapter(Activity activity, ArrayList<Post> posts) {
+    public PostAdapter(Activity activity, ArrayList<Post> posts, String type) {
         this.activity = activity;
         this.posts = posts;
+        this.type = type;
         session = new Session(activity);
     }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.post_lyt, parent, false);
+        View view;
+        if (type.equals("image")){
+            view = LayoutInflater.from(activity).inflate(R.layout.post_lyt, parent, false);
+
+        }else {
+            view = LayoutInflater.from(activity).inflate(R.layout.video_lyt, parent, false);
+
+        }
+
         return new ItemHolder(view);
     }
 
@@ -68,11 +80,56 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final ItemHolder holder = (ItemHolder) holderParent;
         final Post post = posts.get(position);
 
-        Glide.with(activity).load(post.getImage()).into(holder.postimage);
+
         Glide.with(activity).load(post.getProfile()).into(holder.profile);
         holder.name.setText(post.getName());
         holder.caption.setText(post.getCaption());
         holder.tvRatecount.setText(post.getRating_count());
+        if (post.getVideo() != null ){
+            holder.play.setVisibility(View.VISIBLE);
+            Glide.with(activity).asBitmap().load(post.getVideo()).into(holder.postimage);
+
+        }
+        else {
+            holder.play.setVisibility(View.GONE);
+            Glide.with(activity).load(post.getImage()).into(holder.postimage);
+        }
+        holder.rupee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(activity);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.business_dialog);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+                EditText etMobile = (EditText) dialog.findViewById(R.id.etMobile);
+                Button interestedBtn = (Button) dialog.findViewById(R.id.interestedBtn);
+                interestedBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (etMobile.getText().toString().equals("")){
+                            etMobile.setError("empty");
+                        }
+                        else if (etMobile.getText().length() != 10){
+                            etMobile.setError("Invalid");
+                        }
+                        else {
+                            interetToBusiness(post.getId(),etMobile.getText().toString().trim(),dialog);
+                        }
+
+                    }
+                });
+                dialog.show();
+            }
+        });
+        holder.play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, PlayVideoActivity.class);
+                intent.putExtra("videoUrl",post.getVideo());
+                activity.startActivity(intent);
+            }
+        });
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,9 +211,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 bottomSheetDialog.show();
             }
         });
-        getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),false);
+        getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),false, post.getVideo());
         getFavourites(holder.favourite,session.getData(Constant.ID),post.getId());
-        holder.tvViewcomments.setText(post.getComment_count()+" Comments");
+        if (post.getVideo() != null ){
+            holder.tvViewcomments.setText(post.getComment_count());
+
+        }
+        else {
+            holder.tvViewcomments.setText(post.getComment_count()+" Comments");
+        }
+
         holder.favourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,7 +234,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),true);
+                getRateUs(holder.rate,post.getUser_id(),post.getId(),post.getImage(),true,post.getVideo());
 
 //                if (holder.rate.getTag().equals("fill"))
 //                {
@@ -192,6 +256,39 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
+    private void interetToBusiness(String post_id, String mobile, Dialog dialog) {
+        Map<String, String> params = new HashMap<>();
+        //request
+        params.put(Constant.POST_ID,post_id);
+        params.put(Constant.MOBILE,mobile);
+        params.put(Constant.USER_ID,session.getData(Constant.ID));
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        dialog.dismiss();
+                        Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        dialog.dismiss();
+                        Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
+
+            }
+            //pass url
+        }, activity, Constant.ADD_BUSINESS_URL, params,true);
+
+
+
+    }
 
 
     private void deletePost(String id, int position) {
@@ -325,7 +422,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    private void getRateUs(ImageView rate, String user_id, String post_id, String image, boolean b) {
+    private void getRateUs(ImageView rate, String user_id, String post_id, String image, boolean b, String video) {
         Map<String, String> params = new HashMap<>();
         //request
         params.put(Constant.USER_ID,session.getData(Constant.ID));
@@ -340,7 +437,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         if(b){
                             //getRateUs(holder.rate,session.getData(Constant.ID),post.getId(),true);
 
-                            ratedialog(image,rate,session.getData(Constant.ID),user_id,post_id);
+                            ratedialog(image,rate,session.getData(Constant.ID),user_id,post_id,video);
                         }
                         if (jsonObject.getString(Constant.STATUS).equals(Constant.TRUE)){
                             rate.setTag("fill");
@@ -373,21 +470,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     }
-    private void ratedialog(String image, ImageView rate, String id, String user_id ,String post_id) {
+    private void ratedialog(String image, ImageView rate, String id, String user_id ,String post_id,String video) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.star_layout);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         ImageView postimage = (ImageView) dialog.findViewById(R.id.postimage);
+
+        if (video != null){
+            postimage.setVisibility(View.GONE);
+        }
         Glide.with(activity).load(image).into(postimage);
         RatingBar star = (RatingBar) dialog.findViewById(R.id.star);
         Button ratenow = (Button) dialog.findViewById(R.id.ratenow);
-
-
-
         star.setRating(totalstars);
-
         ratenow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -454,7 +551,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class ItemHolder extends RecyclerView.ViewHolder {
 
-        final ImageView postimage,comment_btn,rate,favourite,menu;
+        final ImageView postimage,comment_btn,rate,favourite,menu,play,rupee;
         final CircleImageView profile;
 
         final TextView name,caption,tvRatecount,tvViewcomments;
@@ -471,6 +568,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvRatecount = itemView.findViewById(R.id.tvRatecount);
             tvViewcomments = itemView.findViewById(R.id.tvViewcomments);
             menu = itemView.findViewById(R.id.menu);
+            play = itemView.findViewById(R.id.play);
+            rupee = itemView.findViewById(R.id.rupee);
 
 
         }

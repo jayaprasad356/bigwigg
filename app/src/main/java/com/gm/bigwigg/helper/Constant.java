@@ -17,14 +17,17 @@ public class Constant {
     public static final String CHECK_POST_RATING_URL = BaseUrl + "checkpostratings.php";
     public static final String CHECK_POST_FAVOURITE_URL = BaseUrl + "checkpostfavourites.php";
     public static final String DELETE_POST_URL = BaseUrl + "delete_post.php";
+    public static final String ADD_BUSINESS_URL = BaseUrl + "addbusiness.php";
     public static final String SEND_FAVOURITE_URL = BaseUrl + "favourite_posts.php";
     public static final String SEND_COMMENT_URL = BaseUrl + "addcomments.php";
     public static final String LIST_COMMENT_URL = BaseUrl + "listcomments.php";
     public static final String FOLLOW_USER_URL = BaseUrl + "follow_user.php";
     public static final String USER_DETAILS_COUNT_URL = BaseUrl + "user_details_count.php";
     public static final String LIST_NOTIFICATIONS_URL = BaseUrl + "listnotifications.php";
+    public static final String LIST_BUSINESS_URL = BaseUrl + "businesslists.php";
     public static final String NOTIFICATIONS_READ_COUNT_URL = BaseUrl + "notifications_read_count.php";
     public static final String POST_VIDEO_URL = BaseUrl + "postvideo.php";
+    public static final String VIDEO_LISTS_URL = BaseUrl + "videolists.php";
 
 
     public static final String WebSiteUrl = ""; //Admin panel url
@@ -33,6 +36,7 @@ public class Constant {
     public static final String USER_ID = "user_id";
     public static final String SEARCH = "search";
     public static final String POST_ID = "post_id";
+    public static final String MOBILE = "mobile";
     public static final String FOLLOW_ID = "follow_id";
     public static final String TOTAL = "total";
     public static final String IMAGE = "image";
@@ -55,6 +59,7 @@ public class Constant {
     public static final String FOLLOWERS_COUNT = "followers_count";
     public static final String FOLLOWING_COUNT = "following_count";
     public static final String NOTIFICATIONS_COUNT = "notifications_count";
+    public static final String VIDEOES_COUNT = "videoes_count";
  public static final String MESSAGE = "message";
 
     public static final String STATUS = "status";
