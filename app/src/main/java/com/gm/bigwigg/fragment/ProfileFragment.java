@@ -43,7 +43,7 @@ public class ProfileFragment extends Fragment {
     ImageView Profile;
     public static RecyclerView recyclerView;
     public static ProfilePostAdapter profilePostAdapter;
-    TextView follow,post_count,followers_count,following_count,videoes_count;
+    TextView follow,post_count,followers_count,following_count,videoes_count,tVRating;
 
     Activity activity;
     public static PostAdapter postAdapter;
@@ -68,6 +68,7 @@ public class ProfileFragment extends Fragment {
         following_count = root.findViewById(R.id.following_count);
         videoes_count = root.findViewById(R.id.videoes_count);
         videoes_rl = root.findViewById(R.id.videoes_rl);
+        tVRating = root.findViewById(R.id.tVRating);
 
         activity = getActivity();
 
@@ -162,6 +163,7 @@ public class ProfileFragment extends Fragment {
                         followers_count.setText(jsonObject.getString(Constant.FOLLOWERS_COUNT));
                         following_count.setText(jsonObject.getString(Constant.FOLLOWING_COUNT));
                         videoes_count.setText(jsonObject.getString(Constant.VIDEOES_COUNT));
+                        tVRating.setText(jsonObject.getString(Constant.RATING_COUNT));
 
                     }
                     else {

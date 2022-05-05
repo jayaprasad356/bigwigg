@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OtherProfileFragment extends Fragment {
-    TextView Name,Role,Description;
+    TextView Name,Role,Description,tVRating;
     View root;
     Session session;
     ImageView Profile;
@@ -70,6 +70,7 @@ public class OtherProfileFragment extends Fragment {
         following_count = root.findViewById(R.id.following_count);
         videoes_count = root.findViewById(R.id.videoes_count);
         videoes_rl = root.findViewById(R.id.videoes_rl);
+        tVRating = root.findViewById(R.id.tVRating);
         activity = getActivity();
 
         session = new Session(getActivity());
@@ -181,6 +182,7 @@ public class OtherProfileFragment extends Fragment {
                         followers_count.setText(jsonObject.getString(Constant.FOLLOWERS_COUNT));
                         following_count.setText(jsonObject.getString(Constant.FOLLOWING_COUNT));
                         videoes_count.setText(jsonObject.getString(Constant.VIDEOES_COUNT));
+                        tVRating.setText(jsonObject.getString(Constant.RATING_COUNT));
 
                     }
                     else {

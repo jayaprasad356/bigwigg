@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.gm.bigwigg.PlayVideoActivity;
 import com.gm.bigwigg.R;
 import com.gm.bigwigg.model.Business;
 import com.gm.bigwigg.model.Comment;
@@ -42,10 +44,26 @@ public class BusinessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final ItemHolder holder = (ItemHolder) holderParent;
         final Business business = businesses.get(position);
 
+
         Glide.with(activity).load(business.getProfile()).into(holder.profile);
-        Glide.with(activity).load(business.getImage()).into(holder.postimg);
         holder.name.setText(business.getName());
         holder.caption.setText(business.getCaption());
+        if (business.getVideo() != null ){
+            holder.play.setVisibility(View.VISIBLE);
+            Glide.with(activity).asBitmap().load(business.getVideo()).into(holder.postimg);
+        }
+        else {
+            Glide.with(activity).load(business.getImage()).into(holder.postimg);
+
+        }
+        holder.play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, PlayVideoActivity.class);
+                intent.putExtra("videoUrl",business.getVideo());
+                activity.startActivity(intent);
+            }
+        });
         holder.chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +87,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         final TextView name,caption;
         final CircleImageView profile,chat;
-        final ImageView postimg;
+        final ImageView postimg,play;
 
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +96,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             chat = itemView.findViewById(R.id.chat);
             caption = itemView.findViewById(R.id.caption);
             postimg = itemView.findViewById(R.id.postimg);
+            play = itemView.findViewById(R.id.play);
 
 
         }
