@@ -115,13 +115,10 @@ public class BusinessFragment extends Fragment {
                         recyclerView.setAdapter(businessAdapter);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
-                    else {
-                        Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
-                    }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
                 }
             }
         }, activity, Constant.LIST_BUSINESS_URL, params, true);
