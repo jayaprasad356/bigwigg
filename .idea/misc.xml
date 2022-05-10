@@ -11,6 +11,7 @@
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/card_shadow.xml" value="0.1675" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/custom_progress_dialog.xml" value="0.1675" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.18" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/ic_bi_chat_right.xml" value="0.18" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/ic_ei_star.xml" value="0.184" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/ic_error.xml" value="0.1675" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/drawable/ic_heart.xml" value="0.184" />
@@ -69,7 +70,7 @@
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/snippet_comments_toolbar.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/star_layout.xml" value="0.14065840102607952" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/test_video_lyt.xml" value="0.22" />
-        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/video_lyt.xml" value="0.22" />
+        <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/layout/video_lyt.xml" value="0.34164070612668745" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/activity_main_drawer.xml" value="0.22" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/bottom_nav_menu.xml" value="0.14407866609662248" />
         <entry key="..\:/Users/JP/StudioProjects/bigwigg/app/src/main/res/menu/main.xml" value="0.14407866609662248" />

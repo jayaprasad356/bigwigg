@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="440dp"
             >
+
             <ImageView
                 android:id="@+id/postimg"
                 android:layout_width="match_parent"
@@ -28,7 +29,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/transbg"
                 android:padding="5dp"
                 android:text=""
                 android:textColor="@color/white" />
@@ -38,7 +38,6 @@
 
 
             <RelativeLayout
-                android:background="@drawable/transbg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -65,8 +64,10 @@
 
                         <TextView
                             android:id="@+id/name"
+                            android:layout_marginStart="@dimen/dimen_5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold"
                             android:text="James Camron"
                             android:textColor="@color/white" />
 
@@ -111,19 +112,15 @@
                 android:layout_alignParentEnd="true"
                android:layout_above="@+id/caption"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/transbg"
                 android:orientation="vertical"
                 android:padding="@dimen/dimen_5dp">
 
                 <ImageView
                     android:id="@+id/comment_btn"
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_bi_chat_right"
+                    android:src="@drawable/ic_baseline_chat_24"
                     app:tint="@color/white" />
                 <TextView
                     android:id="@+id/tvViewcomments"
@@ -131,17 +128,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="0"
+                    android:textStyle="bold"
                     android:textSize="@dimen/dimen_10dp"
-                    android:textColor="@android:color/darker_gray" />
-
+                    android:textColor="@color/white" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_10dp"/>
                 <ImageView
                     android:id="@+id/rate"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_ei_star"
                     android:tag="unfill"
                     app:tint="@color/white" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_10dp"/>
                 <ImageView
                     android:id="@+id/favourite"
                     android:layout_width="25dp"
@@ -153,19 +157,24 @@
 
                 <ImageView
                     android:id="@+id/rupee"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:padding="4dp"
-                    android:src="@drawable/rupeeicon"
+                    android:src="@drawable/rupeewhite"
                     android:tag="unfill"
                     app:tint="@color/white" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_10dp"/>
 
                 <ImageView
                     android:id="@+id/menu"
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:src="@drawable/menu_dots"
                     app:tint="@color/white" />
 
