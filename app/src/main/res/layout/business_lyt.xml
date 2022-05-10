@@ -7,91 +7,132 @@
     android:elevation="10dp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/profile_default_tint"
+
+        >
 
         <RelativeLayout
             android:id="@+id/r1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:layout_margin="@dimen/dimen_5dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile"
-                    android:src="@drawable/g1"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_height="50dp"
+                    android:src="@drawable/g1" />
+
                 <TextView
                     android:id="@+id/name"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/dimen_10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Prasad"/>
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/dimen_10dp"
+                    android:textColor="@color/black"
+                    android:text="Prasad" />
 
             </LinearLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/chat"
-                android:src="@drawable/whatsappicon"
-                android:layout_alignParentEnd="true"
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/whatsappicon" />
 
         </RelativeLayout>
-        <LinearLayout
-            android:layout_below="@+id/r1"
-            android:layout_margin="5dp"
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/postimg"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/dhoni" />
-                <ImageView
-                    android:id="@+id/play"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/playicon"
-                    android:visibility="gone"
-                    app:tint="@color/white" />
-            </RelativeLayout>
-
+            android:layout_below="@+id/r1"
+            app:cardCornerRadius="@dimen/dimen_10dp"
+            app:strokeColor="@color/primaryLightColor"
+            app:strokeWidth="@dimen/dimen_1dp"
+            android:layout_margin="@dimen/dimen_5dp"
+            >
 
             <LinearLayout
-                android:layout_margin="3dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="@dimen/dimen_10dp"
+                        >
+
+
+                    <ImageView
+                        android:id="@+id/postimg"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dhoni"
+                        />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <ImageView
+                        android:id="@+id/play"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/playicon"
+                        android:visibility="gone"
+                        app:tint="@color/white" />
+                </RelativeLayout>
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Interested"
-                    android:textSize="@dimen/dimen_20dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:id="@+id/caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/black"/>
+                    android:layout_margin="3dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Interested"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/dimen_12dp"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="@dimen/dimen_10dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_marginLeft="@dimen/dimen_10dp"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
 
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
 
     </RelativeLayout>

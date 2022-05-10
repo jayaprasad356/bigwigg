@@ -55,6 +55,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -279,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         LinearLayout video = bottomSheetDialog.findViewById(R.id.video);
         LinearLayout image = bottomSheetDialog.findViewById(R.id.image);
+        LinearLayout file = bottomSheetDialog.findViewById(R.id.file);
         ImageView cancel = bottomSheetDialog.findViewById(R.id.cancel);
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -293,6 +295,17 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             public void onClick(View view) {
                 Intent intent = new Intent(activity,VideoPostActivity.class);
                 startActivity(intent);
+                bottomSheetDialog.dismiss();
+
+            }
+        });
+        file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Uri uri = Uri.parse("/whatever/path/you/want/"); // a directory
+                intent.setDataAndType(uri, "*/*");
+                startActivity(Intent.createChooser(intent, "Open folder"));
                 bottomSheetDialog.dismiss();
 
             }

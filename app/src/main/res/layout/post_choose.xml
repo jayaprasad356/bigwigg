@@ -69,6 +69,31 @@
                 android:textSize="12dp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/file"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bgcurveborder"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_baseline_attach_file_24"
+                app:tint="?attr/colorControlNormal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="File"
+                android:textColor="@color/black"
+                android:textSize="12dp" />
+
+        </LinearLayout>
 
 
 
