@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -88,6 +89,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (post.getVideo() != null ){
             holder.play.setVisibility(View.VISIBLE);
             Glide.with(activity).asBitmap().load(post.getVideo()).into(holder.postimage);
+
+        }
+        else if (post.getFile() != null){
+            holder.postimage.setImageResource(R.drawable.fileholder);
+            holder.postimage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = post.getFile();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    activity.startActivity(i);
+
+                }
+            });
+
 
         }
         else {

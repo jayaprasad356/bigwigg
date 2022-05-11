@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,9 +17,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,12 +44,19 @@ import com.gm.bigwigg.fragment.VideoFragment;
 import com.gm.bigwigg.helper.ApiConfig;
 import com.gm.bigwigg.helper.Constant;
 import com.gm.bigwigg.helper.Session;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -84,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public static final int SELECT_FILE = 110;
     Uri imageUri;
     String filePath = null;
+
 
 
 
@@ -365,7 +377,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             @Override
             public void onClick(View view) {
                 bottomSheetDialog.dismiss();
-                UploadPost(caption.getText().toString().trim());
+                if (type.equals("image")){
+                    UploadPost(caption.getText().toString().trim(),type);
+
+
+                }else {
+                    UploadFile(caption.getText().toString().trim(),type);
+
+
+
+                }
 
             }
         });
@@ -374,6 +395,81 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bottomSheetDialog.show();
 
     }
+    private String getfiletype(Uri videouri) {
+        ContentResolver r = getContentResolver();
+        // get the file type ,in this case its mp4
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(r.getType(videouri));
+    }
+
+    private void UploadFile(String caption, String type)
+    {
+        if (filePath != null) {
+            ProgressDialog progressDialog = new ProgressDialog(activity);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+            // save the selected video in Firebase storage
+            final StorageReference reference = FirebaseStorage.getInstance().getReference("Files/" + System.currentTimeMillis() + "." + getfiletype(Uri.parse(filePath)));
+            reference.putFile(Uri.parse(filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isSuccessful()) ;
+                    // get the link of video
+                    String downloadUri = uriTask.getResult().toString();
+                    sendDatattoDatabase(caption,downloadUri,type);
+                    progressDialog.dismiss();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Error, Image not uploaded
+                    progressDialog.dismiss();
+                    Toast.makeText(activity, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                // Progress Listener for loading
+                // percentage on the dialog box
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    // show the progress bar
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                }
+            });
+        }
+        else {
+            Toast.makeText(activity, "File Should Uploaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendDatattoDatabase(String caption, String downloadUri, String type)
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID, session.getData(Constant.ID));
+        params.put(Constant.TYPE, type);
+        params.put(Constant.FILE, downloadUri);
+        params.put(Constant.CAPTION, caption);
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, activity, Constant.UPLOAD_POST_URL, params, true);
+
+    }
+
     public void SetBottomNavUnchecked() {
         bottomNavigationView.getMenu().findItem(R.id.placeholder).setChecked(true);
     }
@@ -495,28 +591,33 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
     }
 
-    private void UploadPost(String caption)
+    private void UploadPost(String caption, String type)
     {
-        Map<String, String> params = new HashMap<>();
-        Map<String, String> fileParams = new HashMap<>();
-        params.put(Constant.USER_ID, session.getData(Constant.ID));
-        fileParams.put(Constant.IMAGE, filePath);
-        params.put(Constant.CAPTION, caption);
-        ApiConfig.RequestToVolley((result, response) -> {
-            if (result) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
+        if (type.equals("image")){
+            Map<String, String> params = new HashMap<>();
+            Map<String, String> fileParams = new HashMap<>();
+            params.put(Constant.USER_ID, session.getData(Constant.ID));
+            params.put(Constant.TYPE, type);
+            params.put(Constant.FILE, filePath);
+            fileParams.put(Constant.IMAGE, filePath);
+            params.put(Constant.CAPTION, caption);
+            ApiConfig.RequestToVolley((result, response) -> {
+                if (result) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
 
-                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
-                        Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+                        if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                            Toast.makeText(activity, jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
 
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        }, activity, Constant.UPLOAD_POST_URL, params, fileParams);
+            }, activity, Constant.UPLOAD_POST_URL, params, fileParams);
+        }
+
 
     }
 

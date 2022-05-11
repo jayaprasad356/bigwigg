@@ -137,7 +137,7 @@ public class VideoPostActivity extends AppCompatActivity {
             });
         }
         else {
-            Toast.makeText(activity, "Video and Image Should Uploaded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Video Should Uploaded", Toast.LENGTH_SHORT).show();
         }
     }
 
