@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,7 @@ public class PostFragment extends Fragment {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID, UserID);
         ApiConfig.RequestToVolley((result, response) -> {
+            Log.d("POSTRESPONSE",response);
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);

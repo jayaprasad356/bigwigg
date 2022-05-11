@@ -56,6 +56,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     boolean doubleBackToExitPressedOnce = false;
     FloatingActionButton Post;
     public static final int REQUEST_IMAGE = 100;
+    public static final int PICKFILE_REQUEST_CODE = 120;
     Bitmap bitmap;
     Activity activity;
     Session session;
@@ -303,9 +306,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                Uri uri = Uri.parse("/whatever/path/you/want/"); // a directory
-                intent.setDataAndType(uri, "*/*");
-                startActivity(Intent.createChooser(intent, "Open folder"));
+                intent.setType("*/*");
+                startActivityForResult(intent, PICKFILE_REQUEST_CODE);
                 bottomSheetDialog.dismiss();
 
             }
@@ -340,15 +342,25 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             itemView.removeViewAt(2);
         }
     }
-    private void showPostBottomSheetDialog() {
+    private void showPostBottomSheetDialog(String type) {
 
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.post_sheet);
         ImageView postimg = bottomSheetDialog.findViewById(R.id.postimg);
         Button postbtn = bottomSheetDialog.findViewById(R.id.postbtn);
         TextView caption = bottomSheetDialog.findViewById(R.id.caption);
-        Glide.with(activity).load(filePath).into(postimg);
+        TextView file_uploded = bottomSheetDialog.findViewById(R.id.file_uploded);
+        if (type.equals("image")){
+            Glide.with(activity).load(filePath).into(postimg);
 
+
+
+        }
+        else if (type.equals("file")){
+            postimg.setImageResource(R.drawable.checked);
+            file_uploded.setVisibility(View.VISIBLE);
+
+        }
         postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -357,6 +369,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
             }
         });
+
 
         bottomSheetDialog.show();
 
@@ -449,6 +462,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            if (requestCode == PICKFILE_REQUEST_CODE) {
+                filePath=""+data.getData();
+                showPostBottomSheetDialog("file");
+
+            }
 
             if (requestCode == SELECT_FILE) {
 
@@ -463,7 +481,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 CropImage.activity(imageUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setOutputCompressQuality(50)
                         .setRequestedSize(300, 300)
                         .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
                         .setAspectRatio(1, 1)
@@ -472,9 +489,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 assert result != null;
                 filePath = result.getUriFilePath(activity, true);
-                showPostBottomSheetDialog();
-
-
+                showPostBottomSheetDialog("image");
 
             }
         }
