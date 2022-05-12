@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,10 +92,12 @@ public class BusinessFragment extends Fragment {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID, session.getData(Constant.ID));
         ApiConfig.RequestToVolley((result, response) -> {
+            Log.d("BUSINESSFRAGMENTLIST",response);
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        businessRead();
                         JSONObject object = new JSONObject(response);
                         JSONArray jsonArray = object.getJSONArray(Constant.DATA);
                         Gson g = new Gson();
@@ -122,5 +125,37 @@ public class BusinessFragment extends Fragment {
                 }
             }
         }, activity, Constant.LIST_BUSINESS_URL, params, true);
+    }
+
+    private void businessRead()
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID,session.getData(Constant.ID));
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        session.setData(Constant.BUSINESS_COUNT,jsonObject.getString(Constant.BUSINESS_COUNT));
+                        ((MainActivity)getActivity()).removeBusinessBadge();
+
+                    }
+                    else {
+                        //Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            else {
+
+            }
+            //pass url
+        }, activity, Constant.BUSINESS_READ_COUNT_URL, params,true);
+
     }
 }

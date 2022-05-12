@@ -33,18 +33,19 @@ public class ApiConfig extends Application {
     public static String VolleyErrorMessage(VolleyError error) {
         String message = "";
         try {
-            if (error instanceof NetworkError) {
-                message = "Cannot connect to Internet...Please check your connection!";
-            } else if (error instanceof ServerError) {
-                message = "The server could not be found. Please try again after some time!";
-            } else if (error instanceof AuthFailureError) {
-                message = "Cannot connect to Internet...Please check your connection!";
-            } else if (error instanceof ParseError) {
-                message = "Parsing error! Please try again after some time!";
-            } else if (error instanceof TimeoutError) {
-                message = "Connection TimeOut! Please check your internet connection.";
-            } else
-                message = "";
+            message = "";
+//            if (error instanceof NetworkError) {
+//                message = "Cannot connect to Internet...Please check your connection!";
+//            } else if (error instanceof ServerError) {
+//                message = "The server could not be found. Please try again after some time!";
+//            } else if (error instanceof AuthFailureError) {
+//                message = "Cannot connect to Internet...Please check your connection!";
+//            } else if (error instanceof ParseError) {
+//                message = "Parsing error! Please try again after some time!";
+//            } else if (error instanceof TimeoutError) {
+//                message = "Connection TimeOut! Please check your internet connection.";
+//            } else
+//                message = "";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,7 +122,7 @@ public class ApiConfig extends Application {
             if (networkInfo != null && networkInfo.isConnected()) {
                 check = true;
             } else {
-                Toast.makeText(activity, "No Internet", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, "No Internet", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             e.printStackTrace();

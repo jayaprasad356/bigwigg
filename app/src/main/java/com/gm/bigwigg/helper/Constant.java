@@ -2,8 +2,8 @@ package com.gm.bigwigg.helper;
 
 public class Constant {
     //public static final String MainBaseUrl = "http://bigwigg.greymatterworks.in/";
-    public static final String MainBaseUrl = "http://192.168.43.38/big_wigg/";
-    //public static final String MainBaseUrl = "https://bigwigg.app/admin/";
+    //public static final String MainBaseUrl = "http://192.168.43.38/big_wigg/";
+    public static final String MainBaseUrl = "https://bigwigg.app/admin/";
     //public static final String MainBaseUrl = "https://bigwigg.app/";
     public static final String BaseUrl = MainBaseUrl + "api/";
     public static final String EMAIL_REGISTER_URL = BaseUrl + "login_user.php";
@@ -23,9 +23,11 @@ public class Constant {
     public static final String LIST_COMMENT_URL = BaseUrl + "listcomments.php";
     public static final String FOLLOW_USER_URL = BaseUrl + "follow_user.php";
     public static final String USER_DETAILS_COUNT_URL = BaseUrl + "user_details_count.php";
+    public static final String CHECK_FOLLOW_USER_URL = BaseUrl + "check_follow_user.php";
     public static final String LIST_NOTIFICATIONS_URL = BaseUrl + "listnotifications.php";
     public static final String LIST_BUSINESS_URL = BaseUrl + "businesslists.php";
     public static final String NOTIFICATIONS_READ_COUNT_URL = BaseUrl + "notifications_read_count.php";
+    public static final String BUSINESS_READ_COUNT_URL = BaseUrl + "business_read_count.php";
     public static final String POST_VIDEO_URL = BaseUrl + "postvideo.php";
     public static final String VIDEO_LISTS_URL = BaseUrl + "videolists.php";
 
@@ -61,6 +63,7 @@ public class Constant {
     public static final String FOLLOWERS_COUNT = "followers_count";
     public static final String FOLLOWING_COUNT = "following_count";
     public static final String NOTIFICATIONS_COUNT = "notifications_count";
+    public static final String BUSINESS_COUNT = "business_count";
     public static final String VIDEOES_COUNT = "videoes_count";
  public static final String MESSAGE = "message";
 

@@ -1,6 +1,7 @@
 package com.gm.bigwigg.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gm.bigwigg.R;
+import com.gm.bigwigg.SinglePostActivity;
+import com.gm.bigwigg.helper.Constant;
 import com.gm.bigwigg.model.Notification;
 
 import java.util.ArrayList;
@@ -34,6 +37,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final Notification notification = notifications.get(position);
         holder.title.setText(notification.getTitle());
         holder.time.setText(notification.getDate_created());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, SinglePostActivity.class);
+                intent.putExtra(Constant.USER_ID,notification.getUser_id());
+                intent.putExtra(Constant.POST_ID,notification.getId());
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override

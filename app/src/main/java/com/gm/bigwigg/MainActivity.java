@@ -348,8 +348,23 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         text.setText(value);
         itemView.addView(badge);
     }
+    public void showBusinessBadge(String value) {
+        //removeBadge();
+        BottomNavigationItemView itemView = bottomNavigationView.findViewById(R.id.business);
+        View badge = LayoutInflater.from(MainActivity.this).inflate(R.layout.layout_news_badge, bottomNavigationView, false);
+
+        TextView text = badge.findViewById(R.id.badge_text_view);
+        text.setText(value);
+        itemView.addView(badge);
+    }
     public void removeBadge() {
         BottomNavigationItemView itemView = bottomNavigationView.findViewById(R.id.notification);
+        if (itemView.getChildCount() == 3) {
+            itemView.removeViewAt(2);
+        }
+    }
+    public void removeBusinessBadge() {
+        BottomNavigationItemView itemView = bottomNavigationView.findViewById(R.id.business);
         if (itemView.getChildCount() == 3) {
             itemView.removeViewAt(2);
         }
@@ -625,6 +640,45 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     protected void onStart() {
         super.onStart();
         notificationRead();
+        businessRead();
+    }
+
+    private void businessRead() {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID,session.getData(Constant.ID));
+        ApiConfig.RequestToVolley((result, response) -> {
+            Log.d("MAINACTIVITY",response);
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        session.setData(Constant.BUSINESS_COUNT,jsonObject.getString(Constant.BUSINESS_COUNT));
+                        if (session.getData(Constant.BUSINESS_COUNT).equals("0")){
+                            removeBusinessBadge();
+                        }
+                        else {
+                            showBusinessBadge(session.getData(Constant.BUSINESS_COUNT));
+
+                        }
+
+
+                    }
+                    else {
+                        //Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            else {
+
+            }
+            //pass url
+        }, activity, Constant.BUSINESS_READ_COUNT_URL, params,false);
     }
 
     private void notificationRead()

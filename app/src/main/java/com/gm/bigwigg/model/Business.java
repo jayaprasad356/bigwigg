@@ -1,12 +1,12 @@
 package com.gm.bigwigg.model;
 
 public class Business {
-    String id,name,mobile,caption,image,profile,video;
+    String id,name,mobile,caption,image,profile,video,file;
     public Business(){
 
     }
 
-    public Business(String id, String name, String mobile, String caption, String image, String profile, String video) {
+    public Business(String id, String name, String mobile, String caption, String image, String profile, String video, String file) {
         this.id = id;
         this.name = name;
         this.mobile = mobile;
@@ -14,6 +14,7 @@ public class Business {
         this.image = image;
         this.profile = profile;
         this.video = video;
+        this.file = file;
     }
 
     public String getId() {
@@ -70,5 +71,13 @@ public class Business {
 
     public void setVideo(String video) {
         this.video = video;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 }

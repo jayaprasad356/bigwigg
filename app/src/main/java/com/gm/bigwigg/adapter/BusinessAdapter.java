@@ -48,9 +48,14 @@ public class BusinessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Glide.with(activity).load(business.getProfile()).into(holder.profile);
         holder.name.setText(business.getName());
         holder.caption.setText(business.getCaption());
+
         if (business.getVideo() != null ){
             holder.play.setVisibility(View.VISIBLE);
             Glide.with(activity).asBitmap().load(business.getVideo()).into(holder.postimg);
+        }
+        else if (business.getFile() != null ){
+            holder.postimg.setImageResource(R.drawable.fileholder);
+
         }
         else {
             Glide.with(activity).load(business.getImage()).into(holder.postimg);

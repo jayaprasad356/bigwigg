@@ -53,6 +53,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ImageView delete;
     String type;
     int totalstars = 0;
+    String fileUri = "";
 
     public PostAdapter(Activity activity, ArrayList<Post> posts, String type) {
         this.activity = activity;
@@ -87,11 +88,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.caption.setText(post.getCaption());
         holder.tvRatecount.setText(post.getRating_count());
         if (post.getVideo() != null ){
+            fileUri = post.getVideo();
             holder.play.setVisibility(View.VISIBLE);
             Glide.with(activity).asBitmap().load(post.getVideo()).into(holder.postimage);
 
         }
         else if (post.getFile() != null){
+            fileUri = post.getFile();
             holder.postimage.setImageResource(R.drawable.fileholder);
             holder.postimage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +110,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
         else {
+            fileUri = post.getImage();
             holder.play.setVisibility(View.GONE);
             Glide.with(activity).load(post.getImage()).into(holder.postimage);
         }
@@ -205,7 +209,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     public void onClick(View view) {
                         bottomSheetDialog.dismiss();
                         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                        String shareBody = "Here my Post "+post.getImage()+" \n Download BigWigg App Now";
+                        String shareBody = "Here my Post "+fileUri+" \n Download BigWigg App Now";
                         intent.setType("text/plain");
                         intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                         activity.startActivity(Intent.createChooser(intent, "Share via"));
@@ -214,7 +218,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 download.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AltexImageDownloader.writeToDisk(activity, post.getImage(), "IMAGES");
+                        AltexImageDownloader.writeToDisk(activity, fileUri, "Bigwigg");
                         bottomSheetDialog.dismiss();
                         Toast.makeText(activity, "Downloading...", Toast.LENGTH_SHORT).show();
 
@@ -494,7 +498,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ImageView postimage = (ImageView) dialog.findViewById(R.id.postimage);
 
-        if (video != null){
+        if (video != null ){
+            postimage.setVisibility(View.GONE);
+        }
+        if (image == null || image.equals("")){
             postimage.setVisibility(View.GONE);
         }
         Glide.with(activity).load(image).into(postimage);

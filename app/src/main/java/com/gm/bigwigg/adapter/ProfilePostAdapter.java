@@ -2,6 +2,7 @@ package com.gm.bigwigg.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,16 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final ItemHolder holder = (ItemHolder) holderParent;
         final Post post = posts.get(position);
 
-        Glide.with(activity).load(post.getImage()).into(holder.postimg);
+        if (post.getFile() != null){
+            holder.postimg.setImageResource(R.drawable.fileholder);
+
+
+        }
+        else {
+            Glide.with(activity).load(post.getImage()).into(holder.postimg);
+
+
+        }
         holder.tvRatecount.setText(post.getRating_count());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

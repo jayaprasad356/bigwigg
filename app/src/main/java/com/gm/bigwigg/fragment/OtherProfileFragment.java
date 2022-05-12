@@ -98,6 +98,7 @@ public class OtherProfileFragment extends Fragment {
 //        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
 //        recyclerView.setLayoutManager(linearLayoutManager);
         postList();
+        checkFollow();
         //mypostList();
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,36 +126,25 @@ public class OtherProfileFragment extends Fragment {
 
         return root;
     }
-    private void mypostList()
+
+    private void checkFollow()
     {
         Map<String, String> params = new HashMap<>();
-        params.put(Constant.USER_ID, UserID_);
+        params.put(Constant.USER_ID,session.getData(Constant.ID));
+        params.put(Constant.FOLLOW_ID,UserID_);
         ApiConfig.RequestToVolley((result, response) -> {
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
-                        JSONObject object = new JSONObject(response);
-                        JSONArray jsonArray = object.getJSONArray(Constant.DATA);
-                        Gson g = new Gson();
-                        ArrayList<Post> posts = new ArrayList<>();
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
-                            if (jsonObject1 != null) {
-                                Post group = g.fromJson(jsonObject1.toString(), Post.class);
-                                posts.add(group);
-                            } else {
-                                break;
-                            }
+                        if (jsonObject.getString(Constant.STATUS).equals(Constant.TRUE)){
+                            follow.setText("Unfollow");
+                        }
+                        else {
+                            follow.setText("Follow");
                         }
 
-                        postAdapter = new PostAdapter(activity, posts,"image");
-                        recyclerView.setAdapter(postAdapter);
-
-//                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());
-//                        //recyclerView.getLayoutManager().scrollToPosition(4);
                     }
                     else {
                         Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
@@ -165,8 +155,10 @@ public class OtherProfileFragment extends Fragment {
                     Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
                 }
             }
-        }, activity, Constant.POST_LIST_URL, params, true);
+        }, activity, Constant.CHECK_FOLLOW_USER_URL, params, true);
     }
+
+
 
     private void getUserDetailsCount()
     {
