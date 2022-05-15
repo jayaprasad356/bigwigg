@@ -53,9 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         googlebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //registerEmail("Prasad","naagendra.challakolusu@gmail.com",Uri.parse("2sf"));
                   signIn();
-//                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-//                startActivity(intent);
             }
         });
     }

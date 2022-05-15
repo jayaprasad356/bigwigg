@@ -300,7 +300,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
             else {
-                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
 
             }
             //pass url
@@ -333,10 +332,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     e.printStackTrace();
                 }
             }
-            else {
-                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
 
-            }
             //pass url
         }, activity, Constant.DELETE_POST_URL, params,true);
 
@@ -382,18 +378,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                         }
                     }
-                    else {
-                        //Toast.makeText(activity,jsonObject.getString(Constant.MESSAGE), Toast.LENGTH_SHORT).show();
 
-                    }
                 } catch (JSONException e){
                     e.printStackTrace();
                 }
             }
-            else {
-                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
 
-            }
             //pass url
         }, activity, Constant.CHECK_POST_FAVOURITE_URL, params,true);
 
@@ -431,10 +421,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
             }
-            else {
-                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
 
-            }
             //pass url
         }, activity, Constant.SEND_FAVOURITE_URL, params,true);
 
@@ -481,10 +468,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
             }
-            else {
-                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
 
-            }
             //pass url
         }, activity, Constant.CHECK_POST_RATING_URL, params,true);
 
@@ -557,10 +541,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
             }
-            else {
-                Toast.makeText(activity, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
 
-            }
             //pass url
         }, activity, Constant.RATING_URL, params,true);
 

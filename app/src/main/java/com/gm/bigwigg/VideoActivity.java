@@ -1,20 +1,14 @@
-package com.gm.bigwigg.fragment;
+package com.gm.bigwigg;
 
-import android.app.Activity;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.Activity;
+import android.os.Bundle;
 import android.widget.Toast;
 
-import com.gm.bigwigg.R;
 import com.gm.bigwigg.adapter.PostAdapter;
 import com.gm.bigwigg.helper.ApiConfig;
 import com.gm.bigwigg.helper.Constant;
@@ -30,41 +24,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class PostFragment extends Fragment {
-    View root;
-    public static Activity activity;
+public class VideoActivity extends AppCompatActivity {
     public static RecyclerView recyclerView;
-    public static PostAdapter postAdapter;
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    Activity activity;
     Session session;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    PostAdapter postAdapter;
     String UserID;
-    public PostFragment() {
-        // Required empty public constructor
-    }
-
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_post, container, false);
-        recyclerView = root.findViewById(R.id.recyclerView);
-        activity = getActivity();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_video);
+        recyclerView = findViewById(R.id.recyclerView);
+        activity = VideoActivity.this;
         session = new Session(activity);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeLayout);
-
-        Bundle bundle = this.getArguments();
-
-        if(bundle != null){
-            UserID = bundle.getString(Constant.USER_ID);
-
-        }
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
+        UserID = "all";
+
+        //Bundle bundle = this.getArguments();
+
+//        if(bundle != null){
+//            UserID = bundle.getString(Constant.USER_ID);
+//
+//        }
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,18 +60,12 @@ public class PostFragment extends Fragment {
         });
         postList();
 
-
-        return root;
     }
-
-
-
     private void postList()
     {
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID, UserID);
         ApiConfig.RequestToVolley((result, response) -> {
-            Log.d("POSTRESPONSE",response);
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -99,25 +80,30 @@ public class PostFragment extends Fragment {
 
                             if (jsonObject1 != null) {
                                 Post group = g.fromJson(jsonObject1.toString(), Post.class);
-                                posts.add(group);
+                                if (group.getVideo() != null){
+                                    posts.add(group);
+
+                                }
+
                             } else {
                                 break;
                             }
                         }
 
-                        postAdapter = new PostAdapter(activity, posts,"image");
+                        postAdapter = new PostAdapter(activity, posts,"video");
                         recyclerView.setAdapter(postAdapter);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                     else {
-                        Toast.makeText(getActivity(), ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, String.valueOf(e), Toast.LENGTH_SHORT).show();
                 }
             }
-        }, activity, Constant.POST_LIST_URL, params, true);
+        }, activity, Constant.VIDEO_LISTS_URL, params, true);
+
     }
 }

@@ -130,7 +130,13 @@ public class NotificationFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean(Constant.SUCCESS)) {
                         session.setData(Constant.NOTIFICATIONS_COUNT,jsonObject.getString(Constant.NOTIFICATIONS_COUNT));
-                        ((MainActivity)getActivity()).removeBadge();
+                        try {
+                            ((MainActivity)getActivity()).removeBadge();
+
+                        }catch (Exception e){
+
+                        }
+
 
                     }
                     else {
@@ -142,9 +148,6 @@ public class NotificationFragment extends Fragment {
                 }
 
 
-
-            }
-            else {
 
             }
             //pass url

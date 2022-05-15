@@ -35,9 +35,9 @@ public class VideoFragment extends Fragment {
     public static RecyclerView recyclerView;
     Activity activity;
     Session session;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     PostAdapter postAdapter;
     String UserID;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     public VideoFragment() {
         // Required empty public constructor

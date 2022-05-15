@@ -2,8 +2,8 @@ package com.gm.bigwigg.helper;
 
 public class Constant {
     //public static final String MainBaseUrl = "http://bigwigg.greymatterworks.in/";
-    //public static final String MainBaseUrl = "http://192.168.43.38/big_wigg/";
-    public static final String MainBaseUrl = "https://bigwigg.app/admin/";
+    public static final String MainBaseUrl = "http://192.168.43.38/big_wigg/";
+    //public static final String MainBaseUrl = "https://bigwigg.app/admin/";
     //public static final String MainBaseUrl = "https://bigwigg.app/";
     public static final String BaseUrl = MainBaseUrl + "api/";
     public static final String EMAIL_REGISTER_URL = BaseUrl + "login_user.php";

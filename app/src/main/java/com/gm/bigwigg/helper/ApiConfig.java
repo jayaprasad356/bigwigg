@@ -114,6 +114,7 @@ public class ApiConfig extends Application {
         return mInstance;
     }
 
+
     public static Boolean isConnected(final Activity activity) {
         boolean check = false;
         try {
@@ -147,6 +148,7 @@ public class ApiConfig extends Application {
         req.setTag(TAG);
         getRequestQueue().add(req);
     }
+
 
 
 }
