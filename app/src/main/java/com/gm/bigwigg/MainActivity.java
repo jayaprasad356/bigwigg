@@ -93,8 +93,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     Activity activity;
     Session session;
     public static final int SELECT_FILE = 110;
+    public static final int SELECT_THUMBNAIL = 210;
     Uri imageUri;
     String filePath = null;
+    boolean fileexist = false;
 
 
 
@@ -317,9 +319,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                startActivityForResult(intent, PICKFILE_REQUEST_CODE);
+                Intent intent = new Intent(activity,FilePostActivity.class);
+                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("*/*");
+//                startActivityForResult(intent, PICKFILE_REQUEST_CODE);
                 bottomSheetDialog.dismiss();
 
             }
@@ -384,10 +388,21 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         }
         else if (type.equals("file")){
-            postimg.setImageResource(R.drawable.checked);
+            postimg.setImageResource(R.drawable.upload_thumbnail);
             file_uploded.setVisibility(View.VISIBLE);
+            postimg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fileexist = true;
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, SELECT_FILE);
+
+                }
+            });
 
         }
+
         postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -575,7 +590,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         if (resultCode == RESULT_OK) {
             if (requestCode == PICKFILE_REQUEST_CODE) {
                 filePath=""+data.getData();
-                showPostBottomSheetDialog("file");
+                //showPostBottomSheetDialog("file");
+                Intent intent = new Intent(activity,FilePostActivity.class);
+                intent.putExtra("filepath",filePath);
+                startActivity(intent);
 
             }
 
@@ -584,16 +602,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 imageUri = data.getData();
                 CropImage.activity(imageUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setOutputCompressQuality(50)
                         .setRequestedSize(300, 300)
-                        .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                         .setAspectRatio(1, 1)
                         .start(activity);
-            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            }
+            else if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 CropImage.activity(imageUri)
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .setRequestedSize(300, 300)
-                        .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                         .setAspectRatio(1, 1)
                         .start(activity);
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -601,6 +619,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 assert result != null;
                 filePath = result.getUriFilePath(activity, true);
                 showPostBottomSheetDialog("image");
+
 
             }
         }
@@ -647,7 +666,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         Map<String, String> params = new HashMap<>();
         params.put(Constant.USER_ID,session.getData(Constant.ID));
         ApiConfig.RequestToVolley((result, response) -> {
-            Log.d("MAINACTIVITY",response);
             if (result) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);

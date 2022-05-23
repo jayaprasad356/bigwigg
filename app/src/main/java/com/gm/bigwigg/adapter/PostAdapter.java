@@ -81,6 +81,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holderParent, @SuppressLint("RecyclerView") int position) {
         final ItemHolder holder = (ItemHolder) holderParent;
         final Post post = posts.get(position);
+        if (post.getUser_id().equals(session.getData(Constant.ID))){
+            holder.rate.setVisibility(View.GONE);
+        }
 
 
         Glide.with(activity).load(post.getProfile()).into(holder.profile);
@@ -95,7 +98,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         else if (post.getFile() != null){
             fileUri = post.getFile();
-            holder.postimage.setImageResource(R.drawable.fileholder);
+            Glide.with(activity).load(post.getThumbnail()).into(holder.postimage);
+
             holder.postimage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -208,17 +212,47 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     @Override
                     public void onClick(View view) {
                         bottomSheetDialog.dismiss();
-                        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-                        String shareBody = "Here my Post "+fileUri+" \n Download BigWigg App Now";
-                        intent.setType("text/plain");
-                        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                        activity.startActivity(Intent.createChooser(intent, "Share via"));
+                        if (post.getVideo() != null){
+                            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                            String shareBody = "Here my Video "+post.getVideo()+" \n Download BigWigg App Now";
+                            intent.setType("text/plain");
+                            intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                            activity.startActivity(Intent.createChooser(intent, "Share via"));
+
+                        }else if (post.getFile() != null){
+                            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                            String shareBody = "Here my File "+post.getFile()+" \n Download BigWigg App Now";
+                            intent.setType("text/plain");
+                            intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                            activity.startActivity(Intent.createChooser(intent, "Share via"));
+
+                        }else {
+                            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                            String shareBody = "Here my Post "+post.getImage()+" \n Download BigWigg App Now";
+                            intent.setType("text/plain");
+                            intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                            activity.startActivity(Intent.createChooser(intent, "Share via"));
+
+                        }
+
                     }
                 });
                 download.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AltexImageDownloader.writeToDisk(activity, fileUri, "Bigwigg");
+                        if (post.getVideo() != null){
+                            AltexImageDownloader.writeToDisk(activity, post.getVideo(), "Bigwigg");
+
+
+                        }else if (post.getFile() != null){
+                            AltexImageDownloader.writeToDisk(activity, post.getFile(), "Bigwigg");
+
+
+                        }else {
+                            AltexImageDownloader.writeToDisk(activity, post.getImage(), "Bigwigg");
+
+                        }
+
                         bottomSheetDialog.dismiss();
                         Toast.makeText(activity, "Downloading...", Toast.LENGTH_SHORT).show();
 

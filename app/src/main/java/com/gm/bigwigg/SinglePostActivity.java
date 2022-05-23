@@ -7,6 +7,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.gm.bigwigg.adapter.PostAdapter;
@@ -32,6 +33,7 @@ public class SinglePostActivity extends AppCompatActivity {
     Session session;
     String UserID;
     String PostID;
+    String Type;
 
 
 
@@ -46,6 +48,7 @@ public class SinglePostActivity extends AppCompatActivity {
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         UserID = getIntent().getStringExtra(Constant.USER_ID);
         PostID = getIntent().getStringExtra(Constant.POST_ID);
+        Type = getIntent().getStringExtra(Constant.TYPE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -54,10 +57,65 @@ public class SinglePostActivity extends AppCompatActivity {
                 postList();
             }
         });
-        postList();
+        if (Type.equals("image")){
+            postList();
+
+        }
+        else {
+            videopostList();
+        }
 
 
     }
+
+    private void videopostList()
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put(Constant.USER_ID, UserID);
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        JSONObject object = new JSONObject(response);
+                        JSONArray jsonArray = object.getJSONArray(Constant.DATA);
+                        Gson g = new Gson();
+                        ArrayList<Post> posts = new ArrayList<>();
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
+                            if (jsonObject1 != null) {
+                                Post group = g.fromJson(jsonObject1.toString(), Post.class);
+                                if (group.getVideo() != null){
+                                    if(group.getId().equals(PostID)){
+                                        posts.add(group);
+
+                                    }
+
+                                }
+
+                            } else {
+                                break;
+                            }
+                        }
+
+                        postAdapter = new PostAdapter(activity, posts,"video");
+                        recyclerView.setAdapter(postAdapter);
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                    else {
+                        Toast.makeText(activity, ""+String.valueOf(jsonObject.getString(Constant.MESSAGE)), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(activity, String.valueOf(e), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, activity, Constant.VIDEO_LISTS_URL, params, true);
+    }
+
     private void postList()
     {
         Map<String, String> params = new HashMap<>();
@@ -87,7 +145,7 @@ public class SinglePostActivity extends AppCompatActivity {
                             }
                         }
 
-                        postAdapter = new PostAdapter(activity, posts,"image");
+                        postAdapter = new PostAdapter(activity, posts,Type);
                         recyclerView.setAdapter(postAdapter);
 
 //                        Log.d("POSTFRAGMENT_RESPONSE",""+recyclerView.getAdapter().getItemCount());

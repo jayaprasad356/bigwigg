@@ -60,6 +60,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:usesCleartextTraffic">
         <activity
+            android:name=".FilePostActivity"
+            android:exported="false" />
+        <activity
             android:name=".VideoActivity"
             android:exported="false" />
         <activity

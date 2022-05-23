@@ -1,12 +1,12 @@
 package com.gm.bigwigg.model;
 
 public class Notification {
-    String id,user_id,notify_user_id,notify_post_id,title,type,date_created;
+    String id,user_id,notify_user_id,notify_post_id,title,type,date_created,video;
     public Notification(){
 
     }
 
-    public Notification(String id, String user_id, String notify_user_id, String notify_post_id, String title, String type, String date_created) {
+    public Notification(String id, String user_id, String notify_user_id, String notify_post_id, String title, String type, String date_created, String video) {
         this.id = id;
         this.user_id = user_id;
         this.notify_user_id = notify_user_id;
@@ -14,6 +14,7 @@ public class Notification {
         this.title = title;
         this.type = type;
         this.date_created = date_created;
+        this.video = video;
     }
 
     public String getId() {
@@ -70,5 +71,13 @@ public class Notification {
 
     public void setDate_created(String date_created) {
         this.date_created = date_created;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }

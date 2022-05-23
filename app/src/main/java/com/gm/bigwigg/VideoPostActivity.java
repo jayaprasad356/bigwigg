@@ -102,6 +102,7 @@ public class VideoPostActivity extends AppCompatActivity {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(r.getType(videouri));
     }
+
     private void upload() {
         if (videouri != null) {
             progressDialog.setTitle("Uploading...");

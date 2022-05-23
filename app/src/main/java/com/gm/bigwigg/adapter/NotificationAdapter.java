@@ -42,7 +42,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onClick(View view) {
                 Intent intent = new Intent(activity, SinglePostActivity.class);
                 intent.putExtra(Constant.USER_ID,notification.getUser_id());
-                intent.putExtra(Constant.POST_ID,notification.getId());
+                if (notification.getVideo() != null ){
+                    intent.putExtra(Constant.TYPE,"video");
+
+                }
+                else {
+                    intent.putExtra(Constant.TYPE,"image");
+
+
+                }
+                intent.putExtra(Constant.POST_ID,notification.getNotify_post_id());
                 activity.startActivity(intent);
             }
         });

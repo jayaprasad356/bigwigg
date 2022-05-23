@@ -45,7 +45,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final Post post = posts.get(position);
 
         if (post.getFile() != null){
-            holder.postimg.setImageResource(R.drawable.fileholder);
+            Glide.with(activity).load(post.getThumbnail()).into(holder.postimg);
 
 
         }
@@ -59,6 +59,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, SinglePostActivity.class);
+                intent.putExtra(Constant.TYPE,"image");
                 intent.putExtra(Constant.USER_ID,post.getUser_id());
                 intent.putExtra(Constant.POST_ID,post.getId());
                 activity.startActivity(intent);

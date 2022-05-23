@@ -2,7 +2,8 @@ package com.gm.bigwigg.helper;
 
 public class Constant {
     //public static final String MainBaseUrl = "http://bigwigg.greymatterworks.in/";
-    public static final String MainBaseUrl = "http://192.168.43.38/big_wigg/";
+    //public static final String MainBaseUrl = "http://192.168.43.38/big_wigg/";
+    public static final String MainBaseUrl = "http://test.booksbear.in/";
     //public static final String MainBaseUrl = "https://bigwigg.app/admin/";
     //public static final String MainBaseUrl = "https://bigwigg.app/";
     public static final String BaseUrl = MainBaseUrl + "api/";
@@ -48,6 +49,7 @@ public class Constant {
     public static final String TYPE = "type";
     public static final String FILE = "file";
     public static final String CAPTION = "caption";
+    public static final String THUMBNAIL = "thumbnail";
     public static final String DESCRIPION = "description";
     public static final String RATING_COUNT = "rating_count";
     public static final String ROLE = "role";
