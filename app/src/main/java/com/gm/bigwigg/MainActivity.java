@@ -1,6 +1,5 @@
 package com.gm.bigwigg;
 
-import static com.gm.bigwigg.ImagePickerActivity.REQUEST_IMAGE_CAPTURE;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     Activity activity;
     Session session;
     public static final int SELECT_FILE = 110;
-    public static final int SELECT_THUMBNAIL = 210;
+    public static final int REQUEST_IMAGE_CAPTURE = 111;
     Uri imageUri;
     String filePath = null;
     boolean fileexist = false;
@@ -199,46 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);
         startActivityForResult(intent, 101);
-    }
-    private void showImagePickerOptions() {
-        ImagePickerActivity.showImagePickerOptions(this, new ImagePickerActivity.PickerOptionListener() {
-            @Override
-            public void onTakeCameraSelected() {
-                launchCameraIntent();
-            }
-
-            @Override
-            public void onChooseGallerySelected() {
-                launchGalleryIntent();
-            }
-        });
-    }
-    private void launchCameraIntent() {
-        Intent intent = new Intent(MainActivity.this, ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_IMAGE_CAPTURE);
-
-        // setting aspect ratio
-        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
-
-        // setting maximum bitmap width and height
-        intent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
-        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
-        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
-
-        startActivityForResult(intent, REQUEST_IMAGE);
-    }
-
-    private void launchGalleryIntent() {
-        Intent intent = new Intent(MainActivity.this, ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_GALLERY_IMAGE);
-
-        // setting aspect ratio
-        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
-        startActivityForResult(intent, REQUEST_IMAGE);
     }
     private void showBottomSheetDialog() {
 
@@ -530,9 +489,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             case R.id.business:
                 getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,businessFragment,"BUSINESS" ).commit();
                 return true;
-
-
-
             case R.id.favourite:
                 getSupportFragmentManager().beginTransaction().replace(R.id.f1fragment,favouriteFragment,"FAVOURITE").commit();
                 return true;

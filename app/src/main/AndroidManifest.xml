@@ -72,17 +72,9 @@
             android:name=".VideoPostActivity"
             android:exported="true" />
         <activity
-            android:name=".TestActivity2"
-            android:exported="true" />
-        <activity
-            android:name=".TestActivity"
-            android:exported="true" />
-        <activity
             android:name=".SinglePostActivity"
             android:exported="false" />
         <activity android:name=".Comment_postActivity" />
-        <activity android:name=".ImagePickerActivity" />
-        <activity android:name=".Post_imageActivity2" />
         <activity android:name=".SearchActivity" />
         <activity
             android:name=".SplashActivity"

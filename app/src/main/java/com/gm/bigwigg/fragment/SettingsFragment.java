@@ -2,7 +2,6 @@ package com.gm.bigwigg.fragment;
 
 import static android.app.Activity.RESULT_OK;
 
-import static com.gm.bigwigg.ImagePickerActivity.REQUEST_IMAGE_CAPTURE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -31,7 +30,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageView;
-import com.gm.bigwigg.ImagePickerActivity;
 import com.gm.bigwigg.MainActivity;
 import com.gm.bigwigg.R;
 import com.gm.bigwigg.helper.ApiConfig;
@@ -70,6 +68,7 @@ public class SettingsFragment extends Fragment {
     public static final int SELECT_FILE = 110;
     Uri imageUri;
     String currentPhotoPath;
+    public static final int REQUEST_IMAGE_CAPTURE = 111;
 
 
     public SettingsFragment() {
@@ -358,35 +357,6 @@ public class SettingsFragment extends Fragment {
         return encodedImage;
 
     }
-
-    private void launchGalleryIntent() {
-        Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_GALLERY_IMAGE);
-
-        // setting aspect ratio
-        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
-        startActivityForResult(intent, REQUEST_IMAGE);
-    }
-    private void launchCameraIntent() {
-        Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, REQUEST_IMAGE_CAPTURE);
-
-        // setting aspect ratio
-        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
-
-        // setting maximum bitmap width and height
-        intent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
-        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
-        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
-
-        startActivityForResult(intent, REQUEST_IMAGE);
-    }
-
-
 
     private void update_profile() {
         Map<String, String> params = new HashMap<>();

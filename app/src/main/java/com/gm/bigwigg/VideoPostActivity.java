@@ -1,6 +1,5 @@
 package com.gm.bigwigg;
 
-import static com.gm.bigwigg.ImagePickerActivity.REQUEST_IMAGE_CAPTURE;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

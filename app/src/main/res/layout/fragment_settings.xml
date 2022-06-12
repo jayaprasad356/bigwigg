@@ -57,7 +57,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/g16" />
+                />
 
 
 

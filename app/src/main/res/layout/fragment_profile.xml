@@ -26,7 +26,7 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/g16" />
+                    />
                 <TextView
                     android:layout_marginTop="@dimen/dimen_5dp"
                     android:id="@+id/name"
@@ -260,7 +260,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@drawable/g1"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
 
@@ -285,7 +284,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@drawable/g2"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     >
@@ -312,7 +310,7 @@
                     android:layout_height="120dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/g3">
+                    >
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -351,7 +349,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@drawable/g4"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     >
@@ -375,7 +372,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@drawable/g5"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     >
@@ -399,7 +395,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@drawable/g6"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     >

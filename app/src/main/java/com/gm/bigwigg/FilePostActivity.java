@@ -1,7 +1,5 @@
 package com.gm.bigwigg;
 
-import static com.gm.bigwigg.ImagePickerActivity.REQUEST_IMAGE_CAPTURE;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +57,7 @@ public class FilePostActivity extends AppCompatActivity {
     Button btnChooseFile;
     TextView file_uploded;
     Uri fileuri = null;
+    public static final int REQUEST_IMAGE_CAPTURE = 111;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
