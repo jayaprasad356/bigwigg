@@ -89,8 +89,15 @@ public class VideoPostActivity extends AppCompatActivity {
         postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (caption.getText().toString().equals("")){
+                    Toast.makeText(activity, "Enter Caption", Toast.LENGTH_SHORT).show();
 
-                upload();
+
+                }else{
+                    upload();
+                }
+
+
 
             }
         });

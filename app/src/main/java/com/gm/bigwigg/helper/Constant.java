@@ -4,6 +4,7 @@ public class Constant {
     public static final String MainBaseUrl = "https://bigwigg.app/admin/";
     public static final String BaseUrl = MainBaseUrl + "api/";
     public static final String EMAIL_REGISTER_URL = BaseUrl + "login_user.php";
+    public static final String LOGIN_TEST__URL = BaseUrl + "testlogin.php";
     public static final String UPDATE_PROFILE_URL = BaseUrl + "update_profile.php";
     public static final String UPLOAD_POST_URL = BaseUrl + "post.php";
     public static final String USER_LIST_URL = BaseUrl + "userlists.php";

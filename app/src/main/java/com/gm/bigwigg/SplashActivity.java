@@ -11,7 +11,10 @@ import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.gm.bigwigg.helper.ApiConfig;
+import com.gm.bigwigg.helper.Constant;
 import com.gm.bigwigg.helper.Session;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -20,6 +23,13 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnFailureListener;
 import com.google.android.play.core.tasks.Task;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
     ImageView Logo;
@@ -93,26 +103,57 @@ public class SplashActivity extends AppCompatActivity {
 
     private void GotoActivity()
     {
-        Session session = new Session(SplashActivity.this);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (session.getBoolean("is_logged_in")){
-                    Intent intent=new Intent(SplashActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
+        Map<String, String> params = new HashMap<>();
+        ApiConfig.RequestToVolley((result, response) -> {
+            if (result) {
 
-                }else{
-                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean(Constant.SUCCESS)) {
+                        Intent intent=new Intent(SplashActivity.this,TestLoginActivity.class);
+                        startActivity(intent);
+                        finish();
 
+                    }
+                    else {
+                        Session session = new Session(SplashActivity.this);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (session.getBoolean("is_logged_in")){
+                                    Intent intent=new Intent(SplashActivity.this,MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                }else{
+                                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+
+
+
+                            }
+                        },2000);
+
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
                 }
 
 
 
             }
-        },3000);
+            else {
+                Toast.makeText(this, String.valueOf(response) +String.valueOf(result), Toast.LENGTH_SHORT).show();
+
+            }
+            //pass url
+        }, SplashActivity.this, Constant.LOGIN_TEST__URL, params,false);
+
+
+
 
     }
 
