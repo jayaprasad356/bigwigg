@@ -12,6 +12,7 @@ public class Constant {
     public static final String SEARCH_LIST_URL = BaseUrl + "search.php";
     public static final String FAVOURITE_POST_LIST_URL = BaseUrl + "favouritepostlists.php";
     public static final String RATING_URL = BaseUrl + "ratings.php";
+    public static final String REPORT_URL = BaseUrl + "report.php";
     public static final String CHECK_POST_RATING_URL = BaseUrl + "checkpostratings.php";
     public static final String CHECK_POST_FAVOURITE_URL = BaseUrl + "checkpostfavourites.php";
     public static final String DELETE_POST_URL = BaseUrl + "delete_post.php";
@@ -41,6 +42,7 @@ public class Constant {
     public static final String TOTAL = "total";
     public static final String IMAGE = "image";
     public static final String EMAIL = "email";
+    public static final String REPORT_TYPE = "report_type";
     public static final String VIDEO = "video";
     public static final String NAME = "name";
     public static final String TYPE = "type";

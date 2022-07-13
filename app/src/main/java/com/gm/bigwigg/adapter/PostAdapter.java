@@ -30,6 +30,7 @@ import com.gm.bigwigg.Comment_postActivity;
 import com.gm.bigwigg.MainActivity;
 import com.gm.bigwigg.PlayVideoActivity;
 import com.gm.bigwigg.R;
+import com.gm.bigwigg.ReportActivity;
 import com.gm.bigwigg.fragment.OtherProfileFragment;
 import com.gm.bigwigg.helper.ApiConfig;
 import com.gm.bigwigg.helper.Constant;
@@ -190,6 +191,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ImageView cancel = (ImageView) bottomSheetDialog.findViewById(R.id.cancel);
                 LinearLayout share = (LinearLayout) bottomSheetDialog.findViewById(R.id.share);
                 LinearLayout download = (LinearLayout) bottomSheetDialog.findViewById(R.id.download);
+                LinearLayout report = (LinearLayout) bottomSheetDialog.findViewById(R.id.report);
 
                 if (post.getUser_id().equals(session.getData(Constant.ID))){
                     delete.setVisibility(View.VISIBLE);
@@ -199,6 +201,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     public void onClick(View view) {
                         deletePost(post.getId(),position);
                         bottomSheetDialog.dismiss();
+
+                    }
+                });
+                report.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(activity,ReportActivity.class);
+                        intent.putExtra(Constant.POST_ID,post.getId());
+                        activity.startActivity(intent);
 
                     }
                 });

@@ -614,8 +614,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     @Override
     protected void onStart() {
         super.onStart();
-        notificationRead();
-        businessRead();
+        if (session.getData("privacy").equals("seen")){
+            notificationRead();
+            businessRead();
+
+        }
+        else {
+            Intent intent = new Intent(activity,PrivacyActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     private void businessRead() {
